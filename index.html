@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levantamiento Técnico - Bytecomtec</title>
+    <style>
+        :root { --blue: #003366; --orange: #ff8800; --light-gray: #f4f4f4; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: var(--light-gray); color: #333; }
+        .header { background: var(--blue); color: white; padding: 20px; text-align: center; }
+        .container { padding: 15px; max-width: 500px; margin: auto; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h2 { color: var(--blue); border-bottom: 2px solid var(--orange); padding-bottom: 5px; font-size: 1.2rem; }
+        label { display: block; margin-top: 10px; font-weight: bold; font-size: 0.9rem; }
+        input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        button { flex: 1; padding: 15px; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .btn-wa { background-color: #25d366; }
+        .btn-mail { background-color: var(--blue); }
+        .footer { text-align: center; font-size: 0.8rem; color: #666; padding: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <strong>BYTECOMTEC</strong><br>
+    Ingeniería y Seguridad Digital
+</div>
+
+<div class="container">
+    <form id="levForm">
+        <div class="card">
+            <h2>Datos del Plantel</h2>
+            <label>Nombre de la Escuela:</label>
+            <input type="text" id="escuela" placeholder="Ej. Francisco Hernández de Córdoba" required>
+            
+            <label>Representante CEAP:</label>
+            <input type="text" id="contacto" placeholder="Nombre del Tesorero/Presidente">
+            
+            <label>Cargo:</label>
+            <select id="cargo">
+                <option value="Director">Director</option>
+                <option value="Tesorero">Tesorero CEAP</option>
+                <option value="Presidente">Presidente CEAP</option>
+            </select>
+        </div>
+
+        <div class="card">
+            <h2>Diagnóstico Técnico</h2>
+            <label>Estado de Energía (UPS/Tierras):</label>
+            <textarea id="energia" rows="2" placeholder="¿Cuenta con protección CyberPower?"></textarea>
+            
+            <label>Puntos Críticos CCTV:</label>
+            <textarea id="cctv" rows="2" placeholder="Zonas que requieren ColorVu 24/7"></textarea>
+            
+            <label>Infraestructura de Red:</label>
+            <textarea id="red" rows="2" placeholder="Estado de cableado Cat 6 / Fibra"></textarea>
+        </div>
+
+        <div class="card">
+            <h2>Compromiso de Transparencia</h2>
+            <p style="font-size: 0.85rem; color: #555;">Incluye: Expediente Fiscal CFDI 4.0, Memoria Fotográfica y Garantía de Ingeniería.</p>
+            <label>Presupuesto Estimado:</label>
+            <input type="number" id="monto" placeholder="$0.00">
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn-wa" onclick="sendWA()">Enviar WhatsApp</button>
+            <button type="button" class="btn-mail" onclick="sendMail()">Enviar Email</button>
+        </div>
+    </form>
+</div>
+
+<div class="footer">
+    Bytecomtec | Tláhuac, CDMX<br>
+    "Ingeniería que protege el futuro"
+</div>
+
+<script>
+    function getFormData() {
+        const data = {
+            escuela: document.getElementById('escuela').value,
+            contacto: document.getElementById('contacto').value,
+            cargo: document.getElementById('cargo').value,
+            energia: document.getElementById('energia').value,
+            cctv: document.getElementById('cctv').value,
+            red: document.getElementById('red').value,
+            monto: document.getElementById('monto').value
+        };
+        
+        let msg = `*BYTECOMTEC - ACTA DE LEVANTAMIENTO*%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `*Escuela:* ${data.escuela}%0A`;
+        msg += `*Atención:* ${data.contacto} (${data.cargo})%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `*DIAGNÓSTICO:*%0A`;
+        msg += `⚡ *Energía:* ${data.energia}%0A`;
+        msg += `📹 *CCTV:* ${data.cctv}%0A`;
+        msg += `🌐 *Redes:* ${data.red}%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `*Nota:* Este reporte inicia el Expediente de Transparencia LEEN 2026.`;
+        
+        return { msg, data };
+    }
+
+    function sendWA() {
+        const { msg } = getFormData();
+        // Reemplaza con el número de Fernanda o el tuyo para pruebas
+        window.open(`https://wa.me/?text=${msg}`, '_blank');
+    }
+
+    function sendMail() {
+        const { msg, data } = getFormData();
+        const body = msg.replace(/%0A/g, '\n');
+        window.location.href = `mailto:?subject=Levantamiento Tecnico - ${data.escuela}&body=${body}`;
+    }
+</script>
+
+</body>
+</html>
