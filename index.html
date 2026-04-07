@@ -29,4 +29,96 @@
             <label>Nombre de la Escuela:</label>
             <input type="text" id="escuela" placeholder="Nombre completo del plantel" required>
             
-            <label>Nombre
+            <label>Nombre del Integrante del Comité:</label>
+            <input type="text" id="nombre_comite" placeholder="Persona que atiende el levantamiento">
+            
+            <label>Cargo en el Comité:</label>
+            <select id="cargo">
+                <option value="Presidente(a)">Presidente(a)</option>
+                <option value="Tesorero(a)">Tesorero(a)</option>
+                <option value="Vocal">Vocal</option>
+                <option value="Director(a)">Director(a)</option>
+            </select>
+        </div>
+
+        <div class="card">
+            <h2>Conectividad y Red</h2>
+            <label>¿Cuentan con módem actualmente?</label>
+            <select id="has_modem">
+                <option value="Si">Sí cuenta con módem</option>
+                <option value="No">No cuenta con módem</option>
+            </select>
+
+            <label>Compañía prestadora del servicio:</label>
+            <input type="text" id="compania" placeholder="Ej: Telmex, Totalplay, Izzi, etc.">
+        </div>
+
+        <div class="card">
+            <h2>Análisis de Canalización</h2>
+            <label>Tipo de canalización detectada/requerida:</label>
+            <select id="canalizacion">
+                <option value="Sin canalización">Sin canalización (Instalación desde cero)</option>
+                <option value="Tubería Pared Gruesa">Tubería Pared Gruesa (Exterior)</option>
+                <option value="PVC Pesado">PVC Pesado</option>
+                <option value="Canaleta Plástica">Canaleta Plástica (Interior)</option>
+            </select>
+            
+            <label>Notas adicionales de infraestructura:</label>
+            <textarea id="notas" rows="2" placeholder="Observaciones sobre muros, alturas o distancias"></textarea>
+        </div>
+
+        <div class="card">
+            <h2>Requerimientos de Seguridad</h2>
+            <label>Cantidad de cámaras proyectadas:</label>
+            <input type="number" id="cams" placeholder="Total de equipos">
+            
+            <label>Tipo de tecnología sugerida:</label>
+            <select id="tech">
+                <option value="Análoga (Turbo HD)">Análoga (Económica/Eficiente)</option>
+                <option value="IP (Alta Definición)">IP (Grado Ingeniería/Escalable)</option>
+            </select>
+        </div>
+
+        <button type="button" class="btn-wa" onclick="enviarReporte()">Generar y Enviar por WhatsApp</button>
+    </form>
+</div>
+
+<script>
+    function enviarReporte() {
+        const d = {
+            escuela: document.getElementById('escuela').value,
+            comite: document.getElementById('nombre_comite').value,
+            cargo: document.getElementById('cargo').value,
+            modem: document.getElementById('has_modem').value,
+            compania: document.getElementById('compania').value,
+            canal: document.getElementById('canalizacion').value,
+            notas: document.getElementById('notas').value,
+            cams: document.getElementById('cams').value,
+            tech: document.getElementById('tech').value
+        };
+
+        if(!d.escuela) { alert("Por favor, ingrese el nombre de la escuela"); return; }
+
+        let msg = `*BYTECOMTEC - LEVANTAMIENTO TÉCNICO*%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `*Escuela:* ${d.escuela}%0A`;
+        msg += `*Atiende:* ${d.comite} (${d.cargo})%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `🌐 *CONECTIVIDAD:*%0A`;
+        msg += `Modem: ${d.modem} | Compañía: ${d.compania || "N/A"}%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `🏗️ *INFRAESTRUCTURA:*%0A`;
+        msg += `Canalización: ${d.canal}%0A`;
+        msg += `Notas: ${d.notas || "Sin observaciones"}%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `📹 *SEGURIDAD (CCTV):*%0A`;
+        msg += `Equipos: ${d.cams} unidades | Tipo: ${d.tech}%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `_Este reporte forma parte de la Guía de Transparencia 2026._`;
+
+        window.open(`https://wa.me/?text=${msg}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
