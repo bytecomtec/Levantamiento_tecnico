@@ -8,70 +8,68 @@
         :root { --blue: #003366; --orange: #ff8800; --light-gray: #f4f4f4; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--light-gray); padding: 10px; color: #333; }
         .container { max-width: 800px; margin: 0 auto; }
-        .header { background: var(--blue); color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; position: relative; }
-        .header img { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); height: 50px; display: none; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 15px; }
-        h2 { color: var(--blue); font-size: 1.15rem; border-left: 4px solid var(--orange); padding-left: 10px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; }
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
-        label { display: block; margin: 10px 0 4px; font-weight: bold; font-size: 0.85rem; color: #444; }
-        input, textarea, select { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 0.9rem; background: #fff; }
+        .header { background: var(--blue); color: white; padding: 15px; text-align: center; border-radius: 8px 8px 0 0; position: relative; }
+        .header img { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); height: 45px; display: none; }
+        .card { background: white; padding: 18px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 12px; }
+        h2 { color: var(--blue); font-size: 1.1rem; border-left: 4px solid var(--orange); padding-left: 10px; margin-top: 0; margin-bottom: 12px; text-transform: uppercase; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+        label { display: block; margin: 6px 0 3px; font-weight: bold; font-size: 0.85rem; color: #444; }
+        input, textarea, select { width: 100%; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 0.9rem; background: #fff; }
         input[type="checkbox"] { width: auto; margin-right: 8px; }
-        .row-item { display: flex; align-items: center; background: #fafafa; padding: 10px; border-radius: 4px; border: 1px solid #eef; margin-bottom: 8px; flex-wrap: wrap; gap: 10px; }
+        .row-item { display: flex; align-items: center; background: #fafafa; padding: 8px; border-radius: 4px; border: 1px solid #eef; margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
         .row-item > div { flex: 1; min-width: 120px; }
         .row-item > div.chk { flex: 0 0 auto; min-width: 180px; font-weight: 500; font-size: 0.85rem; }
-        .checkbox-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 10px; }
-        .checkbox-item { display: flex; align-items: center; background: #fafafa; padding: 10px; border-radius: 4px; border: 1px solid #eef; }
+        .checkbox-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-top: 8px; }
+        .checkbox-item { display: flex; align-items: center; background: #fafafa; padding: 8px; border-radius: 4px; border: 1px solid #eef; }
         .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn-wa { background: #25d366; color: white; padding: 15px; border: none; border-radius: 5px; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn-pdf { background: var(--blue); color: white; padding: 15px; border: none; border-radius: 5px; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .footer { text-align: center; font-size: 0.8rem; color: #666; padding: 20px; }
+        .btn-wa { background: #25d366; color: white; padding: 12px; border: none; border-radius: 5px; font-weight: bold; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-pdf { background: var(--blue); color: white; padding: 12px; border: none; border-radius: 5px; font-weight: bold; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .footer { text-align: center; font-size: 0.8rem; color: #666; padding: 15px; }
         
         /* ==========================================================================
-           REGLAS DE IMPRESIÓN ESTRICTAS (SÓLO CAMPOS SELECCIONADOS)
+           REGLAS DE IMPRESIÓN ULTRA OPTIMIZADAS (CERO ESPACIOS BLANCOS EXCESIVOS)
            ==========================================================================
         */
         @media print {
-            body { background: white; padding: 0; color: #000; font-size: 11pt; }
-            .container { max-width: 100%; padding: 0; box-shadow: none; }
+            body { background: white; padding: 0; margin: 0; color: #000; font-size: 10pt; line-height: 1.2; }
+            .container { max-width: 100%; padding: 0; margin: 0; box-shadow: none; }
             
-            /* Ocultar botones, pie de página e inputs checkbox */
+            /* Eliminación absoluta de elementos interactivos o vacíos */
             .btn-group, .footer, input[type="checkbox"] { display: none !important; }
-            
-            /* Ocultación total y absoluta de filas o elementos vacíos/no chequeados */
             .no-print-row, .is-empty { display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; padding: 0 !important; margin: 0 !important; border: none !important; }
 
-            /* Cabecera Institucional */
-            .header { background: transparent; color: #000; padding: 10px 0; border-radius: 0; text-align: right; display: flex; align-items: center; justify-content: space-between; border-bottom: none; margin-bottom: 20px; }
-            .header img { display: block; position: static; transform: none; height: 75px; width: auto; }
+            /* Cabecera compacta */
+            .header { background: transparent; color: #000; padding: 0 0 5px 0; border-radius: 0; text-align: right; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #004B87; margin-bottom: 10px; }
+            .header img { display: block; position: static; transform: none; height: 55px; width: auto; }
             .header-text { text-align: right; width: 100%; }
-            .header strong { font-size: 1.4rem; font-weight: bold; display: block; letter-spacing: 0.5px; }
-            .header small { font-size: 0.9rem; color: #333; display: block; margin-top: 2px; }
+            .header strong { font-size: 1.3rem; font-weight: bold; display: block; letter-spacing: 0.5px; }
+            .header small { font-size: 0.85rem; color: #333; display: block; margin-top: 1px; }
 
-            /* Estilo de Bloques */
-            .card { box-shadow: none; border: none; padding: 0; margin-bottom: 20px; page-break-inside: avoid; background: transparent; }
-            h2 { font-size: 1.25rem; color: #004B87 !important; border: none; padding-left: 0; margin-top: 20px; margin-bottom: 12px; text-transform: uppercase; font-weight: bold; }
+            /* Organización hiper-compacta de bloques */
+            .card { box-shadow: none; border: none; padding: 0; margin-bottom: 12px; page-break-inside: avoid; background: transparent; }
+            h2 { font-size: 1.05rem; color: #004B87 !important; border: none; padding-left: 0; margin-top: 10px; margin-bottom: 6px; text-transform: uppercase; font-weight: bold; border-bottom: 1px solid #DDD; padding-bottom: 2px; }
             
-            /* Datos Generales en texto plano */
-            .site-data-grid { display: grid !important; gap: 10px 20px; margin-bottom: 8px; }
+            /* Datos Generales en rejilla optimizada sin espacios muertos */
+            .site-data-grid { display: grid !important; gap: 4px 15px; margin-bottom: 4px; }
             .grid-2 { grid-template-columns: 1fr 1fr !important; }
             .grid-3 { grid-template-columns: 1fr 1fr 1fr !important; }
-            .data-field label, label { font-size: 0.9rem; color: #000; font-weight: bold; margin: 0; margin-bottom: 3px; }
-            .site-data-grid input, .site-data-grid select { border: none !important; padding: 2px 0 !important; font-size: 0.95rem; background: transparent !important; color: #333; font-family: inherit; }
+            .data-field label, label { font-size: 0.85rem; color: #000; font-weight: bold; margin: 0; }
+            .site-data-grid input, .site-data-grid select { border: none !important; padding: 1px 0 !important; font-size: 0.9rem; background: transparent !important; color: #222; font-family: inherit; margin-bottom: 2px; }
             
-            /* Filas de Dispositivos que SÍ están palomeadas */
-            .row-item { background: transparent !important; border: none !important; border-bottom: 1px dotted #DCDCDC !important; padding: 6px 0 !important; margin-bottom: 0 !important; border-radius: 0 !important; display: grid !important; grid-template-columns: 240px 50px 140px 1fr !important; gap: 10px !important; align-items: center !important; }
+            /* Renglones de Dispositivos (Filas modo tabla compacta) */
+            .row-item { background: transparent !important; border: none !important; border-bottom: 1px dotted #DCDCDC !important; padding: 4px 0 !important; margin-bottom: 0 !important; border-radius: 0 !important; display: grid !important; grid-template-columns: 210px 45px 130px 1fr !important; gap: 8px !important; align-items: center !important; }
             .row-item > div { min-width: auto !important; }
-            .row-item > div.chk { font-weight: bold !important; color: #004B87 !important; font-size: 0.95rem; }
-            .row-item input, .row-item select { border: none !important; background: transparent !important; padding: 0 !important; font-size: 0.95rem; font-family: inherit; color: #333; }
+            .row-item > div.chk { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
+            .row-item input, .row-item select { border: none !important; background: transparent !important; padding: 0 !important; font-size: 0.9rem; font-family: inherit; color: #222; }
 
-            /* Tarjeta de Conectividad */
-            #card_conectividad { border: 1px solid #E2E8F0 !important; border-radius: 8px !important; padding: 20px !important; margin-top: 15px; background: #fff !important; }
+            /* Tarjeta de Conectividad sin marcos pesados */
+            #card_conectividad { border: none !important; padding: 0 !important; margin-top: 5px; background: transparent !important; }
 
-            /* Sección 8 Compacta */
-            .checkbox-group { grid-template-columns: 1fr 1fr !important; gap: 8px 20px !important; }
-            .checkbox-item { background: transparent !important; border: none !important; padding: 2px 0 !important; }
-            .checkbox-item label { font-weight: bold !important; color: #004B87 !important; }
+            /* Sección 8 de Entregables Compacta */
+            .checkbox-group { grid-template-columns: 1fr 1fr !important; gap: 4px 15px !important; margin-top: 4px; }
+            .checkbox-item { background: transparent !important; border: none !important; padding: 1px 0 !important; }
+            .checkbox-item label { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -145,13 +143,13 @@
             <div class="row-item" data-chk="req_nvr">
                 <div class="chk"><input type="checkbox" id="req_nvr"> NVR (Grabador IP)</div>
                 <div><input type="number" id="cant_nvr" placeholder="Cant."></div>
-                <div><input type="text" id="spec_nvr" placeholder="Canales / Marca preferida"></div>
+                <div><input type="text" id="spec_nvr" placeholder="Canales / Marca"></div>
                 <div><input type="text" id="notes_nvr" placeholder="Notas de campo"></div>
             </div>
             <div class="row-item" data-chk="req_dvr">
-                <div class="chk"><input type="checkbox" id="req_dvr"> DVR/XVR (Híbrido)</div>
+                <div class="chk"><input type="checkbox" id="req_dvr"> DVR/XXVR (Híbrido)</div>
                 <div><input type="number" id="cant_dvr" placeholder="Cant."></div>
-                <div><input type="text" id="spec_dvr" placeholder="Canales / Notas"></div>
+                <div><input type="text" id="spec_dvr" placeholder="Canales"></div>
                 <div><input type="text" id="notes_dvr" placeholder="Notas de campo"></div>
             </div>
             <div class="row-item" data-chk="req_hdd">
@@ -174,7 +172,7 @@
                 <div class="chk"><input type="checkbox" id="req_monitor"> Monitor Local</div>
                 <div><input type="number" id="cant_monitor" placeholder="Cant."></div>
                 <div><input type="text" id="spec_monitor" placeholder="Tamaño"></div>
-                <div><input type="text" id="notes_monitor" placeholder="Ubicación (Ej. Caseta)"></div>
+                <div><input type="text" id="notes_monitor" placeholder="Ubicación"></div>
             </div>
             <div class="row-item" data-chk="req_ext">
                 <div class="chk"><input type="checkbox" id="req_ext"> Extensor HDMI por UTP</div>
@@ -202,7 +200,7 @@
                         <option value="Plafón">Plafón</option>
                     </select>
                 </div>
-                <div><input type="text" id="spec_domo" placeholder="Ubicación / Altura"></div>
+                <div><input type="text" id="spec_domo" placeholder="Ubicación / Modelo"></div>
             </div>
             <div class="row-item" data-chk="cam_bullet">
                 <div class="chk"><input type="checkbox" id="cam_bullet"> Cámara Bullet</div>
@@ -244,7 +242,7 @@
 
         <div class="card" id="card_conectividad">
             <h2>3. Conectividad, Red y Cableado</h2>
-            <div class="site-data-grid grid-2" style="margin-bottom: 15px;">
+            <div class="site-data-grid grid-2" style="margin-bottom: 8px;">
                 <div class="data-field">
                     <label>¿Cuentan con módem?</label>
                     <input type="text" id="has_modem" placeholder="Sí / No / Ubicación">
@@ -256,13 +254,13 @@
             </div>
             <div>
                 <div class="row-item" data-chk="net_sw_poe_sin">
-                    <div class="chk"><input type="checkbox" id="net_sw_poe_sin"> Switch PoE Sin Administrar</div>
+                    <div class="chk"><input type="checkbox" id="net_sw_poe_sin"> Switch PoE S/Admin</div>
                     <div><input type="number" id="cant_sw_poe_sin" placeholder="Cant."></div>
-                    <div><input type="text" id="spec_sw_poe_sin" placeholder="Puertos / Watts"></div>
+                    <div><input type="text" id="spec_sw_poe_sin" placeholder="Puertos / Modelo"></div>
                     <div><input type="text" id="notes_sw_poe_sin" placeholder="Notas"></div>
                 </div>
                 <div class="row-item" data-chk="net_sw_poe_adm">
-                    <div class="chk"><input type="checkbox" id="net_sw_poe_adm"> Switch PoE Administrable</div>
+                    <div class="chk"><input type="checkbox" id="net_sw_poe_adm"> Switch PoE Admin</div>
                     <div><input type="number" id="cant_sw_poe_adm" placeholder="Cant."></div>
                     <div><input type="text" id="spec_sw_poe_adm" placeholder="Especificaciones"></div>
                     <div><input type="text" id="notes_sw_poe_adm" placeholder="Notas"></div>
@@ -270,7 +268,7 @@
                 <div class="row-item" data-chk="net_sw_core">
                     <div class="chk"><input type="checkbox" id="net_sw_core"> Switch Core (Rack)</div>
                     <div><input type="number" id="cant_sw_core" placeholder="Cant."></div>
-                    <div><input type="text" id="spec_sw_core" placeholder="Puertos SFP / Capa"></div>
+                    <div><input type="text" id="spec_sw_core" placeholder="Puertos SFP"></div>
                     <div><input type="text" id="notes_sw_core" placeholder="Notas"></div>
                 </div>
                 <div class="row-item" data-chk="net_utp">
@@ -300,7 +298,7 @@
                 <div class="row-item" data-chk="net_conectores">
                     <div class="chk"><input type="checkbox" id="net_conectores"> Plugs / Jacks / Patch</div>
                     <div><input type="number" id="cant_conectores" placeholder="Cant."></div>
-                    <div><input type="text" id="spec_conectores" placeholder="RJ45 / Faceplates"></div>
+                    <div><input type="text" id="spec_conectores" placeholder="Modelos / Cat"></div>
                     <div><input type="text" id="notes_conectores" placeholder="Notas"></div>
                 </div>
             </div>
@@ -311,17 +309,17 @@
             <div class="row-item" data-chk="fo_liu">
                 <div class="chk"><input type="checkbox" id="fo_liu"> Distribuidor (ODF/LIU)</div>
                 <div><input type="number" id="cant_fo_liu" placeholder="Cant."></div>
-                <div><input type="text" id="spec_fo_liu" placeholder="Hilos / Acoplamiento"></div>
+                <div><input type="text" id="spec_fo_liu" placeholder="Hilos / Acopladores"></div>
                 <div><input type="text" id="notes_fo_liu" placeholder="Notas"></div>
             </div>
             <div class="row-item" data-chk="fo_conv">
-                <div class="chk"><input type="checkbox" id="fo_conv"> Convertidores de Medios</div>
+                <div class="chk"><input type="checkbox" id="fo_conv"> Convertidores Medios</div>
                 <div><input type="number" id="cant_fo_conv" placeholder="Cant."></div>
-                <div><input type="text" id="spec_fo_conv" placeholder="SM / MM — Distancia"></div>
+                <div><input type="text" id="spec_fo_conv" placeholder="SM / MM — Marca"></div>
                 <div><input type="text" id="notes_fo_conv" placeholder="Notas"></div>
             </div>
             <div class="row-item" data-chk="fo_cajas">
-                <div class="chk"><input type="checkbox" id="fo_cajas"> Cajas Para Fibra Óptica</div>
+                <div class="chk"><input type="checkbox" id="fo_cajas"> Cajas Fibra Óptica</div>
                 <div><input type="number" id="cant_fo_cajas" placeholder="Cant."></div>
                 <div><input type="text" id="spec_fo_cajas" placeholder="Distribución"></div>
                 <div><input type="text" id="notes_fo_cajas" placeholder="Notas"></div>
@@ -329,7 +327,7 @@
             <div class="row-item" data-chk="fo_pigtails">
                 <div class="chk"><input type="checkbox" id="fo_pigtails"> Pig Tails</div>
                 <div><input type="number" id="cant_fo_pigtails" placeholder="Cant."></div>
-                <div><input type="text" id="spec_fo_pigtails" placeholder="LC, SC / Pulido"></div>
+                <div><input type="text" id="spec_fo_pigtails" placeholder="Tipo LC / SC"></div>
                 <div><input type="text" id="notes_fo_pigtails" placeholder="Notas"></div>
             </div>
             <div class="row-item" data-chk="fo_cable">
@@ -339,15 +337,15 @@
                 <div><input type="text" id="notes_fo_cable" placeholder="Notas"></div>
             </div>
             <div class="row-item" data-chk="fo_sfp">
-                <div class="chk"><input type="checkbox" id="fo_sfp"> Módulos Transceptores SFP</div>
+                <div class="chk"><input type="checkbox" id="fo_sfp"> Módulos SFP</div>
                 <div><input type="number" id="cant_fo_sfp" placeholder="Cant."></div>
-                <div><input type="text" id="spec_fo_sfp" placeholder="1 Gbps / 10 Gbps"></div>
+                <div><input type="text" id="spec_fo_sfp" placeholder="Velocidad / Distancia"></div>
                 <div><input type="text" id="notes_fo_sfp" placeholder="Notas"></div>
             </div>
             <div class="row-item" data-chk="fo_manga">
-                <div class="chk"><input type="checkbox" id="fo_manga"> Cierre de Empalme (Manga)</div>
+                <div class="chk"><input type="checkbox" id="fo_manga"> Cierre Empalme (Manga)</div>
                 <div><input type="number" id="cant_manga" placeholder="Cant."></div>
-                <div><input type="text" id="spec_manga" placeholder="Resguardo Exterior"></div>
+                <div><input type="text" id="spec_manga" placeholder="Exterior / Sellado"></div>
                 <div><input type="text" id="notes_manga" placeholder="Notas"></div>
             </div>
         </div>
@@ -370,7 +368,7 @@
                 <div class="chk"><input type="checkbox" id="mat_liq"> Tubo Flexible Liquid-tight</div>
                 <div><input type="number" id="cant_mat_liq" placeholder="Metros"></div>
                 <div><input type="text" id="spec_mat_liq" placeholder="Medida / Conectores"></div>
-                <div><input type="text" id="notes_mat_liq" placeholder="Notas"></div>
+                <div><input type="text" id="notes_mat_mat_liq" placeholder="Notas"></div>
             </div>
             <div class="row-item" data-chk="mat_canaleta">
                 <div class="chk"><input type="checkbox" id="mat_canaleta"> Canaleta Plástica</div>
@@ -387,7 +385,7 @@
             <div class="row-item" data-chk="mat_miscelaneos">
                 <div class="chk"><input type="checkbox" id="mat_miscelaneos"> Misceláneos / Fijación</div>
                 <div>-</div>
-                <div style="grid-column: span 2;"><input type="text" id="spec_mat_miscelaneos" placeholder="Grapas, cinchos UV, velcro, herrajes, taquetes, pijas, silicona PU"></div>
+                <div style="grid-column: span 2;"><input type="text" id="spec_mat_miscelaneos" placeholder="Grapas, cinchos UV, herrajes, taquetes, tornillería"></div>
             </div>
         </div>
 
@@ -407,12 +405,12 @@
                         <option value="18 Cámaras">18 Cámaras</option>
                     </select>
                 </div>
-                <div><input type="text" id="notes_pwr_fuente" placeholder="Amperaje / Notas"></div>
+                <div><input type="text" id="notes_pwr_fuente" placeholder="Amperaje / Modelo"></div>
             </div>
             <div class="row-item" data-chk="pwr_ups_rack">
-                <div class="chk"><input type="checkbox" id="pwr_ups_rack"> UPS No-Break (Rack Core)</div>
+                <div class="chk"><input type="checkbox" id="pwr_ups_rack"> UPS No-Break (Rack)</div>
                 <div><input type="number" id="cant_pwr_ups_rack" placeholder="Cant."></div>
-                <div><input type="text" id="spec_pwr_ups_rack" placeholder="Capacidad (VA)"></div>
+                <div><input type="text" id="spec_pwr_ups_rack" placeholder="Capacidad VA / Modelo"></div>
                 <div><input type="text" id="notes_pwr_ups_rack" placeholder="Notas"></div>
             </div>
             <div class="row-item" data-chk="pwr_ups_campo">
@@ -430,7 +428,7 @@
             <div class="row-item" data-chk="pwr_tierra">
                 <div class="chk"><input type="checkbox" id="pwr_tierra"> Tierra Física</div>
                 <div>-</div>
-                <div style="grid-column: span 2;"><input type="text" id="spec_pwr_tierra" placeholder="Estado de la red de tierra física en sitio"></div>
+                <div style="grid-column: span 2;"><input type="text" id="spec_pwr_tierra" placeholder="Estado de red / Requerimientos en sitio"></div>
             </div>
         </div>
 
@@ -442,9 +440,9 @@
                 <div style="grid-column: span 2;"><input type="text" id="spec_srv_inst" placeholder="Canalización, tendido y montaje"></div>
             </div>
             <div class="row-item" data-chk="srv_fusion">
-                <div class="chk"><input type="checkbox" id="srv_fusion"> Fusión de Fibra Óptica</div>
+                <div class="chk"><input type="checkbox" id="srv_fusion"> Fusión Fibra Óptica</div>
                 <div>-</div>
-                <div style="grid-column: span 2;"><input type="text" id="spec_srv_fusion" placeholder="Número de hilos / Fusiones"></div>
+                <div style="grid-column: span 2;"><input type="text" id="spec_srv_fusion" placeholder="Número de hilos a fusionar"></div>
             </div>
             <div class="row-item" data-chk="srv_vlan">
                 <div class="chk"><input type="checkbox" id="srv_vlan"> Red y VLANs</div>
@@ -502,25 +500,19 @@
     }
 
     function ejecutarImpresionClean() {
-        // Buscar todas las filas con atributos asignables
         const elementosFiltrables = document.querySelectorAll('[data-chk]');
         
         elementosFiltrables.forEach(elemento => {
             const idCheckbox = elemento.getAttribute('data-chk');
             
             if (!isChecked(idCheckbox)) {
-                // Si NO está chequeado, ocultamos la estructura completa
                 elemento.classList.add('no-print-row'); 
-                
-                // Encontrar inputs secundarios (cantidades, notas) dentro de este renglón bloqueado
                 const inputsHijos = elemento.querySelectorAll('input, select, textarea');
                 inputsHijos.forEach(input => {
                     input.classList.add('is-empty');
                 });
             } else {
-                // Si SÍ está chequeado, garantizamos que se mantenga limpio e institucional
                 elemento.classList.remove('no-print-row');
-                
                 const inputsHijos = elemento.querySelectorAll('input, select, textarea');
                 inputsHijos.forEach(input => {
                     input.classList.remove('is-empty');
@@ -528,7 +520,6 @@
             }
         });
 
-        // Llamada nativa del sistema operativo para generar el PDF
         window.print();
     }
 
