@@ -28,47 +28,47 @@
         .footer { text-align: center; font-size: 0.8rem; color: #666; padding: 20px; }
         
         /* ==========================================================================
-           REGLAS DE IMPRESIÓN MEJORADAS (MUESTRA SÓLO LO SELECCIONADO)
+           REGLAS DE IMPRESIÓN ESTRICTAS (SÓLO CAMPOS SELECCIONADOS)
            ==========================================================================
         */
         @media print {
             body { background: white; padding: 0; color: #000; font-size: 11pt; }
             .container { max-width: 100%; padding: 0; box-shadow: none; }
             
-            /* Ocultar botones, pie de página e inputs checkbox nativos */
+            /* Ocultar botones, pie de página e inputs checkbox */
             .btn-group, .footer, input[type="checkbox"] { display: none !important; }
             
-            /* OCULTACIÓN ESTRICTA DE FILAS Y ELEMENTOS NO PALOMEADOS */
-            .no-print-row { display: none !important; }
+            /* Ocultación total y absoluta de filas o elementos vacíos/no chequeados */
+            .no-print-row, .is-empty { display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; padding: 0 !important; margin: 0 !important; border: none !important; }
 
-            /* Cabecera idéntica a tu formato original */
+            /* Cabecera Institucional */
             .header { background: transparent; color: #000; padding: 10px 0; border-radius: 0; text-align: right; display: flex; align-items: center; justify-content: space-between; border-bottom: none; margin-bottom: 20px; }
             .header img { display: block; position: static; transform: none; height: 75px; width: auto; }
             .header-text { text-align: right; width: 100%; }
             .header strong { font-size: 1.4rem; font-weight: bold; display: block; letter-spacing: 0.5px; }
             .header small { font-size: 0.9rem; color: #333; display: block; margin-top: 2px; }
 
-            /* Estilo de Tarjetas y Bloques (Evita saltos de página huérfanos) */
-            .card { box-shadow: none; border: none; padding: 0; margin-bottom: 25px; page-break-inside: avoid; background: transparent; }
-            h2 { font-size: 1.25rem; color: #004B87 !important; border: none; padding-left: 0; margin-top: 25px; margin-bottom: 15px; text-transform: uppercase; font-weight: bold; }
+            /* Estilo de Bloques */
+            .card { box-shadow: none; border: none; padding: 0; margin-bottom: 20px; page-break-inside: avoid; background: transparent; }
+            h2 { font-size: 1.25rem; color: #004B87 !important; border: none; padding-left: 0; margin-top: 20px; margin-bottom: 12px; text-transform: uppercase; font-weight: bold; }
             
-            /* Formateo de Inputs de Datos Generales (Texto plano sin recuadros) */
+            /* Datos Generales en texto plano */
             .site-data-grid { display: grid !important; gap: 10px 20px; margin-bottom: 8px; }
             .grid-2 { grid-template-columns: 1fr 1fr !important; }
             .grid-3 { grid-template-columns: 1fr 1fr 1fr !important; }
             .data-field label, label { font-size: 0.9rem; color: #000; font-weight: bold; margin: 0; margin-bottom: 3px; }
             .site-data-grid input, .site-data-grid select { border: none !important; padding: 2px 0 !important; font-size: 0.95rem; background: transparent !important; color: #333; font-family: inherit; }
             
-            /* Estructuración limpia en Columnas para los elementos seleccionados */
+            /* Filas de Dispositivos que SÍ están palomeadas */
             .row-item { background: transparent !important; border: none !important; border-bottom: 1px dotted #DCDCDC !important; padding: 6px 0 !important; margin-bottom: 0 !important; border-radius: 0 !important; display: grid !important; grid-template-columns: 240px 50px 140px 1fr !important; gap: 10px !important; align-items: center !important; }
             .row-item > div { min-width: auto !important; }
             .row-item > div.chk { font-weight: bold !important; color: #004B87 !important; font-size: 0.95rem; }
             .row-item input, .row-item select { border: none !important; background: transparent !important; padding: 0 !important; font-size: 0.95rem; font-family: inherit; color: #333; }
 
-            /* Tarjeta de Conectividad Enmarcada */
+            /* Tarjeta de Conectividad */
             #card_conectividad { border: 1px solid #E2E8F0 !important; border-radius: 8px !important; padding: 20px !important; margin-top: 15px; background: #fff !important; }
 
-            /* Sección 8 (Entregables) en formato cuadrícula limpia */
+            /* Sección 8 Compacta */
             .checkbox-group { grid-template-columns: 1fr 1fr !important; gap: 8px 20px !important; }
             .checkbox-item { background: transparent !important; border: none !important; padding: 2px 0 !important; }
             .checkbox-item label { font-weight: bold !important; color: #004B87 !important; }
@@ -502,19 +502,33 @@
     }
 
     function ejecutarImpresionClean() {
-        // Filtrar y ocultar estrictamente todos los bloques que no tengan check activo
-        const filasFiltrables = document.querySelectorAll('[data-chk]');
+        // Buscar todas las filas con atributos asignables
+        const elementosFiltrables = document.querySelectorAll('[data-chk]');
         
-        filasFiltrables.forEach(fila => {
-            const idCheckbox = fila.getAttribute('data-chk');
+        elementosFiltrables.forEach(elemento => {
+            const idCheckbox = elemento.getAttribute('data-chk');
+            
             if (!isChecked(idCheckbox)) {
-                fila.classList.add('no-print-row'); 
+                // Si NO está chequeado, ocultamos la estructura completa
+                elemento.classList.add('no-print-row'); 
+                
+                // Encontrar inputs secundarios (cantidades, notas) dentro de este renglón bloqueado
+                const inputsHijos = elemento.querySelectorAll('input, select, textarea');
+                inputsHijos.forEach(input => {
+                    input.classList.add('is-empty');
+                });
             } else {
-                fila.classList.remove('no-print-row');
+                // Si SÍ está chequeado, garantizamos que se mantenga limpio e institucional
+                elemento.classList.remove('no-print-row');
+                
+                const inputsHijos = elemento.querySelectorAll('input, select, textarea');
+                inputsHijos.forEach(input => {
+                    input.classList.remove('is-empty');
+                });
             }
         });
 
-        // Llamar a la ventana de impresión nativa
+        // Llamada nativa del sistema operativo para generar el PDF
         window.print();
     }
 
