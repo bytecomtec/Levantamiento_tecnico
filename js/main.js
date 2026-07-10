@@ -228,74 +228,64 @@ function enviarWhatsApp() {
     }
 
 function calcularAlmacenamientoBytecomtec() {
-    // 1. Obtener de forma inteligente el total de cámaras sumando las cantidades del formulario
+    // 1. Obtener el total de cámaras desde la Sección 2
     const cantDomo = parseInt(document.getElementById('cant_domo')?.value) || 0;
     const cantBullet = parseInt(document.getElementById('cant_bullet')?.value) || 0;
     const cantPTZ = parseInt(document.getElementById('cant_ptz')?.value) || 0;
     const totalCamaras = cantDomo + cantBullet + cantPTZ;
 
     if (totalCamaras === 0) {
-        alert("⚠️ Para calcular el almacenamiento, primero ingresa la cantidad de cámaras (Domo o Bullet) en la Sección 2.");
+        alert("⚠️ Para calcular el tiempo de grabación, primero ingresa la cantidad de cámaras en la Sección 2.");
         return;
     }
 
-    // 2. Obtener parámetros de la calculadora rápida
-    const diasDeseados = parseInt(document.getElementById('calc_dias').value) || 15;
+    // 2. Obtener el tamaño del disco seleccionado en el formulario
+    const specHDD = document.getElementById('spec_hdd')?.value; // Ej: "10 TB" o "4 TB"
+    if (!specHDD) {
+        alert("⚠️ Por favor, selecciona primero una capacidad de Disco Duro (ej. 10 TB).");
+        return;
+    }
+
+    // Extraer solo el número del texto usando una expresión regular (ej. "10 TB" -> 10)
+    const capacidadTB = parseInt(specHDD.match(/\d+/)) || 0;
+    if (capacidadTB === 0) {
+        alert("⚠️ Capacidad de disco no válida.");
+        return;
+    }
+
+    // 3. Obtener el códec de compresión seleccionado en el panel de la calculadora
     const tipoCompresion = document.getElementById('calc_compresion').value;
 
-    // 3. Definición de Bitrate promedio por cámara (en Kbps) considerando una resolución típica de 2MP/3K a 15 FPS
-    // H.264 promedio: 2048 Kbps
-    // H.265 promedio: 1024 Kbps
-    // H.265+ optimizado (Hikvision/Dahua): ~512 Kbps (ahorro del 50-75%)
+    // 4. Configuración de Bitrate estándar por cámara (Kbps) a 2MP/3K @ 15 FPS
     let bitrateKbps = 1024; 
     if (tipoCompresion === 'H.264') bitrateKbps = 2048;
     if (tipoCompresion === 'H.265+') bitrateKbps = 512;
 
-    // 4. Fórmula estándar de almacenamiento: 
-    // Gigabytes = (Cámaras * BitrateKbps * 60seg * 60min * 24horas * Días) / (8 bits * 1024 * 1024)
-    const factorConversion = 8 * 1024 * 1024; // De bits a Gigabytes
-    const segundosDia = 86400;
-    const totalBitsDia = totalCamaras * (bitrateKbps * 1000) * segundosDia;
-    const gigabytesTotales = (totalBitsDia * diasDeseados) / 8 / 1000 / 1000 / 1000; // Conversión directa a TB decimales
-    
-    const terabytesRequeridos = Math.ceil(gigabytesTotales); // Redondear al entero superior inmediato
+    // 5. Cálculo Matemático Inverso:
+    // Convertimos los TB a Gigabytes comerciales y calculamos la tasa de consumo diario
+    // Consumo diario en GB por cámara = (bitrateKbps * 1000 * 86400 segundos) / (8 bits * 1024 * 1024 * 1024)
+    const gigabytesPorDisco = capacidadTB * 1000; // Almacenamiento aproximado en base decimal estándar
+    const bitsPorSegundoCamara = bitrateKbps * 1000;
+    const bitsTotalesPorDia = totalCamaras * bitsPorSegundoCamara * 86400;
+    const gigabytesConsumidosPorDia = bitsTotalesPorDia / 8 / 1024 / 1024 / 1024;
 
-    // 5. Mapear de forma inteligente al selector comercial más cercano
-    const selectorHDD = document.getElementById('spec_hdd');
-    if (selectorHDD) {
-        // Buscar si existe la opción exacta en el select comercial, si no, aproximar
-        let opcionEncontrada = false;
-        for (let i = 0; i < selectorHDD.options.length; i++) {
-            if (selectorHDD.options[i].value === `${terabytesRequeridos} TB`) {
-                selectorHDD.selectedIndex = i;
-                opcionEncontrada = true;
-                break;
-            }
-        }
-        // Si excede las capacidades individuales estándar, sugerir el más alto y añadir nota
-        if (!opcionEncontrada) {
-            if (terabytesRequeridos > 16) {
-                selectorHDD.value = "16 TB";
-            } else {
-                selectorHDD.value = ""; // Dejar abierto a selección manual si es un valor intermedio raro
-            }
-        }
-    }
+    // Días totales de respaldo (redondeado hacia abajo para ser conservadores y asegurar el almacenamiento)
+    const diasCalculados = Math.floor(gigabytesPorDisco / gigabytesConsumidosPorDia);
 
-    // 6. Escribir automáticamente el resumen detallado en las notas del concepto
+    // 6. Inyectar el resultado directamente en el campo de Notas del Disco Duro
     const notasHDD = document.getElementById('notes_hdd');
     if (notasHDD) {
-        notasHDD.value = `Estación p/ ${diasDeseados} días continuos con codec ${tipoCompresion} (${totalCamaras} cáms).`;
+        notasHDD.value = `${diasCalculados} días de grabación estimados (${totalCamaras} cáms con ${tipoCompresion}).`;
     }
 
-    // Activar automáticamente el checkbox principal de la fila
+    // Asegurar que el checkbox principal de la fila quede activo
     const chkHDD = document.getElementById('req_hdd');
     if (chkHDD) chkHDD.checked = true;
 
-    // Ocultar panel de manera pulcra tras el cálculo exitoso
+    // Ocultar panel de manera limpia tras el proceso
     document.getElementById('calculadoraPanel').style.display = 'none';
 
-    alert(`✓ Cálculo Completo:\n\nPara ${totalCamaras} cámaras durante ${diasDeseados} días usando ${tipoCompresion}, se estiman matemáticamente ~${gigabytesTotales.toFixed(2)} TB.\n\nSe ha configurado automáticamente el selector comercial e inyectado la memoria técnica en el campo de notas.`);
+    alert(`✓ Cálculo Inverso Completo:\n\nUn almacenamiento de ${capacidadTB} TB para ${totalCamaras} cámaras con codec ${tipoCompresion} proporcionará aproximadamente ${diasCalculados} días de grabación continua.\n\nEl dato ha sido inyectado en tus notas.`);
 }
     
     msg += `_Formulario Unificado Bytecomtec 2026_`;
