@@ -37,6 +37,14 @@ function inicializarEventosOperativos() {
         });
     });
 
+    // Mostrar/Ocultar panel de cálculo rápido
+document.getElementById('btnCalcularHDD')?.addEventListener('click', () => {
+    const panel = document.getElementById('calculadoraPanel');
+    if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+});
+
+// Ejecutar el cálculo matemático automático
+document.getElementById('btnProcesarCalculo')?.addEventListener('click', calcularAlmacenamientoBytecomtec);
     // Enlace de Eventos de Botones Principales (Removiendo inline onclick de HTML)
     document.getElementById('btnWhatsApp')?.addEventListener('click', enviarWhatsApp);
     document.getElementById('btnExportar')?.addEventListener('click', exportarJSON);
