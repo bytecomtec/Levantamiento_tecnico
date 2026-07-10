@@ -228,90 +228,77 @@ function enviarWhatsApp() {
     }
 
 function calcularAlmacenamientoBytecomtec() {
-    // Definición de los inputs de notas y discos para manipulación visual
+    console.log("Calculadora Bytecomtec iniciada..."); // Esto aparecerá en la consola del navegador (F12)
+
     const notasHDD = document.getElementById('notes_hdd');
     const chkHDD = document.getElementById('req_hdd');
     const selectorHDD = document.getElementById('spec_hdd');
+    const eCompresion = document.getElementById('calc_compresion');
+
+    // Restablecer estilos visuales por seguridad
+    if (notasHDD) {
+        notasHDD.style.backgroundColor = "";
+        notasHDD.style.color = "";
+    }
 
     try {
-        // 1. Intentar obtener de forma segura las cantidades de cámaras cuidando mayúsculas/minúsculas en los IDs
-        // Nota: Asegúrate de que en tu index.html los IDs sean exactamente 'cant_domo', 'cant_bullet' y 'cant_ptz'
-        const cantDomo = parseInt(document.getElementById('cant_domo')?.value) || 0;
-        const cantBullet = parseInt(document.getElementById('cant_bullet')?.value) || 0;
-        const cantPTZ = parseInt(document.getElementById('cant_ptz')?.value) || 0;
-        const totalCamaras = cantDomo + cantBullet + cantPTZ;
-
-        // Validar si el total es cero directamente en el campo de notas para evitar bloqueos del navegador
+        // 1. Forzar la lectura de la cantidad de cámaras (Domo)
+        const inputCamas = document.getElementById('cant_domo');
+        const totalCamaras = inputCamas ? (parseInt(inputCamas.value) || 0) : 0;
+        
         if (totalCamaras === 0) {
             if (notasHDD) {
-                notasHDD.value = "⚠️ ERROR: Ingresa primero la cantidad de cámaras en la Sección 2.";
-                notasHDD.style.borderColor = "red";
+                notasHDD.value = "⚠️ ERROR: Ingresa la cantidad de cámaras en la Sección 2.";
+                notasHDD.style.backgroundColor = "#fde8e8"; // Fondo rojo claro
+                notasHDD.style.color = "#9b1c1c";
             }
             return;
         }
 
-        // 2. Obtener el tamaño del disco seleccionado en el formulario
-        const specHDD = selectorHDD?.value; 
-        if (!specHDD || specHDD === "") {
+        // 2. Extraer el tamaño del disco duro seleccionado
+        const specHDD = selectorHDD ? selectorHDD.value : "";
+        if (!specHDD) {
             if (notasHDD) {
-                notasHDD.value = "⚠️ ERROR: Selecciona primero una capacidad de Disco Duro (ej. 10 TB).";
-                notasHDD.style.borderColor = "red";
+                notasHDD.value = "⚠️ ERROR: Selecciona la capacidad del disco (ej. 10 TB).";
+                notasHDD.style.backgroundColor = "#fde8e8";
+                notasHDD.style.color = "#9b1c1c";
             }
             return;
         }
 
-        // Extraer el número de forma ultra segura. Si falla la expresión regular, extrae el entero directo
-        let capacidadTB = 0;
-        const coincidencia = specHDD.match(/\d+/);
-        if (coincidencia) {
-            capacidadTB = parseInt(coincidencia[0]);
-        } else {
-            capacidadTB = parseInt(specHDD) || 0;
-        }
+        // Obtener los Terabytes numéricos limpios (ej: "10 TB" -> 10)
+        let capacidadTB = parseInt(specHDD.match(/\d+/)) || 0;
+        if (capacidadTB === 0) capacidadTB = parseInt(specHDD) || 10;
 
-        if (capacidadTB === 0) {
-            if (notasHDD) {
-                notasHDD.value = "⚠️ ERROR: Capacidad de disco no reconocible.";
-            }
-            return;
-        }
-
-        // 3. Obtener el códec de compresión seleccionado
-        const eCompresion = document.getElementById('calc_compresion');
+        // 3. Determinar el Bitrate según el códec seleccionado en la calculadora
         const tipoCompresion = eCompresion ? eCompresion.value : 'H.265+';
-
-        // 4. Configuración de Bitrate estándar por cámara (Kbps)
-        let bitrateKbps = 1024; 
+        let bitrateKbps = 512; // H.265+ optimizado
         if (tipoCompresion === 'H.264') bitrateKbps = 2048;
-        if (tipoCompresion === 'H.265+') bitrateKbps = 512;
+        if (tipoCompresion === 'H.265') bitrateKbps = 1024;
 
-        // 5. Cálculo Matemático Inverso (Seguro y preciso)
+        // 4. Operación Matemática Inversa
         const gigabytesPorDisco = capacidadTB * 1000; 
-        const bitsPorSegundoCamara = bitrateKbps * 1000;
-        const bitsTotalesPorDia = totalCamaras * bitsPorSegundoCamara * 86400;
+        const bitsTotalesPorDia = totalCamaras * (bitrateKbps * 1000) * 86400;
         const gigabytesConsumidosPorDia = bitsTotalesPorDia / 8 / 1024 / 1024 / 1024;
-
-        // Días totales estimados (Redondeado hacia abajo de forma conservadora)
+        
+        // Días de respaldo (redondeado de forma conservadora hacia abajo)
         const diasCalculados = Math.floor(gigabytesPorDisco / gigabytesConsumidosPorDia);
 
-        // 6. Inyección del resultado de manera limpia y restauración de estilos
+        // 5. Inyectar el resultado e indicar éxito visualmente
         if (notasHDD) {
             notasHDD.value = `${diasCalculados} días de grabación estimados (${totalCamaras} cáms con ${tipoCompresion}).`;
-            notasHDD.style.borderColor = ""; // Restablecer color normal del input
+            notasHDD.style.backgroundColor = "#def7ec"; // Fondo verde claro de éxito
+            notasHDD.style.color = "#03543f";
         }
 
-        // Asegurar la activación automática del checkbox principal
+        // Activar el check en automático
         if (chkHDD) chkHDD.checked = true;
 
-        // Ocultar panel de manera limpia tras el proceso si el elemento existe
-        const panel = document.getElementById('calculadoraPanel');
-        if (panel) panel.style.display = 'none';
-
-    } catch (error) {
-        // En caso de que cualquier ID esté mal escrito en el HTML, el sistema no se romperá
-        console.error("Error en la calculadora Bytecomtec:", error);
+    } catch (err) {
+        console.error("Error crítico en el cálculo:", err);
         if (notasHDD) {
-            notasHDD.value = "⚠️ Error interno en el cálculo. Revisa la consola del navegador.";
+            notasHDD.value = "⚠️ Error de sintaxis o ID inexistente en el script.";
+            notasHDD.style.backgroundColor = "#fde8e8";
         }
     }
 }
