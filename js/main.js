@@ -227,6 +227,77 @@ function enviarWhatsApp() {
         msg += `*8. ADICIONALES Y COMPLEMENTOS:*%0A${extras.join(", ")}%0A-----------------------------------%0A`;
     }
 
+function calcularAlmacenamientoBytecomtec() {
+    // 1. Obtener de forma inteligente el total de cámaras sumando las cantidades del formulario
+    const cantDomo = parseInt(document.getElementById('cant_domo')?.value) || 0;
+    const cantBullet = parseInt(document.getElementById('cant_bullet')?.value) || 0;
+    const cantPTZ = parseInt(document.getElementById('cant_ptz')?.value) || 0;
+    const totalCamaras = cantDomo + cantBullet + cantPTZ;
+
+    if (totalCamaras === 0) {
+        alert("⚠️ Para calcular el almacenamiento, primero ingresa la cantidad de cámaras (Domo o Bullet) en la Sección 2.");
+        return;
+    }
+
+    // 2. Obtener parámetros de la calculadora rápida
+    const diasDeseados = parseInt(document.getElementById('calc_dias').value) || 15;
+    const tipoCompresion = document.getElementById('calc_compresion').value;
+
+    // 3. Definición de Bitrate promedio por cámara (en Kbps) considerando una resolución típica de 2MP/3K a 15 FPS
+    // H.264 promedio: 2048 Kbps
+    // H.265 promedio: 1024 Kbps
+    // H.265+ optimizado (Hikvision/Dahua): ~512 Kbps (ahorro del 50-75%)
+    let bitrateKbps = 1024; 
+    if (tipoCompresion === 'H.264') bitrateKbps = 2048;
+    if (tipoCompresion === 'H.265+') bitrateKbps = 512;
+
+    // 4. Fórmula estándar de almacenamiento: 
+    // Gigabytes = (Cámaras * BitrateKbps * 60seg * 60min * 24horas * Días) / (8 bits * 1024 * 1024)
+    const factorConversion = 8 * 1024 * 1024; // De bits a Gigabytes
+    const segundosDia = 86400;
+    const totalBitsDia = totalCamaras * (bitrateKbps * 1000) * segundosDia;
+    const gigabytesTotales = (totalBitsDia * diasDeseados) / 8 / 1000 / 1000 / 1000; // Conversión directa a TB decimales
+    
+    const terabytesRequeridos = Math.ceil(gigabytesTotales); // Redondear al entero superior inmediato
+
+    // 5. Mapear de forma inteligente al selector comercial más cercano
+    const selectorHDD = document.getElementById('spec_hdd');
+    if (selectorHDD) {
+        // Buscar si existe la opción exacta en el select comercial, si no, aproximar
+        let opcionEncontrada = false;
+        for (let i = 0; i < selectorHDD.options.length; i++) {
+            if (selectorHDD.options[i].value === `${terabytesRequeridos} TB`) {
+                selectorHDD.selectedIndex = i;
+                opcionEncontrada = true;
+                break;
+            }
+        }
+        // Si excede las capacidades individuales estándar, sugerir el más alto y añadir nota
+        if (!opcionEncontrada) {
+            if (terabytesRequeridos > 16) {
+                selectorHDD.value = "16 TB";
+            } else {
+                selectorHDD.value = ""; // Dejar abierto a selección manual si es un valor intermedio raro
+            }
+        }
+    }
+
+    // 6. Escribir automáticamente el resumen detallado en las notas del concepto
+    const notasHDD = document.getElementById('notes_hdd');
+    if (notasHDD) {
+        notasHDD.value = `Estación p/ ${diasDeseados} días continuos con codec ${tipoCompresion} (${totalCamaras} cáms).`;
+    }
+
+    // Activar automáticamente el checkbox principal de la fila
+    const chkHDD = document.getElementById('req_hdd');
+    if (chkHDD) chkHDD.checked = true;
+
+    // Ocultar panel de manera pulcra tras el cálculo exitoso
+    document.getElementById('calculadoraPanel').style.display = 'none';
+
+    alert(`✓ Cálculo Completo:\n\nPara ${totalCamaras} cámaras durante ${diasDeseados} días usando ${tipoCompresion}, se estiman matemáticamente ~${gigabytesTotales.toFixed(2)} TB.\n\nSe ha configurado automáticamente el selector comercial e inyectado la memoria técnica en el campo de notas.`);
+}
+    
     msg += `_Formulario Unificado Bytecomtec 2026_`;
     window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
