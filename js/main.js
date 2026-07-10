@@ -1,90 +1,224 @@
 /**
- * Estructura de mapeo del formulario de Levantamiento Técnico - Bytecomtec
- * Permite renderizar y exportar datos de forma automatizada por bloques semánticos.
+ * Lógica de Operación del Formulario de Levantamientos - Bytecomtec
  */
-const FormConfig = {
-    secciones: [
-        {
-            titulo: "1. GRABACIÓN Y ALMACENAMIENTO",
-            elementos: [
-                { id: "req_dispositivo", label: "Dispositivo", cant: "cant_dispositivo", spec: "spec_dispositivo", notes: "notes_dispositivo" },
-                { id: "req_hdd", label: "Discos Duros (CCTV)", cant: "cant_hdd", spec: "spec_hdd", notes: "notes_hdd" },
-                { id: "req_monitor", label: "Monitor Local", cant: "cant_monitor", spec: "spec_monitor", notes: "notes_monitor" },
-                { id: "req_ext", label: "Extensor HDMI", cant: "cant_ext", spec: "spec_ext", notes: "notes_ext" },
-                { id: "req_gabinete", label: "Gabinete", cant: "cant_gabinete", spec: "spec_gabinete", notes: "notes_gabinete" }
-            ]
-        },
-        {
-            titulo: "2. CARACTERÍSTICAS DE CÁMARAS",
-            elementos: [
-                { id: "cam_domo", label: "Cámara Domo", cant: "cant_domo", spec: "supe_domo", notes: "spec_domo" },
-                { id: "cam_bullet", label: "Cámara Bullet", cant: "cant_bullet", spec: "supe_bullet", notes: "spec_bullet" },
-                { id: "cam_ptz", label: "Cámara PTZ", cant: "cant_ptz", spec: "spec_ptz", notes: "notes_ptz" },
-                { id: "cam_lpr", label: "Cámara LPR", cant: "cant_lpr", spec: "spec_lpr", notes: "notes_lpr" },
-                { id: "cam_analitica", label: "Analíticas Avanzadas", cant: "cant_analitica", spec: "spec_analitica", notes: "notes_analitica" }
-            ]
-        },
-        {
-            titulo: "3. CONECTIVIDAD Y RED",
-            elementos: [
-                { id: "net_switch", label: "Switch POE", cant: "cant_switch", spec: "spec_switch", notes: "notes_switch" },
-                { id: "net_cable", label: "Cable UTP/FTP", cant: "cant_cable", spec: "spec_cable", notes: "notes_cable" },
-                { id: "net_transceptores", label: "Transceptores", cant: "cant_transceptores", spec: "spec_transceptores", notes: "notes_transceptores" },
-                { id: "net_jacks_dc", label: "Jacks DC Power", cant: "cant_jacks_dc", spec: "spec_jacks_dc", notes: "notes_jacks_dc" },
-                { id: "net_conectores", label: "Plugs RJ45", cant: "cant_conectores", spec: "spec_conectores", notes: "notes_conectores" }
-            ]
-        },
-        {
-            titulo: "4. INFRAESTRUCTURA DE FIBRA ÓPTICA",
-            elementos: [
-                { id: "fo_liu", label: "ODF / LIU", cant: "cant_fo_liu", spec: "spec_fo_liu", notes: "notes_fo_liu" },
-                { id: "fo_conv", label: "Convertidor Medios", cant: "cant_fo_conv", spec: "spec_fo_conv", notes: "notes_fo_conv" },
-                { id: "fo_cajas", label: "Cajas FO", cant: "cant_fo_cajas", spec: "spec_fo_cajas", notes: "notes_fo_cajas" },
-                { id: "fo_pigtails", label: "Pig Tails", cant: "cant_fo_pigtails", spec: "spec_fo_pigtails", notes: "notes_fo_pigtails" },
-                { id: "fo_cable", label: "Cable Fibra Óptica", cant: "cant_fo_cable", spec: "spec_fo_cable", notes: "notes_fo_cable" },
-                { id: "fo_sfp", label: "Módulos SFP", cant: "cant_fo_sfp", spec: "spec_fo_sfp", notes: "notes_fo_sfp" },
-                { id: "fo_manga", label: "Manga FO", cant: "cant_manga", spec: "spec_manga", notes: "notes_manga" }
-            ]
-        },
-        {
-            titulo: "5. MATERIALES Y CANALIZACIÓN",
-            elementos: [
-                { id: "mat_gewiss", label: "Tubería Gewiss", cant: "cant_mat_gewiss", spec: "spec_mat_gewiss", notes: "notes_mat_gewiss" },
-                { id: "mat_pvc", label: "PVC Pesado", cant: "cant_mat_pvc", spec: "spec_mat_pvc", notes: "notes_mat_pvc" },
-                { id: "mat_liq", label: "Liquid-tight", cant: "cant_mat_liq", spec: "spec_mat_liq", notes: "notes_mat_mat_liq" },
-                { id: "mat_canaleta", label: "Canaleta", cant: "cant_mat_canaleta", spec: "spec_mat_canaleta", notes: "notes_mat_canaleta" },
-                { id: "mat_caja", label: "Cajas Derivación/FS", cant: "cant_mat_caja", spec: "spec_mat_caja", notes: "notes_mat_caja" },
-                { id: "mat_miscelaneos", label: "Misceláneos", cant: null, spec: "spec_mat_miscelaneos", notes: null }
-            ]
-        },
-        {
-            titulo: "6. RESPALDO DE ENERGÍA",
-            elementos: [
-                { id: "pwr_fuente", label: "Fuente Poder", cant: "cant_pwr_fuente", spec: "spec_pwr_fuente", notes: "notes_pwr_fuente" },
-                { id: "pwr_ups_rack", label: "UPS Rack", cant: "cant_pwr_ups_rack", spec: "spec_pwr_ups_rack", notes: "notes_pwr_ups_rack" },
-                { id: "pwr_ups_campo", label: "UPS Campo", cant: "cant_pwr_ups_campo", spec: "spec_pwr_ups_campo", notes: "notes_pwr_ups_campo" },
-                { id: "pwr_pdu", label: "Barra PDU", cant: "cant_pwr_pdu", spec: "spec_pwr_pdu", notes: "notes_pwr_pdu" },
-                { id: "pwr_tierra", label: "Tierra Física", cant: null, spec: "spec_pwr_tierra", notes: null }
-            ]
-        },
-        {
-            titulo: "7. MANO DE OBRA Y SERVICIOS",
-            elementos: [
-                { id: "srv_inst", label: "Instalación Física", cant: null, spec: "spec_srv_inst", notes: null },
-                { id: "srv_fusion", label: "Fusión FO", cant: null, spec: "spec_srv_fusion", notes: null },
-                { id: "srv_vlan", label: "Red / VLANs", cant: null, spec: "spec_srv_vlan", notes: null },
-                { id: "srv_nvr", label: "Config NVR/DVR", cant: null, spec: "spec_srv_nvr", notes: null },
-                { id: "srv_remoto", label: "Acceso Remoto", cant: null, spec: "spec_srv_remoto", notes: null },
-                { id: "srv_alturas", label: "Trabajos Altura", cant: null, spec: "spec_srv_alturas", notes: null }
-            ]
+
+document.addEventListener('DOMContentLoaded', () => {
+    inicializarFechaHora();
+    inicializarEventosOperativos();
+});
+
+function inicializarFechaHora() {
+    const ahora = new Date();
+    
+    const anio = ahora.getFullYear();
+    const mes = String(ahora.getMonth() + 1).padStart(2, '0');
+    const dia = String(ahora.getDate()).padStart(2, '0');
+    const fechaInput = document.getElementById('fecha');
+    if (fechaInput) fechaInput.value = `${anio}-${mes}-${dia}`;
+    
+    const horas = String(ahora.getHours()).padStart(2, '0');
+    const minutos = String(ahora.getMinutes()).padStart(2, '0');
+    const horaInput = document.getElementById('hora');
+    if (horaInput) horaInput.value = `${horas}:${minutos}`;
+}
+
+function inicializarEventosOperativos() {
+    // Escucha activa reactiva para marcar automáticamente las casillas al modificar campos select/input
+    document.querySelectorAll('[data-chk]').forEach(fila => {
+        const idCheckbox = fila.getAttribute('data-chk');
+        const checkbox = document.getElementById(idCheckbox);
+        
+        fila.querySelectorAll('select, input[type="number"], input[type="text"]').forEach(control => {
+            control.addEventListener('change', () => {
+                if (control.value !== "" && checkbox) {
+                    checkbox.checked = true;
+                }
+            });
+        });
+    });
+
+    // Enlace de Eventos de Botones Principales (Removiendo inline onclick de HTML)
+    document.getElementById('btnWhatsApp')?.addEventListener('click', enviarWhatsApp);
+    document.getElementById('btnExportar')?.addEventListener('click', exportarJSON);
+    document.getElementById('btnImprimir')?.addEventListener('click', ejecutarImpresionClean);
+    document.getElementById('importFile')?.addEventListener('change', importarJSON);
+}
+
+function obtenerVal(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+}
+
+function isChecked(id) {
+    const el = document.getElementById(id);
+    return el && el.checked ? true : false;
+}
+
+function validarFormularioSeguro() {
+    let formularioValido = true;
+    let elementosOlvidados = [];
+
+    FormConfig.secciones.forEach(seccion => {
+        seccion.elementos.forEach(item => {
+            const checkbox = document.getElementById(item.id);
+            if (checkbox && !checkbox.checked) {
+                const tieneValorSpec = item.spec && obtenerVal(item.spec) !== "";
+                const tieneValorNotes = item.notes && obtenerVal(item.notes) !== "";
+                
+                if (tieneValorSpec || tieneValorNotes) {
+                    formularioValido = false;
+                    elementosOlvidados.push(item.label);
+                }
+            }
+        });
+    });
+
+    if (!formularioValido) {
+        alert("⚠️ AVISO DE PROTECCIÓN INTEGRAL:\n\nHas seleccionado especificaciones para los siguientes conceptos pero olvidaste marcar o mantuviste deseleccionado su botón de activación:\n\n• " + elementosOlvidados.join("\n• ") + "\n\nPor favor, verifica las casillas antes de continuar.");
+        return false;
+    }
+    return true;
+}
+
+function exportarJSON() {
+    if (!validarFormularioSeguro()) return;
+
+    const formulario = document.getElementById('masterForm');
+    const inputs = formulario.querySelectorAll('input, select, textarea');
+    let datos = {
+        _meta: {
+            empresa: "Bytecomtec",
+            version_esquema: "2.0",
+            fecha_exportacion: new Date().toISOString()
         }
-    ],
-    adicionales: [
-        { id: "ent_planos", label: "Planos As-Built" },
-        { id: "ent_memoria", label: "Memoria Técnica e IPs" },
-        { id: "ent_cert", label: "Certificación Fluke" },
-        { id: "wifi", label: "WiFi Profesional (Aulas)" },
-        { id: "audio", label: "Audio Escolar / Voceo" },
-        { id: "tv", label: "Pantallas TV / Aulas Media" }
-    ]
-};
+    };
+
+    inputs.forEach(input => {
+        if (input.id) {
+            datos[input.id] = (input.type === 'checkbox') ? input.checked : input.value;
+        }
+    });
+
+    const jsonString = JSON.stringify(datos, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    
+    let nombreCliente = (obtenerVal('cliente') || 'levantamiento').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    let fechaHoy = obtenerVal('fecha') || new Date().toISOString().split('T')[0];
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `levantamiento_${nombreCliente}_${fechaHoy}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function importarJSON(event) {
+    const archivo = event.target.files[0];
+    if (!archivo) return;
+
+    const lector = new FileReader();
+    lector.onload = function(e) {
+        try {
+            const datos = JSON.parse(e.target.result);
+            
+            // Validación de esquema básico de Bytecomtec
+            if (!datos.cliente && !datos.proyecto) {
+                throw new Error("Estructura JSON incompatible.");
+            }
+
+            for (const id in datos) {
+                const elemento = document.getElementById(id);
+                if (elemento) {
+                    if (elemento.type === 'checkbox') {
+                        elemento.checked = datos[id];
+                    } else {
+                        elemento.value = datos[id];
+                    }
+                }
+            }
+            alert("✓ Respaldo cargado con éxito. El formulario ha sido restaurado.");
+        } catch (error) {
+            alert("Error: El archivo seleccionado no tiene un formato de levantamiento válido de Bytecomtec.");
+        }
+    };
+    lector.readAsText(archivo);
+}
+
+function ejecutarImpresionClean() {
+    if (!validarFormularioSeguro()) return;
+
+    FormConfig.secciones.forEach(seccion => {
+        seccion.elementos.forEach(item => {
+            const elementoDOM = document.querySelector(`[data-chk="${item.id}"]`);
+            if (elementoDOM) {
+                if (!isChecked(item.id)) {
+                    elementoDOM.classList.add('no-print-row');
+                    elementoDOM.querySelectorAll('input, select').forEach(el => el.classList.add('is-empty'));
+                } else {
+                    elementoDOM.classList.remove('no-print-row');
+                    elementoDOM.querySelectorAll('input, select').forEach(el => el.classList.remove('is-empty'));
+                }
+            }
+        });
+    });
+    window.print();
+}
+
+function enviarWhatsApp() {
+    if (!validarFormularioSeguro()) return;
+
+    const cliente = obtenerVal('cliente');
+    if(!cliente) { alert("Ingrese el nombre de la escuela o cliente."); return; }
+
+    let msg = `*BYTECOMTEC - LEVANTAMIENTO INTEGRAL*%0A`;
+    msg += `-----------------------------------%0A`;
+    msg += `*Plantel:* ${cliente}%0A`;
+    msg += `*Proyecto:* ${obtenerVal('proyecto') || 'CCTV'}%0A`;
+    msg += `*Atendió:* ${obtenerVal('atendio')} (${obtenerVal('cargo')})%0A`;
+    msg += `*Fecha/Hora:* ${obtenerVal('fecha')} a las ${obtenerVal('hora')}%0A`;
+    msg += `*Internet:* Mod: ${obtenerVal('has_modem')} | Prov: ${obtenerVal('compania')} | Vel: ${obtenerVal('velocidad_internet')}%0A`;
+    msg += `*Realizó:* ${obtenerVal('ingeniero')}%0A`;
+    msg += `-----------------------------------%0A`;
+
+    // Procesamiento automatizado usando el catálogo estructurado de FormConfig
+    FormConfig.secciones.forEach(seccion => {
+        let lineasSeccion = [];
+        
+        seccion.elementos.forEach(item => {
+            if (isChecked(item.id)) {
+                const cantidad = item.cant ? (obtenerVal(item.cant) || '1') : '';
+                const especificacion = item.spec ? obtenerVal(item.spec) : '';
+                const notas = item.notes ? obtenerVal(item.notes) : '';
+                
+                let detalle = `${item.label}`;
+                if(cantidad || especificacion) {
+                    detalle += ` (${cantidad ? cantidad + 'pz' : ''}${cantidad && especificacion ? ' - ' : ''}${especificacion})`;
+                }
+                if(notas) {
+                    detalle += `: ${notas}`;
+                }
+                lineasSeccion.push(detalle);
+            }
+        });
+
+        if (lineasSeccion.length > 0) {
+            msg += `*${seccion.titulo}:*%0A• ${lineasSeccion.join('%0A• ')}%0A-----------------------------------%0A`;
+        }
+    });
+
+    // Procesamiento de Adicionales
+    let extras = [];
+    FormConfig.adicionales.forEach(item => {
+        if (isChecked(item.id)) extras.push(item.label);
+    });
+    
+    if (extras.length > 0) {
+        msg += `*8. ADICIONALES Y COMPLEMENTOS:*%0A${extras.join(", ")}%0A-----------------------------------%0A`;
+    }
+
+    msg += `_Formulario Unificado Bytecomtec 2026_`;
+    window.open(`https://wa.me/?text=${msg}`, '_blank');
+}
