@@ -252,10 +252,15 @@ function calcularAlmacenamientoBytecomtec() {
     // Extraer número del disco duro (ej: "10 TB" -> 10)
     let capacidadTB = parseInt(specHDD.match(/\d+/)) || 10;
 
-    // Asignar Bitrate según códec seleccionado
-    let bitrateKbps = 512; // H.265+ por defecto
-    if (tipoCompresion.includes('H.264')) bitrateKbps = 2048;
-    if (tipoCompresion.includes('H.265') && !tipoCompresion.includes('+')) bitrateKbps = 1024;
+    // Asignar Bitrate realista y seguro según códec seleccionado (Para 2MP)
+    let bitrateKbps = 1024; // H.265+ comercial inteligente (Promedio real)
+    if (tipoCompresion.includes('H.264')) {
+        bitrateKbps = 2048; // Estándar H.264 (Coincide con Hikvision)
+    } else if (tipoCompresion.includes('H.265') && !tipoCompresion.includes('+')) {
+        bitrateKbps = 1536; // Estándar H.265 sin optimizar
+    } else if (tipoCompresion.includes('H.265+')) {
+        bitrateKbps = 1024; // H.265+ optimizado de Bytecomtec
+    }
 
     // Algoritmo matemático para días de respaldo
     const gigabytesPorDisco = capacidadTB * 1000; 
