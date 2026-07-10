@@ -236,69 +236,76 @@ function enviarWhatsApp() {
 // FUNCIÓN DE CÁLCULO INDEPENDIENTE Y GLOBAL
 // ==========================================
 function calcularAlmacenamientoBytecomtec() {
-    console.log("Calculadora Multiresolución Bytecomtec iniciada...");
+    console.log("Calculadora Dinámica Bytecomtec para Domos y Bullets iniciada...");
 
     const notasHDD = document.getElementById('notes_hdd');
     const chkHDD = document.getElementById('req_hdd');
     const selectorHDD = document.getElementById('spec_hdd');
     const eCompresion = document.getElementById('calc_compresion');
 
+    // 1. Obtener valores de la infraestructura de almacenamiento y códec
     const specHDD = selectorHDD ? selectorHDD.value : "10 TB";
     const tipoCompresion = eCompresion ? eCompresion.value : 'H.265+';
     let capacidadTB = parseInt(specHDD.match(/\d+/)) || 10;
 
-    // 1. Matriz o Diccionario de Bitrates Estándar (Margen seguro a 15-20 FPS)
+    // 2. Diccionario de Bitrates Estándar por Megapíxel (Margen seguro a 15-20 FPS)
     // Estructura: [H.264, H.265 estándar, H.265+ optimizado]
     const matrizBitrates = {
-        2: [2048, 1536, 1024], // 2 Megapíxeles (1080P)
-        4: [4096, 3072, 2048], // 4 Megapíxeles (2K)
-        5: [5120, 3840, 2560], // 5 Megapíxeles
-        6: [6144, 4608, 3072], // 6 Megapíxeles
-        8: [8192, 6144, 4096]  // 8 Megapíxeles (4K Ultra HD)
+        "2MP":  [2048, 1536, 1024],
+        "4MP":  [4096, 3072, 2048],
+        "3K/5M":[5120, 3840, 2560],
+        "6MP":  [6144, 4608, 3072],
+        "8MP":  [8192, 6144, 4096],
+        "12MP": [12288, 9216, 6144]
     };
 
-    // 2. Determinar la columna del códec seleccionado
-    let columnaCodec = 2; // Por defecto H.265+ (Posición 2 del array)
+    // 3. Determinar columna del códec en base al string
+    let columnaCodec = 2; // H.265+ por defecto
     if (tipoCompresion.includes('H.264')) {
         columnaCodec = 0;
     } else if (tipoCompresion.includes('H.265') && !tipoCompresion.includes('+')) {
         columnaCodec = 1;
     }
 
-    // 3. Captura dinámica de los inputs de tu formulario
-    // Mapeamos el Megapíxel con el ID exacto que pusiste en tu HTML
-    const inventarioCamaras = [
-        { mp: 2, el: document.getElementById('cant_domo') || document.getElementById('cant_2mp') },
-        { mp: 4, el: document.getElementById('cant_4mp') || document.getElementById('cant_bullet_4mp') },
-        { mp: 5, el: document.getElementById('cant_5mp') },
-        { mp: 6, el: document.getElementById('cant_6mp') },
-        { mp: 8, el: document.getElementById('cant_8mp') || document.getElementById('cant_4k') }
-    ];
+    // 4. Capturar los elementos reales de tu HTML
+    const cantDomoEl = document.getElementById('cant_domo');
+    const supeDomoEl = document.getElementById('supe_domo');
+    const cantBulletEl = document.getElementById('cant_bullet');
+    const supeBulletEl = document.getElementById('supe_bullet');
 
-    // 4. Sumar el consumo de bits de todo el ecosistema instalado
+    // Extraer cantidades y resoluciones elegidas
+    const cantDomo = cantDomoEl ? (parseInt(cantDomoEl.value) || 0) : 0;
+    const resDomo = supeDomoEl ? supeDomoEl.value : "";
+
+    const cantBullet = cantBulletEl ? (parseInt(cantBulletEl.value) || 0) : 0;
+    const resBullet = supeBulletEl ? supeBulletEl.value : "";
+
+    // 5. Calcular el consumo de bits en caliente de forma combinada
     let bitsTotalesPorDia = 0;
     let resumenCamarasActivas = [];
 
-    inventarioCamaras.forEach(camara => {
-        const cantidad = camara.el ? (parseInt(camara.el.value) || 0) : 0;
-        if (cantidad > 0) {
-            // Obtener el bitrate correspondiente de la matriz; si no existe el MP, usa el de 2MP por respaldo
-            const bitrateConfigurado = matrizBitrates[camara.mp] ? matrizBitrates[camara.mp][columnaCodec] : matrizBitrates[2][columnaCodec];
-            
-            // Sumar al flujo diario
-            bitsTotalesPorDia += cantidad * (bitrateConfigurado * 1000) * 86400;
-            resumenCamarasActivas.push(`${cantidad} de ${camara.mp}MP`);
-        }
-    });
-
-    // Respaldar el cálculo clásico (25 cámaras de 2MP) si el usuario no ha escrito nada en el formulario
-    if (bitsTotalesPorDia === 0) {
-        const bitratePorDefecto = matrizBitrates[2][columnaCodec];
-        bitsTotalesPorDia = 25 * (bitratePorDefecto * 1000) * 86400;
-        resumenCamarasActivas.push(`25 de 2MP`);
+    // Procesar Domos si tienen cantidad y resolución
+    if (cantDomo > 0 && resDomo) {
+        const bitrateDomo = matrizBitrates[resDomo] ? matrizBitrates[resDomo][columnaCodec] : matrizBitrates["2MP"][columnaCodec];
+        bitsTotalesPorDia += cantDomo * (bitrateDomo * 1000) * 86400;
+        resumenCamarasActivas.push(`${cantDomo} Domos ${resDomo}`);
     }
 
-    // 5. Espacio neto real utilizable del disco (Conversión binaria estricta de 1024 y -5% de NVR)
+    // Procesar Bullets si tienen cantidad y resolución
+    if (cantBullet > 0 && resBullet) {
+        const bitrateBullet = matrizBitrates[resBullet] ? matrizBitrates[resBullet][columnaCodec] : matrizBitrates["2MP"][columnaCodec];
+        bitsTotalesPorDia += cantBullet * (bitrateBullet * 1000) * 86400;
+        resumenCamarasActivas.push(`${cantBullet} Bullets ${resBullet}`);
+    }
+
+    // Escenario de respaldo automático si el formulario se procesa vacío (25 cámaras de 2MP)
+    if (bitsTotalesPorDia === 0) {
+        const bitratePorDefecto = matrizBitrates["2MP"][columnaCodec];
+        bitsTotalesPorDia = 25 * (bitratePorDefecto * 1000) * 86400;
+        resumenCamarasActivas.push(`25 cáms 2MP`);
+    }
+
+    // 6. Espacio neto real utilizable del disco (Conversión binaria estricta de 1024 y -5% de NVR)
     const gigabytesUtiles = (capacidadTB * 931.32) * 0.95;
 
     // Convertir bits diarios consumidos totales a Gigabytes Binarios
@@ -307,7 +314,7 @@ function calcularAlmacenamientoBytecomtec() {
     // Calcular días netos seguros redondeando hacia abajo
     const diasCalculados = Math.floor(gigabytesUtiles / gigabytesConsumidosPorDia);
 
-    // 6. Imprimir resultado y pintar la interfaz para Bytecomtec
+    // 7. Imprimir resultado y estructurar texto para Bytecomtec
     if (notasHDD) {
         const desgloseFinal = resumenCamarasActivas.join(" + ");
         notasHDD.value = `${diasCalculados} días estimados (${desgloseFinal} con ${tipoCompresion}).`;
