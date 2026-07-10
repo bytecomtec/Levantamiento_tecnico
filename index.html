@@ -16,29 +16,43 @@
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
         .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
         label { display: block; margin: 6px 0 3px; font-weight: bold; font-size: 0.85rem; color: #444; }
-        input, textarea, select { width: 100%; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 0.9rem; background: #fff; }
-        input[type="checkbox"] { width: auto; margin-right: 8px; }
+        input, textarea, select { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 0.95rem; background: #fff; -webkit-appearance: none; }
+        input[type="checkbox"] { width: auto; margin-right: 8px; transform: scale(1.1); }
         .row-item { display: flex; align-items: center; background: #fafafa; padding: 8px; border-radius: 4px; border: 1px solid #eef; margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
         .row-item > div { flex: 1; min-width: 120px; }
-        .row-item > div.chk { flex: 0 0 auto; min-width: 180px; font-weight: 500; font-size: 0.85rem; }
+        .row-item > div.chk { flex: 0 0 auto; min-width: 180px; font-weight: 500; font-size: 0.9rem; }
         .checkbox-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-top: 8px; }
-        .checkbox-item { display: flex; align-items: center; background: #fafafa; padding: 8px; border-radius: 4px; border: 1px solid #eef; }
+        .checkbox-item { display: flex; align-items: center; background: #fafafa; padding: 10px; border-radius: 4px; border: 1px solid #eef; }
         
         .import-box { background: #eef4fa; border: 2px dashed #003366; padding: 12px; border-radius: 6px; margin-bottom: 15px; text-align: center; }
-        .import-box label { display: inline-block; background: #003366; color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-top: 5px; }
+        .import-box label { display: inline-block; background: #003366; color: white; padding: 8px 14px; border-radius: 4px; cursor: pointer; margin-top: 5px; font-weight: bold; }
         .import-box input[type="file"] { display: none; }
 
         .btn-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 15px; }
-        .btn { padding: 12px; border: none; border-radius: 5px; font-weight: bold; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); color: white; text-align: center; }
+        .btn { padding: 14px; border: none; border-radius: 5px; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); color: white; text-align: center; }
         .btn-wa { background: #25d366; }
         .btn-pdf { background: var(--blue); }
         .btn-json { background: #4a5568; }
         
-        .link-tools { display: inline-block; margin-top: 4px; font-size: 0.78rem; color: var(--orange); text-decoration: none; font-weight: bold; }
+        .link-tools { display: inline-block; margin-top: 4px; font-size: 0.8rem; color: var(--orange); text-decoration: none; font-weight: bold; }
         .link-tools:hover { text-decoration: underline; }
 
         .footer { text-align: center; font-size: 0.8rem; color: #666; padding: 15px; }
+
+        /* MEJORAS ESPECÍFICAS PARA CELULARES Y DISPOSITIVOS MÓVILES */
+        @media (max-width: 600px) {
+            body { padding: 5px; }
+            .card { padding: 12px; }
+            h2 { font-size: 1rem; }
+            .row-item { display: block; padding: 10px; }
+            .row-item > div { width: 100%; margin-bottom: 6px; }
+            .row-item > div.chk { font-weight: bold; margin-bottom: 8px; border-bottom: 1px dashed #ddd; padding-bottom: 4px; }
+            input, select, textarea { padding: 10px; font-size: 1rem; }
+            .btn { width: 100%; padding: 16px; font-size: 1.05rem; }
+            .checkbox-item { padding: 12px; }
+        }
         
+        /* OPTIMIZACIÓN EXCLUSIVA PARA LA IMPRESIÓN EN PDF */
         @media print {
             body { background: white; padding: 0; margin: 0; color: #000; font-size: 10pt; line-height: 1.2; }
             .container { max-width: 100%; padding: 0; margin: 0; box-shadow: none; }
@@ -56,6 +70,18 @@
             .grid-3 { grid-template-columns: 1fr 1fr 1fr !important; }
             .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr !important; }
             .data-field label, label { font-size: 0.85rem; color: #000; font-weight: bold; margin: 0; }
+            
+            /* Ocultar completamente la flecha de los desplegables en el PDF impreso */
+            select {
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
+                background-image: none !important;
+                background: transparent !important;
+                text-indent: 1px;
+                text-overflow: '';
+            }
+            
             .site-data-grid input, .site-data-grid select { border: none !important; padding: 1px 0 !important; font-size: 0.9rem; background: transparent !important; color: #222; font-family: inherit; margin-bottom: 2px; }
             .row-item { background: transparent !important; border: none !important; border-bottom: 1px dotted #DCDCDC !important; padding: 4px 0 !important; margin-bottom: 0 !important; border-radius: 0 !important; display: grid !important; grid-template-columns: 210px 45px 130px 1fr !important; gap: 8px !important; align-items: center !important; }
             .row-item > div { min-width: auto !important; }
@@ -165,7 +191,7 @@
             <div class="row-item" data-chk="req_hdd">
                 <div class="chk">
                     <input type="checkbox" id="req_hdd"> Discos Duros (CCTV)
-                    <a href="https://hitools.hikvision.com/HiToolsDesigner/#/toolBox?site=mx" target="_blank" class="link-tools">🧮 Calcular</a>
+                    <a href="https://hitools.hikvision.com/HiToolsDesigner/#/toolBox?site=mx" target="_blank" class="link-tools">🧮 Calcular Grabación (HiTools)</a>
                 </div>
                 <div><input type="number" id="cant_hdd" placeholder="Cant."></div>
                 <div>
