@@ -14,6 +14,7 @@
         h2 { color: var(--blue); font-size: 1.1rem; border-left: 4px solid var(--orange); padding-left: 10px; margin-top: 0; margin-bottom: 12px; text-transform: uppercase; }
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
         label { display: block; margin: 6px 0 3px; font-weight: bold; font-size: 0.85rem; color: #444; }
         input, textarea, select { width: 100%; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 0.9rem; background: #fff; }
         input[type="checkbox"] { width: auto; margin-right: 8px; }
@@ -33,12 +34,15 @@
         .btn-pdf { background: var(--blue); }
         .btn-json { background: #4a5568; }
         
+        .link-tools { display: inline-block; margin-top: 4px; font-size: 0.78rem; color: var(--orange); text-decoration: none; font-weight: bold; }
+        .link-tools:hover { text-decoration: underline; }
+
         .footer { text-align: center; font-size: 0.8rem; color: #666; padding: 15px; }
         
         @media print {
             body { background: white; padding: 0; margin: 0; color: #000; font-size: 10pt; line-height: 1.2; }
             .container { max-width: 100%; padding: 0; margin: 0; box-shadow: none; }
-            .btn-group, .footer, input[type="checkbox"], .import-box { display: none !important; }
+            .btn-group, .footer, input[type="checkbox"], .import-box, .link-tools { display: none !important; }
             .no-print-row, .is-empty { display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; padding: 0 !important; margin: 0 !important; border: none !important; }
             .header { background: transparent; color: #000; padding: 0 0 5px 0; border-radius: 0; text-align: right; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #004B87; margin-bottom: 10px; }
             .header img { display: block; position: static; transform: none; height: 55px; width: auto; }
@@ -50,6 +54,7 @@
             .site-data-grid { display: grid !important; gap: 4px 15px; margin-bottom: 4px; }
             .grid-2 { grid-template-columns: 1fr 1fr !important; }
             .grid-3 { grid-template-columns: 1fr 1fr 1fr !important; }
+            .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr !important; }
             .data-field label, label { font-size: 0.85rem; color: #000; font-weight: bold; margin: 0; }
             .site-data-grid input, .site-data-grid select { border: none !important; padding: 1px 0 !important; font-size: 0.9rem; background: transparent !important; color: #222; font-family: inherit; margin-bottom: 2px; }
             .row-item { background: transparent !important; border: none !important; border-bottom: 1px dotted #DCDCDC !important; padding: 4px 0 !important; margin-bottom: 0 !important; border-radius: 0 !important; display: grid !important; grid-template-columns: 210px 45px 130px 1fr !important; gap: 8px !important; align-items: center !important; }
@@ -98,15 +103,16 @@
                     <input type="text" id="direccion" placeholder="Dirección completa del plantel">
                 </div>
             </div>
-            <div class="site-data-grid grid-3">
+            <div class="site-data-grid grid-4">
                 <div class="data-field">
                     <label>Atendió por el Cliente:</label>
                     <input type="text" id="atendio" placeholder="Nombre del contacto">
                 </div>
                 <div class="data-field">
-                    <label>Cargo / Comité:</label>
+                    <label>Cargo:</label>
                     <select id="cargo">
                         <option value="">Seleccionar...</option>
+                        <option value="Responsable">Responsable</option>
                         <option value="Presidente(a) CEAP">Presidente(a) CEAP</option>
                         <option value="Tesorero(a) CEAP">Tesorero(a) CEAP</option>
                         <option value="Vocal">Vocal de Seguridad</option>
@@ -116,6 +122,10 @@
                 <div class="data-field">
                     <label>Fecha de Visita:</label>
                     <input type="date" id="fecha">
+                </div>
+                <div class="data-field">
+                    <label>Hora de Visita:</label>
+                    <input type="time" id="hora">
                 </div>
             </div>
             <div class="site-data-grid grid-2">
@@ -153,7 +163,10 @@
                 <div><input type="text" id="notes_dispositivo" placeholder="Canales / Marca / Especificaciones"></div>
             </div>
             <div class="row-item" data-chk="req_hdd">
-                <div class="chk"><input type="checkbox" id="req_hdd"> Discos Duros (CCTV)</div>
+                <div class="chk">
+                    <input type="checkbox" id="req_hdd"> Discos Duros (CCTV)
+                    <a href="https://hitools.hikvision.com/HiToolsDesigner/#/toolBox?site=mx" target="_blank" class="link-tools">🧮 Calcular Grabación (HiTools)</a>
+                </div>
                 <div><input type="number" id="cant_hdd" placeholder="Cant."></div>
                 <div>
                     <select id="spec_hdd" onchange="autoCheck('req_hdd', this)">
@@ -182,7 +195,13 @@
                         <option value="50 pulgadas">50 pulgadas</option>
                     </select>
                 </div>
-                <div><input type="text" id="notes_monitor" placeholder="Ubicación"></div>
+                <div>
+                    <select id="notes_monitor" onchange="autoCheck('req_monitor', this)">
+                        <option value="">Seleccionar...</option>
+                        <option value="Samsung">Samsung</option>
+                        <option value="Hikvision">Hikvision</option>
+                    </select>
+                </div>
             </div>
             <div class="row-item" data-chk="req_ext">
                 <div class="chk"><input type="checkbox" id="req_ext"> Extensor HDMI</div>
@@ -201,7 +220,13 @@
                         <option value="TT6834K 200m 1X1">TT6834K 200m 1X1</option>
                     </select>
                 </div>
-                <div><input type="text" id="notes_ext" placeholder="Notas"></div>
+                <div>
+                    <select id="notes_ext" onchange="autoCheck('req_ext', this)">
+                        <option value="">Seleccionar...</option>
+                        <option value="Epcom">Epcom</option>
+                        <option value="Aten">Aten</option>
+                    </select>
+                </div>
             </div>
             <div class="row-item" data-chk="req_gabinete">
                 <div class="chk"><input type="checkbox" id="req_gabinete"> Gabinete</div>
@@ -216,7 +241,13 @@
                         <option value="DVR/NVR D4R3">DVR/NVR D4R3</option>
                     </select>
                 </div>
-                <div><input type="text" id="notes_gabinete" placeholder="Notas de montaje"></div>
+                <div>
+                    <select id="notes_gabinete" onchange="autoCheck('req_gabinete', this)">
+                        <option value="">Seleccionar...</option>
+                        <option value="Instalación a 30cm del piso.">Instalación a 30cm del piso.</option>
+                        <option value="Instalación a 1.20m del piso">Instalación a 1.20m del piso</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -228,12 +259,17 @@
                 <div>
                     <select id="supe_domo" onchange="autoCheck('cam_domo', this)">
                         <option value="">Seleccionar...</option>
-                        <option value="Concreto">Concreto</option>
-                        <option value="Tablaroca">Tablaroca</option>
-                        <option value="Plafón">Plafón</option>
-                        <option value="Tubo">Tubo</option>
-                        <option value="Trabe">Trabe</option>
-                        <option value="Techo">Techo</option>
+                        <option value="2MP">2MP</option>
+                        <option value="4MP">4MP</option>
+                        <option value="3K/5M">3K/5M</option>
+                        <option value="6MP">6MP</option>
+                        <option value="8MP">8MP</option>
+                        <option value="12MP">12MP</option>
+                        <option value="16MP">16MP</option>
+                        <option value="20MP">20MP</option>
+                        <option value="32MP">32MP</option>
+                        <option value="64MP">64MP</option>
+                        <option value="8k">8k</option>
                     </select>
                 </div>
                 <div><input type="text" id="spec_domo" placeholder="Ubicación / Modelo"></div>
@@ -244,12 +280,17 @@
                 <div>
                     <select id="supe_bullet" onchange="autoCheck('cam_bullet', this)">
                         <option value="">Seleccionar...</option>
-                        <option value="Concreto">Concreto</option>
-                        <option value="Poste">Poste</option>
-                        <option value="Muro M">Muro Metálico</option>
-                        <option value="Tubo">Tubo</option>
-                        <option value="Trabe">Trabe</option>
-                        <option value="Techo">Techo</option>
+                        <option value="2MP">2MP</option>
+                        <option value="4MP">4MP</option>
+                        <option value="3K/5M">3K/5M</option>
+                        <option value="6MP">6MP</option>
+                        <option value="8MP">8MP</option>
+                        <option value="12MP">12MP</option>
+                        <option value="16MP">16MP</option>
+                        <option value="20MP">20MP</option>
+                        <option value="32MP">32MP</option>
+                        <option value="64MP">64MP</option>
+                        <option value="8k">8k</option>
                     </select>
                 </div>
                 <div><input type="text" id="spec_bullet" placeholder="Ubicación / Cobertura"></div>
@@ -318,11 +359,30 @@
                             <option value="Ubiquiti">Ubiquiti</option>
                         </select>
                     </div>
-                    <div><input type="text" id="notes_switch" placeholder="Puertos / Capacidad / Ubicación"></div>
+                    <div>
+                        <select id="notes_switch" onchange="autoCheck('net_switch', this)">
+                            <option value="">Seleccionar...</option>
+                            <option value="5 puertos">5 puertos</option>
+                            <option value="5 puertos+SFP">5 puertos+SFP</option>
+                            <option value="6 puertos">6 puertos</option>
+                            <option value="6 puertos+2SFP">6 puertos+2SFP</option>
+                            <option value="8 puertos">8 puertos</option>
+                            <option value="8 puertos+2SFP">8 puertos+2SFP</option>
+                            <option value="10 puertos">10 puertos</option>
+                            <option value="12 puertos-SFP">12 puertos-SFP</option>
+                            <option value="16 puertos">16 puertos</option>
+                            <option value="16 puertos+SFP">16 puertos+SFP</option>
+                            <option value="24 puertos">24 puertos</option>
+                            <option value="24 puertos+SFP">24 puertos+SFP</option>
+                            <option value="32 puertos">32 puertos</option>
+                            <option value="48 puertos+SFP">48 puertos+SFP</option>
+                            <option value="52 puertos">52 puertos</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="row-item" data-chk="net_cable">
                     <div class="chk"><input type="checkbox" id="net_cable"> Cable</div>
-                    <div><input type="number" id="cant_cable" placeholder="Cant. (Bobinas/m)"></div>
+                    <div><input type="number" id="cant_cable" placeholder="Cant."></div>
                     <div>
                         <select id="spec_cable" onchange="autoCheck('net_cable', this)">
                             <option value="">Seleccionar...</option>
@@ -333,10 +393,23 @@
                             <option value="Panduit">Panduit</option>
                         </select>
                     </div>
-                    <div><input type="text" id="notes_cable" placeholder="Categoría / Notas"></div>
+                    <div>
+                        <select id="notes_cable" onchange="autoCheck('net_cable', this)">
+                            <option value="">Seleccionar...</option>
+                            <option value="305m 100% Cobre">305m 100% Cobre</option>
+                            <option value="305m 100% Cobre blindado">305m 100% Cobre blindado</option>
+                            <option value="305m 100% Alucobre">305m 100% Alucobre</option>
+                            <option value="100% Cobre">100% Cobre</option>
+                            <option value="100m 100% Cobre blindado">100m 100% Cobre blindado</option>
+                            <option value="100m 100% Alucobre">100m 100% Alucobre</option>
+                            <option value="152m 100% Cobre">152m 100% Cobre</option>
+                            <option value="152m 100% Cobre blindado">152m 100% Cobre blindado</option>
+                            <option value="152m 100% Alucobre">152m 100% Alucobre</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="row-item" data-chk="net_transceptores">
-                    <div class="chk"><input type="checkbox" id="net_transceptores"> Transceptores</div>
+                    <div class="chk"><input type="checkbox" id="net_transceptores"> Transceptor / Video</div>
                     <div><input type="number" id="cant_transceptores" placeholder="Cant."></div>
                     <div>
                         <select id="spec_transceptores" onchange="autoCheck('net_transceptores', this)">
@@ -348,7 +421,14 @@
                             <option value="DS-1H18S/EC Hik">DS-1H18S/EC Hik</option>
                         </select>
                     </div>
-                    <div><input type="text" id="notes_transceptores" placeholder="Notas"></div>
+                    <div>
+                        <select id="notes_transceptores" onchange="autoCheck('net_transceptores', this)">
+                            <option value="">Seleccionar...</option>
+                            <option value="Epcom Titanium">Epcom Titanium</option>
+                            <option value="Hilook">Hilook</option>
+                            <option value="Hikvision">Hikvision</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="row-item" data-chk="net_jacks_dc">
                     <div class="chk"><input type="checkbox" id="net_jacks_dc"> Jacks-DC-Power</div>
@@ -362,10 +442,10 @@
                             <option value="JR53X">JR53X</option>
                         </select>
                     </div>
-                    <div><input type="text" id="notes_jacks_dc" placeholder="Notas"></div>
+                    <div><input type="text" id="notes_jacks_dc" value="LinkedPro" placeholder="Notas"></div>
                 </div>
                 <div class="row-item" data-chk="net_conectores">
-                    <div class="chk"><input type="checkbox" id="net_conectores"> Plugs / Jacks / Patch</div>
+                    <div class="chk"><input type="checkbox" id="net_conectores"> Plugs</div>
                     <div><input type="number" id="cant_conectores" placeholder="Cant."></div>
                     <div>
                         <select id="spec_conectores" onchange="autoCheck('net_conectores', this)">
@@ -376,7 +456,7 @@
                             <option value="TC6S-PASS">TC6S-PASS</option>
                         </select>
                     </div>
-                    <div><input type="text" id="notes_conectores" placeholder="Notas"></div>
+                    <div><input type="text" id="notes_conectores" value="LinkedPro" placeholder="Notas"></div>
                 </div>
             </div>
         </div>
@@ -390,7 +470,7 @@
                 <div><input type="text" id="notes_fo_liu" placeholder="Notas"></div>
             </div>
             <div class="row-item" data-chk="fo_conv">
-                <div class="chk"><input type="checkbox" id="fo_conv"> Convertidores Medios</div>
+                <div class="chk"><input type="checkbox" id="fo_conv"> Convertidor de medios</div>
                 <div><input type="number" id="cant_fo_conv" placeholder="Cant."></div>
                 <div>
                     <select id="spec_fo_conv" onchange="autoCheck('fo_conv', this)">
@@ -400,7 +480,14 @@
                         <option value="XT-705A">XT-705A</option>
                     </select>
                 </div>
-                <div><input type="text" id="notes_fo_conv" placeholder="Notas"></div>
+                <div>
+                    <select id="notes_fo_conv" onchange="autoCheck('fo_conv', this)">
+                        <option value="">Seleccionar...</option>
+                        <option value="TP-Link">TP-Link</option>
+                        <option value="LinkedPro">LinkedPro</option>
+                        <option value="Wi-Tek">Wi-Tek</option>
+                    </select>
+                </div>
             </div>
             <div class="row-item" data-chk="fo_cajas">
                 <div class="chk"><input type="checkbox" id="fo_cajas"> Cajas Fibra Óptica</div>
@@ -412,7 +499,7 @@
                         <option value="LP-FOFB">LP-FOFB</option>
                     </select>
                 </div>
-                <div><input type="text" id="notes_fo_cajas" placeholder="Notas"></div>
+                <div><input type="text" id="notes_fo_cajas" value="FiberHome" placeholder="Notas"></div>
             </div>
             <div class="row-item" data-chk="fo_pigtails">
                 <div class="chk"><input type="checkbox" id="fo_pigtails"> Pig Tails</div>
@@ -425,7 +512,7 @@
                         <option value="LPSM3LCULCUS1">LPSM3LCULCUS1</option>
                     </select>
                 </div>
-                <div><input type="text" id="notes_fo_pigtails" placeholder="Notas"></div>
+                <div><input type="text" id="notes_fo_pigtails" value="LinkedPro" placeholder="Notas"></div>
             </div>
             <div class="row-item" data-chk="fo_cable">
                 <div class="chk"><input type="checkbox" id="fo_cable"> Cable Fibra Óptica</div>
@@ -682,6 +769,24 @@
 </div>
 
 <script>
+    // Asignación automática de fecha del día actual y hora actual al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+        const ahora = new Date();
+        
+        // Formato YYYY-MM-DD
+        const anio = ahora.getFullYear();
+        const mes = String(ahora.getMonth() + 1).padStart(2, '0');
+        const dia = String(ahora.getDate()).padStart(2, '0');
+        const fechaInput = document.getElementById('fecha');
+        if (fechaInput) fechaInput.value = `${anio}-${mes}-${dia}`;
+        
+        // Formato HH:MM
+        const horas = String(ahora.getHours()).padStart(2, '0');
+        const minutos = String(ahora.getMinutes()).padStart(2, '0');
+        const horaInput = document.getElementById('hora');
+        if (horaInput) horaInput.value = `${horas}:${minutos}`;
+    });
+
     function obtenerVal(id) {
         const el = document.getElementById(id);
         return el ? el.value.trim() : '';
@@ -811,6 +916,7 @@
         msg += `*Plantel:* ${cliente}%0A`;
         msg += `*Proyecto:* ${obtenerVal('proyecto') || 'CCTV'}%0A`;
         msg += `*Atendió:* ${obtenerVal('atendio')} (${obtenerVal('cargo')})%0A`;
+        msg += `*Fecha/Hora:* ${obtenerVal('fecha')} a las ${obtenerVal('hora')}%0A`;
         msg += `*Internet:* Mod: ${obtenerVal('has_modem')} | Prov: ${obtenerVal('compania')} | Vel: ${obtenerVal('velocidad_internet')}%0A`;
         msg += `*Realizó:* ${obtenerVal('ingeniero')}%0A`;
         msg += `-----------------------------------%0A`;
@@ -834,14 +940,14 @@
         let c3 = [];
         if(isChecked('net_switch')) c3.push(`Switch (${obtenerVal('cant_switch')}pz - ${obtenerVal('spec_switch')}): ${obtenerVal('notes_switch')}`);
         if(isChecked('net_cable')) c3.push(`Cable (${obtenerVal('cant_cable')} - ${obtenerVal('spec_cable')}): ${obtenerVal('notes_cable')}`);
-        if(isChecked('net_transceptores')) c3.push(`Transceptores (${obtenerVal('cant_transceptores')}pz - ${obtenerVal('spec_transceptores')}): ${obtenerVal('notes_transceptores')}`);
+        if(isChecked('net_transceptores')) c3.push(`Transceptor/Video (${obtenerVal('cant_transceptores')}pz - ${obtenerVal('spec_transceptores')}): ${obtenerVal('notes_transceptores')}`);
         if(isChecked('net_jacks_dc')) c3.push(`Jacks DC Power (${obtenerVal('cant_jacks_dc')}pz - ${obtenerVal('spec_jacks_dc')}): ${obtenerVal('notes_jacks_dc')}`);
-        if(isChecked('net_conectores')) c3.push(`Plugs/Jacks/Patch (${obtenerVal('cant_conectores')}pz - ${obtenerVal('spec_conectores')}): ${obtenerVal('notes_conectores')}`);
+        if(isChecked('net_conectores')) c3.push(`Plugs (${obtenerVal('cant_conectores')}pz - ${obtenerVal('spec_conectores')}): ${obtenerVal('notes_conectores')}`);
         if(c3.length > 0) msg += `*3. RED Y CONECTIVIDAD:*%0A• ${c3.join('%0A• ')}%0A-----------------------------------%0A`;
 
         let c4 = [];
         if(isChecked('fo_liu')) c4.push(`ODF/LIU (${obtenerVal('cant_fo_liu')}): ${obtenerVal('spec_fo_liu')}`);
-        if(isChecked('fo_conv')) c4.push(`Conv. Medios (${obtenerVal('cant_fo_conv')}pz - ${obtenerVal('spec_fo_conv')}): ${obtenerVal('notes_fo_conv')}`);
+        if(isChecked('fo_conv')) c4.push(`Convertidor de medios (${obtenerVal('cant_fo_conv')}pz - ${obtenerVal('spec_fo_conv')}): ${obtenerVal('notes_fo_conv')}`);
         if(isChecked('fo_cajas')) c4.push(`Cajas FO (${obtenerVal('cant_fo_cajas')}pz - ${obtenerVal('spec_fo_cajas')}): ${obtenerVal('notes_fo_cajas')}`);
         if(isChecked('fo_pigtails')) c4.push(`Pig Tails (${obtenerVal('cant_fo_pigtails')}pz - ${obtenerVal('spec_fo_pigtails')}): ${obtenerVal('notes_fo_pigtails')}`);
         if(isChecked('fo_cable')) c4.push(`Cable FO: ${obtenerVal('cant_fo_cable')} rollos - ${obtenerVal('spec_fo_cable')} (${obtenerVal('notes_fo_cable')})`);
