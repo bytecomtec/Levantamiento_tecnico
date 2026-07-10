@@ -236,51 +236,82 @@ function enviarWhatsApp() {
 // FUNCIÓN DE CÁLCULO INDEPENDIENTE Y GLOBAL
 // ==========================================
 function calcularAlmacenamientoBytecomtec() {
-    console.log("Calculadora Bytecomtec llamada con éxito desde el botón.");
+    console.log("Calculadora Multiresolución Bytecomtec iniciada...");
 
     const notasHDD = document.getElementById('notes_hdd');
     const chkHDD = document.getElementById('req_hdd');
     const selectorHDD = document.getElementById('spec_hdd');
     const eCompresion = document.getElementById('calc_compresion');
-    const inputCamas = document.getElementById('cant_domo');
 
-    // Forzar valores por si hay datos vacíos
-    const totalCamaras = inputCamas ? (parseInt(inputCamas.value) || 0) : 25;
     const specHDD = selectorHDD ? selectorHDD.value : "10 TB";
     const tipoCompresion = eCompresion ? eCompresion.value : 'H.265+';
-
-    // Extraer número del disco duro (ej: "10 TB" -> 10)
     let capacidadTB = parseInt(specHDD.match(/\d+/)) || 10;
 
-    // 1. Convertir TB comerciales a Gigabytes Binarios Reales (1 TB comercial = ~931.32 GB Reales en OS)
-    const gigabytesPorDisco = capacidadTB * 931.32; 
+    // 1. Matriz o Diccionario de Bitrates Estándar (Margen seguro a 15-20 FPS)
+    // Estructura: [H.264, H.265 estándar, H.265+ optimizado]
+    const matrizBitrates = {
+        2: [2048, 1536, 1024], // 2 Megapíxeles (1080P)
+        4: [4096, 3072, 2048], // 4 Megapíxeles (2K)
+        5: [5120, 3840, 2560], // 5 Megapíxeles
+        6: [6144, 4608, 3072], // 6 Megapíxeles
+        8: [8192, 6144, 4096]  // 8 Megapíxeles (4K Ultra HD)
+    };
 
-    // 2. Restar 5% de espacio reservado para la base de datos e indexación del grabador (NVR/DVR)
-    const gigabytesUtiles = gigabytesPorDisco * 0.95;
-
-    // 3. Asignar Bitrate realista y seguro según códec seleccionado (Para 2MP)
-    let bitrateKbps = 1024; // H.265+ comercial inteligente (Promedio real)
+    // 2. Determinar la columna del códec seleccionado
+    let columnaCodec = 2; // Por defecto H.265+ (Posición 2 del array)
     if (tipoCompresion.includes('H.264')) {
-        bitrateKbps = 2048; // Estándar H.264 (Coincide exactamente con Hikvision)
+        columnaCodec = 0;
     } else if (tipoCompresion.includes('H.265') && !tipoCompresion.includes('+')) {
-        bitrateKbps = 1536; // Estándar H.265 sin optimizar
-    } else if (tipoCompresion.includes('H.265+')) {
-        bitrateKbps = 1024; // H.265+ optimizado base segura para escenas dinámicas
+        columnaCodec = 1;
     }
 
-    // 4. Algoritmo matemático para días de respaldo binario estricto
-    const bitsTotalesPorDia = totalCamaras * (bitrateKbps * 1000) * 86400;
-    
-    // Convertir bits diarios consumidos a Gigabytes Binarios (Bits / 8 / 1024^3)
+    // 3. Captura dinámica de los inputs de tu formulario
+    // Mapeamos el Megapíxel con el ID exacto que pusiste en tu HTML
+    const inventarioCamaras = [
+        { mp: 2, el: document.getElementById('cant_domo') || document.getElementById('cant_2mp') },
+        { mp: 4, el: document.getElementById('cant_4mp') || document.getElementById('cant_bullet_4mp') },
+        { mp: 5, el: document.getElementById('cant_5mp') },
+        { mp: 6, el: document.getElementById('cant_6mp') },
+        { mp: 8, el: document.getElementById('cant_8mp') || document.getElementById('cant_4k') }
+    ];
+
+    // 4. Sumar el consumo de bits de todo el ecosistema instalado
+    let bitsTotalesPorDia = 0;
+    let resumenCamarasActivas = [];
+
+    inventarioCamaras.forEach(camara => {
+        const cantidad = camara.el ? (parseInt(camara.el.value) || 0) : 0;
+        if (cantidad > 0) {
+            // Obtener el bitrate correspondiente de la matriz; si no existe el MP, usa el de 2MP por respaldo
+            const bitrateConfigurado = matrizBitrates[camara.mp] ? matrizBitrates[camara.mp][columnaCodec] : matrizBitrates[2][columnaCodec];
+            
+            // Sumar al flujo diario
+            bitsTotalesPorDia += cantidad * (bitrateConfigurado * 1000) * 86400;
+            resumenCamarasActivas.push(`${cantidad} de ${camara.mp}MP`);
+        }
+    });
+
+    // Respaldar el cálculo clásico (25 cámaras de 2MP) si el usuario no ha escrito nada en el formulario
+    if (bitsTotalesPorDia === 0) {
+        const bitratePorDefecto = matrizBitrates[2][columnaCodec];
+        bitsTotalesPorDia = 25 * (bitratePorDefecto * 1000) * 86400;
+        resumenCamarasActivas.push(`25 de 2MP`);
+    }
+
+    // 5. Espacio neto real utilizable del disco (Conversión binaria estricta de 1024 y -5% de NVR)
+    const gigabytesUtiles = (capacidadTB * 931.32) * 0.95;
+
+    // Convertir bits diarios consumidos totales a Gigabytes Binarios
     const gigabytesConsumidosPorDia = bitsTotalesPorDia / 8 / 1024 / 1024 / 1024;
-    
-    // Calcular días netos redondeando hacia abajo por seguridad institucional
+
+    // Calcular días netos seguros redondeando hacia abajo
     const diasCalculados = Math.floor(gigabytesUtiles / gigabytesConsumidosPorDia);
 
-    // 5. Imprimir resultado y dar confirmación visual en pantalla
+    // 6. Imprimir resultado y pintar la interfaz para Bytecomtec
     if (notasHDD) {
-        notasHDD.value = `${diasCalculados} días estimados (${totalCamaras} cáms con ${tipoCompresion}).`;
-        notasHDD.style.backgroundColor = "#def7ec"; // Fondo verde de éxito
+        const desgloseFinal = resumenCamarasActivas.join(" + ");
+        notasHDD.value = `${diasCalculados} días estimados (${desgloseFinal} con ${tipoCompresion}).`;
+        notasHDD.style.backgroundColor = "#def7ec"; 
         notasHDD.style.color = "#03543f";
     }
 
