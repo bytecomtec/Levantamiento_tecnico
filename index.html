@@ -23,12 +23,10 @@
         .checkbox-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-top: 8px; }
         .checkbox-item { display: flex; align-items: center; background: #fafafa; padding: 8px; border-radius: 4px; border: 1px solid #eef; }
         
-        /* Área de carga de archivos JSON */
         .import-box { background: #eef4fa; border: 2px dashed #003366; padding: 12px; border-radius: 6px; margin-bottom: 15px; text-align: center; }
         .import-box label { display: inline-block; background: #003366; color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-top: 5px; }
         .import-box input[type="file"] { display: none; }
 
-        /* Botones extendidos */
         .btn-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 15px; }
         .btn { padding: 12px; border: none; border-radius: 5px; font-weight: bold; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); color: white; text-align: center; }
         .btn-wa { background: #25d366; }
@@ -58,7 +56,6 @@
             .row-item > div { min-width: auto !important; }
             .row-item > div.chk { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
             .row-item input, .row-item select { border: none !important; background: transparent !important; padding: 0 !important; font-size: 0.9rem; font-family: inherit; color: #222; }
-            #card_conectividad { border: none !important; padding: 0 !important; margin-top: 5px; background: transparent !important; }
             .checkbox-group { grid-template-columns: 1fr 1fr !important; gap: 4px 15px !important; margin-top: 4px; }
             .checkbox-item { background: transparent !important; border: none !important; padding: 1px 0 !important; }
             .checkbox-item label { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
@@ -138,17 +135,19 @@
 
         <div class="card">
             <h2>1. Tecnología y Grabación</h2>
-            <div class="row-item" data-chk="req_nvr">
-                <div class="chk"><input type="checkbox" id="req_nvr"> NVR (Grabador IP)</div>
-                <div><input type="number" id="cant_nvr" placeholder="Cant."></div>
-                <div><input type="text" id="spec_nvr" placeholder="Canales / Marca"></div>
-                <div><input type="text" id="notes_nvr" placeholder="Notas de campo"></div>
-            </div>
-            <div class="row-item" data-chk="req_dvr">
-                <div class="chk"><input type="checkbox" id="req_dvr"> DVR/XXVR (Híbrido)</div>
-                <div><input type="number" id="cant_dvr" placeholder="Cant."></div>
-                <div><input type="text" id="spec_dvr" placeholder="Canales"></div>
-                <div><input type="text" id="notes_dvr" placeholder="Notas de campo"></div>
+            <div class="row-item" data-chk="req_dispositivo">
+                <div class="chk"><input type="checkbox" id="req_dispositivo"> Dispositivo</div>
+                <div><input type="number" id="cant_dispositivo" placeholder="Cant."></div>
+                <div>
+                    <select id="spec_dispositivo">
+                        <option value="NVR">NVR</option>
+                        <option value="DVR">DVR</option>
+                        <option value="NVS">NVS</option>
+                        <option value="XVR">XVR</option>
+                        <option value="XMR">XMR</option>
+                    </select>
+                </div>
+                <div><input type="text" id="notes_dispositivo" placeholder="Canales / Marca / Especificaciones"></div>
             </div>
             <div class="row-item" data-chk="req_hdd">
                 <div class="chk"><input type="checkbox" id="req_hdd"> Discos Duros (CCTV)</div>
@@ -178,11 +177,19 @@
                 <div><input type="text" id="spec_ext" placeholder="Distancia aprox."></div>
                 <div><input type="text" id="notes_ext" placeholder="Notas"></div>
             </div>
-            <div class="row-item" data-chk="req_rack">
-                <div class="chk"><input type="checkbox" id="req_rack"> Gabinete / Rack</div>
-                <div><input type="number" id="cant_rack" placeholder="Cant."></div>
-                <div><input type="text" id="spec_rack" placeholder="Medidas / U"></div>
-                <div><input type="text" id="notes_rack" placeholder="Pared o Piso"></div>
+            <div class="row-item" data-chk="req_gabinete">
+                <div class="chk"><input type="checkbox" id="req_gabinete"> Gabinete</div>
+                <div><input type="number" id="cant_gabinete" placeholder="Cant."></div>
+                <div>
+                    <select id="spec_gabinete">
+                        <option value="Pared 6U">Pared 6U</option>
+                        <option value="Pared 9U">Pared 9U</option>
+                        <option value="DVR/NVR D1R3">DVR/NVR D1R3</option>
+                        <option value="DVR/NVR D2R3">DVR/NVR D2R3</option>
+                        <option value="DVR/NVR D4R3">DVR/NVR D4R3</option>
+                    </select>
+                </div>
+                <div><input type="text" id="notes_gabinete" placeholder="Notas de montaje"></div>
             </div>
         </div>
 
@@ -238,7 +245,7 @@
             </div>
         </div>
 
-        <div class="card" id="card_conectividad">
+        <div class="card">
             <h2>3. Conectividad, Red y Cableado</h2>
             <div class="site-data-grid grid-2" style="margin-bottom: 8px;">
                 <div class="data-field">
@@ -251,35 +258,34 @@
                 </div>
             </div>
             <div>
-                <div class="row-item" data-chk="net_sw_poe_sin">
-                    <div class="chk"><input type="checkbox" id="net_sw_poe_sin"> Switch PoE S/Admin</div>
-                    <div><input type="number" id="cant_sw_poe_sin" placeholder="Cant."></div>
-                    <div><input type="text" id="spec_sw_poe_sin" placeholder="Puertos / Modelo"></div>
-                    <div><input type="text" id="notes_sw_poe_sin" placeholder="Notas"></div>
+                <div class="row-item" data-chk="net_switch">
+                    <div class="chk"><input type="checkbox" id="net_switch"> Switch</div>
+                    <div><input type="number" id="cant_switch" placeholder="Cant."></div>
+                    <div>
+                        <select id="spec_switch">
+                            <option value="Switch convencional">Switch convencional</option>
+                            <option value="Switch PoE Administrable">Switch PoE Administrable</option>
+                            <option value="Switch PoE Sin Administración">Switch PoE Sin Administración</option>
+                            <option value="Switch PoE Exterior Sin Administración">Switch PoE Exterior Sin Administración</option>
+                            <option value="Switch PoE">Switch PoE</option>
+                        </select>
+                    </div>
+                    <div><input type="text" id="notes_switch" placeholder="Puertos / Capacidad / Ubicación"></div>
                 </div>
-                <div class="row-item" data-chk="net_sw_poe_adm">
-                    <div class="chk"><input type="checkbox" id="net_sw_poe_adm"> Switch PoE Admin</div>
-                    <div><input type="number" id="cant_sw_poe_adm" placeholder="Cant."></div>
-                    <div><input type="text" id="spec_sw_poe_adm" placeholder="Especificaciones"></div>
-                    <div><input type="text" id="notes_sw_poe_adm" placeholder="Notas"></div>
-                </div>
-                <div class="row-item" data-chk="net_sw_core">
-                    <div class="chk"><input type="checkbox" id="net_sw_core"> Switch Core (Rack)</div>
-                    <div><input type="number" id="cant_sw_core" placeholder="Cant."></div>
-                    <div><input type="text" id="spec_sw_core" placeholder="Puertos SFP"></div>
-                    <div><input type="text" id="notes_sw_core" placeholder="Notas"></div>
-                </div>
-                <div class="row-item" data-chk="net_utp">
-                    <div class="chk"><input type="checkbox" id="net_utp"> UTP Cat6/Cat5e</div>
-                    <div><input type="number" id="cant_utp" placeholder="Bobinas"></div>
-                    <div><input type="text" id="spec_utp" placeholder="Categoría / Marca"></div>
-                    <div><input type="text" id="notes_utp" placeholder="Notas"></div>
-                </div>
-                <div class="row-item" data-chk="net_ftp">
-                    <div class="chk"><input type="checkbox" id="net_ftp"> FTP/STP Cat6 Exterior</div>
-                    <div><input type="number" id="cant_ftp" placeholder="Bobinas"></div>
-                    <div><input type="text" id="spec_ftp" placeholder="Doble forro"></div>
-                    <div><input type="text" id="notes_ftp" placeholder="Notas"></div>
+                <div class="row-item" data-chk="net_cable">
+                    <div class="chk"><input type="checkbox" id="net_cable"> Cable</div>
+                    <div><input type="number" id="cant_cable" placeholder="Cant. (Bobinas/m)"></div>
+                    <div>
+                        <select id="spec_cable">
+                            <option value="UTP 5e Int.">UTP 5e Int.</option>
+                            <option value="UTP 5e Ext.">UTP 5e Ext.</option>
+                            <option value="UTP 6 Int.">UTP 6 Int.</option>
+                            <option value="UTP 6 Ext">UTP 6 Ext</option>
+                            <option value="FTP Cat 5e">FTP Cat 5e</option>
+                            <option value="FTP Cat 6">FTP Cat 6</option>
+                        </select>
+                    </div>
+                    <div><input type="text" id="notes_cable" placeholder="Marca / Observaciones"></div>
                 </div>
                 <div class="row-item" data-chk="net_transceptores">
                     <div class="chk"><input type="checkbox" id="net_transceptores"> Transceptores</div>
@@ -374,11 +380,18 @@
                 <div><input type="text" id="spec_mat_canaleta" placeholder="Medida / Adhesivo"></div>
                 <div><input type="text" id="notes_mat_canaleta" placeholder="Notas"></div>
             </div>
-            <div class="row-item" data-chk="mat_cajas">
-                <div class="chk"><input type="checkbox" id="mat_cajas"> Cajas de Registro (FS)</div>
-                <div><input type="number" id="cant_mat_cajas" placeholder="Cant."></div>
-                <div><input type="text" id="spec_mat_cajas" placeholder="Metálica / IP65"></div>
-                <div><input type="text" id="notes_mat_cajas" placeholder="Notas"></div>
+            <div class="row-item" data-chk="mat_caja">
+                <div class="chk"><input type="checkbox" id="mat_caja"> Caja</div>
+                <div><input type="number" id="cant_mat_caja" placeholder="Cant."></div>
+                <div>
+                    <select id="spec_mat_caja">
+                        <option value="LP-WBX-100">LP-WBX-100</option>
+                        <option value="GW-44-003">GW-44-003</option>
+                        <option value="GW44004 Tornillo">GW44004 Tornillo</option>
+                        <option value="GW44024 Media Vuelta">GW44024 Media Vuelta</option>
+                    </select>
+                </div>
+                <div><input type="text" id="notes_mat_caja" placeholder="Ubicación / Notas"></div>
             </div>
             <div class="row-item" data-chk="mat_miscelaneos">
                 <div class="chk"><input type="checkbox" id="mat_miscelaneos"> Misceláneos / Fijación</div>
@@ -388,7 +401,7 @@
         </div>
 
         <div class="card">
-            <h2>6. Respaldo de Energía y Protección</h2>
+            <h2>6. Respaldo de Energía y Protection</h2>
             <div class="row-item" data-chk="pwr_fuente">
                 <div class="chk"><input type="checkbox" id="pwr_fuente"> Fuente de Poder</div>
                 <div><input type="number" id="cant_pwr_fuente" placeholder="Cant."></div>
@@ -434,8 +447,16 @@
             <h2>7. Mano de Obra y Servicios Profesionales</h2>
             <div class="row-item" data-chk="srv_inst">
                 <div class="chk"><input type="checkbox" id="srv_inst"> Instalación Física</div>
-                <div>-</div>
-                <div style="grid-column: span 2;"><input type="text" id="spec_srv_inst" placeholder="Canalización, tendido y montaje"></div>
+                <div style="grid-column: span 3;">
+                    <select id="spec_srv_inst">
+                        <option value="Cable tendido, sin canalizar.">Cable tendido, sin canalizar.</option>
+                        <option value="Cableado tendido parcialidad Gewiss">Cableado tendido parcialidad Gewiss</option>
+                        <option value="Cableado con canalización interna">Cableado con canalización interna</option>
+                        <option value="Cableado con tubería Gewiss">Cableado con tubería Gewiss</option>
+                        <option value="Cableado tubería pared ligera">Cableado tubería pared ligera</option>
+                        <option value="Cableado tubería pared gruesa">Cableado tubería pared gruesa</option>
+                    </select>
+                </div>
             </div>
             <div class="row-item" data-chk="srv_fusion">
                 <div class="chk"><input type="checkbox" id="srv_fusion"> Fusión Fibra Óptica</div>
@@ -444,23 +465,44 @@
             </div>
             <div class="row-item" data-chk="srv_vlan">
                 <div class="chk"><input type="checkbox" id="srv_vlan"> Red y VLANs</div>
-                <div>-</div>
-                <div style="grid-column: span 2;"><input type="text" id="spec_srv_vlan" placeholder="Red independiente o integración TI"></div>
+                <div style="grid-column: span 3;">
+                    <select id="spec_srv_vlan">
+                        <option value="Sin configuración específica">Sin configuración específica</option>
+                        <option value="Configuración Modem para segmentación IP's para cámaras IP">Configuración Modem para segmentación IP's para cámaras IP</option>
+                        <option value="Configuración Vlans">Configuración Vlans</option>
+                    </select>
+                </div>
             </div>
             <div class="row-item" data-chk="srv_nvr">
                 <div class="chk"><input type="checkbox" id="srv_nvr"> Configuración NVR/DVR</div>
-                <div>-</div>
-                <div style="grid-column: span 2;"><input type="text" id="spec_srv_nvr" placeholder="Resolución, FPS, analíticas"></div>
+                <div style="grid-column: span 3;">
+                    <select id="spec_srv_nvr">
+                        <option value="Configuración básica">Configuración básica</option>
+                        <option value="Configuración horario, alerta y cruce de línea">Configuración horario, alerta y cruce de línea</option>
+                    </select>
+                </div>
             </div>
             <div class="row-item" data-chk="srv_remoto">
                 <div class="chk"><input type="checkbox" id="srv_remoto"> Acceso Remoto</div>
-                <div>-</div>
-                <div style="grid-column: span 2;"><input type="text" id="spec_srv_remoto" placeholder="App móvil / Software PC"></div>
+                <div style="grid-column: span 3;">
+                    <select id="spec_srv_remoto">
+                        <option value="Desactivación de Hik-Connect">Desactivación de Hik-Connect</option>
+                        <option value="Alta y configuración de plataforma Hik-Connect">Alta y configuración de plataforma Hik-Connect</option>
+                        <option value="Creación de Hik-Connect y compartir App.">Creación de Hik-Connect y compartir App.</option>
+                        <option value="Alta y configuración IVMS-4200 para PC">Alta y configuración IVMS-4200 para PC</option>
+                        <option value="Alta y configuración plataformas a SmartTV">Alta y configuración plataformas a SmartTV</option>
+                    </select>
+                </div>
             </div>
             <div class="row-item" data-chk="srv_alturas">
                 <div class="chk"><input type="checkbox" id="srv_alturas"> Trabajos en Altura</div>
-                <div>-</div>
-                <div style="grid-column: span 2;"><input type="text" id="spec_srv_alturas" placeholder="Andamios / Escaleras > 6m"></div>
+                <div style="grid-column: span 3;">
+                    <select id="spec_srv_alturas">
+                        <option value="Trabajo sin riesgo">Trabajo sin riesgo</option>
+                        <option value="Riesgo de trabajo por altura >5m">Riesgo de trabajo por altura &gt;5m</option>
+                        <option value="Riesgo de trabajo elevado >8">Riesgo de trabajo elevado &gt;8</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -498,9 +540,6 @@
         return document.getElementById(id) && document.getElementById(id).checked;
     }
 
-    // ==========================================
-    // NUEVA FUNCIÓN: EXPORTAR A ARCHIVO JSON
-    // ==========================================
     function exportarJSON() {
         const formulario = document.getElementById('masterForm');
         const inputs = formulario.querySelectorAll('input, select, textarea');
@@ -518,7 +557,6 @@
         const blob = new Blob([jsonString], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         
-        // Formatear nombre del archivo: cliente_fecha.json
         let nombreCliente = (obtenerVal('cliente') || 'levantamiento').replace(/[^a-z0-9]/gi, '_').toLowerCase();
         let fechaHoy = obtenerVal('fecha') || new Date().toISOString().split('T')[0];
 
@@ -531,9 +569,6 @@
         URL.revokeObjectURL(url);
     }
 
-    // ==========================================
-    // NUEVA FUNCIÓN: IMPORTAR / CARGAR DESDE JSON
-    // ==========================================
     function importarJSON(event) {
         const archivo = event.target.files[0];
         if (!archivo) return;
@@ -543,7 +578,6 @@
             try {
                 const datos = JSON.parse(e.target.result);
                 
-                // Recorrer los campos e inyectar el valor recuperado
                 for (const id in datos) {
                     const elemento = document.getElementById(id);
                     if (elemento) {
@@ -562,7 +596,6 @@
         lector.readAsText(archivo);
     }
 
-    // Proceso de render limpio para impresión
     function ejecutarImpresionClean() {
         const elementosFiltrables = document.querySelectorAll('[data-chk]');
         
@@ -583,7 +616,6 @@
         window.print();
     }
 
-    // Envío del string optimizado para mensajería instantánea
     function enviarWhatsApp() {
         const cliente = obtenerVal('cliente');
         if(!cliente) { alert("Ingrese el nombre de la escuela o cliente."); return; }
@@ -597,12 +629,11 @@
         msg += `-----------------------------------%0A`;
 
         let c1 = [];
-        if(isChecked('req_nvr')) c1.push(`NVR (${obtenerVal('cant_nvr')}pz): ${obtenerVal('spec_nvr')}`);
-        if(isChecked('req_dvr')) c1.push(`DVR (${obtenerVal('cant_dvr')}pz): ${obtenerVal('spec_dvr')}`);
+        if(isChecked('req_dispositivo')) c1.push(`Dispositivo (${obtenerVal('cant_dispositivo')}pz - ${obtenerVal('spec_dispositivo')}): ${obtenerVal('notes_dispositivo')}`);
         if(isChecked('req_hdd')) c1.push(`HDD CCTV (${obtenerVal('cant_hdd')}pz - ${obtenerVal('spec_hdd')}): ${obtenerVal('notes_hdd')}`);
         if(isChecked('req_monitor')) c1.push(`Monitor (${obtenerVal('cant_monitor')}): ${obtenerVal('spec_monitor')}`);
         if(isChecked('req_ext')) c1.push(`Extensor HDMI (${obtenerVal('cant_ext')}pz): ${obtenerVal('spec_ext')}`);
-        if(isChecked('req_rack')) c1.push(`Gabinete/Rack (${obtenerVal('cant_rack')}pz): ${obtenerVal('spec_rack')}`);
+        if(isChecked('req_gabinete')) c1.push(`Gabinete (${obtenerVal('cant_gabinete')}pz - ${obtenerVal('spec_gabinete')}): ${obtenerVal('notes_gabinete')}`);
         if(c1.length > 0) msg += `*1. GRABACIÓN:*%0A• ${c1.join('%0A• ')}%0A-----------------------------------%0A`;
 
         let c2 = [];
@@ -615,11 +646,8 @@
         if(c2.length > 0) msg += `*2. CÁMARAS:*%0A• ${c2.join('%0A• ')}%0A-----------------------------------%0A`;
 
         let c3 = [];
-        if(isChecked('net_sw_poe_sin')) c3.push(`Sw PoE S/Adm (${obtenerVal('cant_sw_poe_sin')}pz): ${obtenerVal('spec_sw_poe_sin')}`);
-        if(isChecked('net_sw_poe_adm')) c3.push(`Sw PoE Adm (${obtenerVal('cant_sw_poe_adm')}pz): ${obtenerVal('spec_sw_poe_adm')}`);
-        if(isChecked('net_sw_core')) c3.push(`Sw Core (${obtenerVal('cant_sw_core')}pz): ${obtenerVal('spec_sw_core')}`);
-        if(isChecked('net_utp')) c3.push(`UTP Cat6/Cat5e (${obtenerVal('cant_utp')} bobinas): ${obtenerVal('spec_utp')}`);
-        if(isChecked('net_ftp')) c3.push(`FTP Cat6 Ext (${obtenerVal('cant_ftp')} bobinas): ${obtenerVal('spec_ftp')}`);
+        if(isChecked('net_switch')) c3.push(`Switch (${obtenerVal('cant_switch')}pz - ${obtenerVal('spec_switch')}): ${obtenerVal('notes_switch')}`);
+        if(isChecked('net_cable')) c3.push(`Cable (${obtenerVal('cant_cable')} - ${obtenerVal('spec_cable')}): ${obtenerVal('notes_cable')}`);
         if(isChecked('net_transceptores')) c3.push(`Transceptores (${obtenerVal('cant_transceptores')}pz): ${obtenerVal('spec_transceptores')}`);
         if(isChecked('net_jacks_dc')) c3.push(`Jacks DC Power (${obtenerVal('cant_jacks_dc')}pz): ${obtenerVal('spec_jacks_dc')}`);
         if(isChecked('net_conectores')) c3.push(`Plugs/Jacks/Patch (${obtenerVal('cant_conectores')}pz): ${obtenerVal('spec_conectores')}`);
@@ -640,7 +668,7 @@
         if(isChecked('mat_pvc')) c5.push(`PVC Pesado (${obtenerVal('cant_mat_pvc')} tramos): ${obtenerVal('spec_mat_pvc')}`);
         if(isChecked('mat_liq')) c5.push(`Liquid-tight (${obtenerVal('cant_mat_liq')}m): ${obtenerVal('spec_mat_liq')}`);
         if(isChecked('mat_canaleta')) c5.push(`Canaleta (${obtenerVal('cant_mat_canaleta')} tramos): ${obtenerVal('spec_mat_canaleta')}`);
-        if(isChecked('mat_cajas')) c5.push(`Cajas Registro FS (${obtenerVal('cant_mat_cajas')}pz): ${obtenerVal('spec_mat_cajas')}`);
+        if(isChecked('mat_caja')) c5.push(`Caja (${obtenerVal('cant_mat_caja')}pz - ${obtenerVal('spec_mat_caja')}): ${obtenerVal('notes_mat_caja')}`);
         if(obtenerVal('spec_mat_miscelaneos')) c5.push(`Misceláneos: ${obtenerVal('spec_mat_miscelaneos')}`);
         if(c5.length > 0) msg += `*5. MATERIALES Y CANALIZACIÓN:*%0A• ${c5.join('%0A• ')}%0A-----------------------------------%0A`;
 
