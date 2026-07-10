@@ -217,6 +217,46 @@ function enviarWhatsApp() {
         }
     });
 
+    // Declaración global limpia para ejecución directa desde el HTML
+function calcularAlmacenamientoBytecomtec() {
+    console.log("Calculadora Bytecomtec llamada con éxito desde el botón.");
+
+    // 1. Obtener elementos del DOM de forma segura
+    const notasHDD = document.getElementById('notes_hdd');
+    const chkHDD = document.getElementById('req_hdd');
+    const selectorHDD = document.getElementById('spec_hdd');
+    const eCompresion = document.getElementById('calc_compresion');
+    const inputCamas = document.getElementById('cant_domo');
+
+    // 2. Extraer valores con respaldos por si el DOM no responde
+    const totalCamaras = inputCamas ? (parseInt(inputCamas.value) || 0) : 25;
+    const specHDD = selectorHDD ? selectorHDD.value : "10 TB";
+    const tipoCompresion = eCompresion ? eCompresion.value : 'H.265+';
+
+    // 3. Extraer número del disco duro (ej: "10 TB" -> 10)
+    let capacidadTB = parseInt(specHDD.match(/\d+/)) || 10;
+
+    // 4. Asignar Bitrate según códec seleccionado
+    let bitrateKbps = 512; // H.265+ por defecto
+    if (tipoCompresion.includes('H.264')) bitrateKbps = 2048;
+    if (tipoCompresion.includes('H.265') && !tipoCompresion.includes('+')) bitrateKbps = 1024;
+
+    // 5. Algoritmo matemático para días de respaldo
+    const gigabytesPorDisco = capacidadTB * 1000; 
+    const bitsTotalesPorDia = totalCamaras * (bitrateKbps * 1000) * 86400;
+    const gigabytesConsumidosPorDia = bitsTotalesPorDia / 8 / 1024 / 1024 / 1024;
+    const diasCalculados = Math.floor(gigabytesPorDisco / gigabytesConsumidosPorDia);
+
+    // 6. Imprimir resultado y dar confirmación visual en pantalla
+    if (notasHDD) {
+        notasHDD.value = `${diasCalculados} días estimados (${totalCamaras} cáms con ${tipoCompresion}).`;
+        notasHDD.style.backgroundColor = "#def7ec"; // Fondo verde de éxito
+        notasHDD.style.color = "#03543f";
+    }
+
+    if (chkHDD) chkHDD.checked = true;
+}
+
     // Procesamiento de Adicionales
     let extras = [];
     FormConfig.adicionales.forEach(item => {
@@ -226,53 +266,6 @@ function enviarWhatsApp() {
     if (extras.length > 0) {
         msg += `*8. ADICIONALES Y COMPLEMENTOS:*%0A${extras.join(", ")}%0A-----------------------------------%0A`;
     }
-
-function calcularAlmacenamientoBytecomtec() {
-    console.log("Calculadora ejecutándose...");
-
-    // Capturar elementos de forma segura
-    const notasHDD = document.getElementById('notes_hdd');
-    const chkHDD = document.getElementById('req_hdd');
-    
-    // Forzar valores: si no encuentra el ID del formulario, toma los 25 de tu captura
-    const inputCamas = document.getElementById('cant_domo');
-    const totalCamaras = inputCamas ? (parseInt(inputCamas.value) || 0) : 25;
-    
-    const selectorHDD = document.getElementById('spec_hdd');
-    const specHDD = selectorHDD ? selectorHDD.value : "10 TB";
-
-    const eCompresion = document.getElementById('calc_compresion');
-    const tipoCompresion = eCompresion ? eCompresion.value : 'H.264';
-
-    try {
-        // Extraer número del disco duro (ej. "10 TB" -> 10)
-        let capacidadTB = parseInt(specHDD.match(/\d+/)) || 10;
-
-        // Bitrate base según códec
-        let bitrateKbps = 1024; 
-        if (tipoCompresion.includes('H.264')) bitrateKbps = 2048;
-        if (tipoCompresion.includes('H.265+')) bitrateKbps = 512;
-
-        // Operación matemática limpia
-        const gigabytesPorDisco = capacidadTB * 1000; 
-        const bitsTotalesPorDia = totalCamaras * (bitrateKbps * 1000) * 86400;
-        const gigabytesConsumidosPorDia = bitsTotalesPorDia / 8 / 1024 / 1024 / 1024;
-        const diasCalculados = Math.floor(gigabytesPorDisco / gigabytesConsumidosPorDia);
-
-        // Inyectar texto y cambiar el fondo para confirmar el éxito en pantalla
-        if (notasHDD) {
-            notasHDD.value = `${diasCalculados} días estimados (${totalCamaras} cáms con ${tipoCompresion}).`;
-            notasHDD.style.backgroundColor = "#def7ec"; // Verde claro de éxito
-            notasHDD.style.color = "#03543f";
-        }
-
-        if (chkHDD) chkHDD.checked = true;
-
-    } catch (err) {
-        console.error("Error en cálculo:", err);
-        if (notasHDD) notasHDD.value = "⚠️ Error al procesar variables.";
-    }
-}
     
     msg += `_Formulario Unificado Bytecomtec 2026_`;
     window.open(`https://wa.me/?text=${msg}`, '_blank');
