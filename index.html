@@ -73,6 +73,7 @@
         </div>
     </div>
 
+    <!-- PANEL DE IMPORTACIÓN -->
     <div class="import-box">
         <span style="font-size: 0.9rem; font-weight: bold; color: #003366;">¿Deseas editar un respaldo anterior?</span><br>
         <label for="importFile">Seleccionar archivo .json</label>
@@ -80,6 +81,7 @@
     </div>
 
     <form id="masterForm">
+        <!-- DATOS GENERALES -->
         <div class="card">
             <h2>Datos del Sitio y Alcance</h2>
             <div class="site-data-grid grid-2">
@@ -106,6 +108,7 @@
                 <div class="data-field">
                     <label>Cargo / Comité:</label>
                     <select id="cargo">
+                        <option value="">Seleccionar...</option>
                         <option value="Presidente(a) CEAP">Presidente(a) CEAP</option>
                         <option value="Tesorero(a) CEAP">Tesorero(a) CEAP</option>
                         <option value="Vocal">Vocal de Seguridad</option>
@@ -125,6 +128,7 @@
                 <div class="data-field">
                     <label>Levantamiento realizado por:</label>
                     <select id="ingeniero">
+                        <option value="">Seleccionar...</option>
                         <option value="Pedro Martínez Alva">Pedro Martínez Alva</option>
                         <option value="Axel Martínez Jiménez">Axel Martínez Jiménez</option>
                         <option value="Iván Martínez Jiménez">Iván Martínez Jiménez</option>
@@ -133,13 +137,15 @@
             </div>
         </div>
 
+        <!-- 1. TECNOLOGÍA Y GRABACIÓN -->
         <div class="card">
             <h2>1. Tecnología y Grabación</h2>
             <div class="row-item" data-chk="req_dispositivo">
                 <div class="chk"><input type="checkbox" id="req_dispositivo"> Dispositivo</div>
                 <div><input type="number" id="cant_dispositivo" placeholder="Cant."></div>
                 <div>
-                    <select id="spec_dispositivo">
+                    <select id="spec_dispositivo" onchange="autoCheck('req_dispositivo', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="NVR">NVR</option>
                         <option value="DVR">DVR</option>
                         <option value="NVS">NVS</option>
@@ -153,8 +159,8 @@
                 <div class="chk"><input type="checkbox" id="req_hdd"> Discos Duros (CCTV)</div>
                 <div><input type="number" id="cant_hdd" placeholder="Cant."></div>
                 <div>
-                    <select id="spec_hdd">
-                        <option value="">Capacidad...</option>
+                    <select id="spec_hdd" onchange="autoCheck('req_hdd', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="1 TB">1 TB</option>
                         <option value="2 TB">2 TB</option>
                         <option value="4 TB">4 TB</option>
@@ -181,7 +187,8 @@
                 <div class="chk"><input type="checkbox" id="req_gabinete"> Gabinete</div>
                 <div><input type="number" id="cant_gabinete" placeholder="Cant."></div>
                 <div>
-                    <select id="spec_gabinete">
+                    <select id="spec_gabinete" onchange="autoCheck('req_gabinete', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="Pared 6U">Pared 6U</option>
                         <option value="Pared 9U">Pared 9U</option>
                         <option value="DVR/NVR D1R3">DVR/NVR D1R3</option>
@@ -193,13 +200,15 @@
             </div>
         </div>
 
+        <!-- 2. CÁMARAS Y CARACTERÍSTICAS -->
         <div class="card">
             <h2>2. Cámaras y Características</h2>
             <div class="row-item" data-chk="cam_domo">
                 <div class="chk"><input type="checkbox" id="cam_domo"> Cámara Domo</div>
                 <div><input type="number" id="cant_domo" placeholder="Cant."></div>
                 <div>
-                    <select id="supe_domo">
+                    <select id="supe_domo" onchange="autoCheck('cam_domo', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="Concreto">Concreto</option>
                         <option value="Tablaroca">Tablaroca</option>
                         <option value="Plafón">Plafón</option>
@@ -211,7 +220,8 @@
                 <div class="chk"><input type="checkbox" id="cam_bullet"> Cámara Bullet</div>
                 <div><input type="number" id="cant_bullet" placeholder="Cant."></div>
                 <div>
-                    <select id="supe_bullet">
+                    <select id="supe_bullet" onchange="autoCheck('cam_bullet', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="Concreto">Concreto</option>
                         <option value="Poste">Poste</option>
                         <option value="Muro M">Muro Metálico</option>
@@ -245,6 +255,7 @@
             </div>
         </div>
 
+        <!-- 3. CONECTIVIDAD Y RED -->
         <div class="card">
             <h2>3. Conectividad, Red y Cableado</h2>
             <div class="site-data-grid grid-2" style="margin-bottom: 8px;">
@@ -262,7 +273,8 @@
                     <div class="chk"><input type="checkbox" id="net_switch"> Switch</div>
                     <div><input type="number" id="cant_switch" placeholder="Cant."></div>
                     <div>
-                        <select id="spec_switch">
+                        <select id="spec_switch" onchange="autoCheck('net_switch', this)">
+                            <option value="">Seleccionar...</option>
                             <option value="Switch convencional">Switch convencional</option>
                             <option value="Switch PoE Administrable">Switch PoE Administrable</option>
                             <option value="Switch PoE Sin Administración">Switch PoE Sin Administración</option>
@@ -276,7 +288,8 @@
                     <div class="chk"><input type="checkbox" id="net_cable"> Cable</div>
                     <div><input type="number" id="cant_cable" placeholder="Cant. (Bobinas/m)"></div>
                     <div>
-                        <select id="spec_cable">
+                        <select id="spec_cable" onchange="autoCheck('net_cable', this)">
+                            <option value="">Seleccionar...</option>
                             <option value="UTP 5e Int.">UTP 5e Int.</option>
                             <option value="UTP 5e Ext.">UTP 5e Ext.</option>
                             <option value="UTP 6 Int.">UTP 6 Int.</option>
@@ -308,6 +321,7 @@
             </div>
         </div>
 
+        <!-- 4. INFRAESTRUCTURA DE FIBRA ÓPTICA -->
         <div class="card">
             <h2>4. Infraestructura de Fibra Óptica</h2>
             <div class="row-item" data-chk="fo_liu">
@@ -354,6 +368,7 @@
             </div>
         </div>
 
+        <!-- 5. MATERIALES DE INSTALACIÓN -->
         <div class="card">
             <h2>5. Canalización, Fijación y Micro-Ferretería</h2>
             <div class="row-item" data-chk="mat_gewiss">
@@ -384,7 +399,8 @@
                 <div class="chk"><input type="checkbox" id="mat_caja"> Caja</div>
                 <div><input type="number" id="cant_mat_caja" placeholder="Cant."></div>
                 <div>
-                    <select id="spec_mat_caja">
+                    <select id="spec_mat_caja" onchange="autoCheck('mat_caja', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="LP-WBX-100">LP-WBX-100</option>
                         <option value="GW-44-003">GW-44-003</option>
                         <option value="GW44004 Tornillo">GW44004 Tornillo</option>
@@ -400,14 +416,15 @@
             </div>
         </div>
 
+        <!-- 6. RESPALDO DE ENERGÍA Y PROTECCIÓN -->
         <div class="card">
-            <h2>6. Respaldo de Energía y Protection</h2>
+            <h2>6. Respaldo de Energía y Protección</h2>
             <div class="row-item" data-chk="pwr_fuente">
                 <div class="chk"><input type="checkbox" id="pwr_fuente"> Fuente de Poder</div>
                 <div><input type="number" id="cant_pwr_fuente" placeholder="Cant."></div>
                 <div>
-                    <select id="spec_pwr_fuente">
-                        <option value="">Distribución...</option>
+                    <select id="spec_pwr_fuente" onchange="autoCheck('pwr_fuente', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="4 Cámaras">4 Cámaras</option>
                         <option value="8 Cámaras">8 Cámaras</option>
                         <option value="9 Cámaras">9 Cámaras</option>
@@ -443,12 +460,14 @@
             </div>
         </div>
 
+        <!-- 7. MANO DE OBRA Y SERVICIOS PROFESIONALES -->
         <div class="card">
             <h2>7. Mano de Obra y Servicios Profesionales</h2>
             <div class="row-item" data-chk="srv_inst">
                 <div class="chk"><input type="checkbox" id="srv_inst"> Instalación Física</div>
                 <div style="grid-column: span 3;">
-                    <select id="spec_srv_inst">
+                    <select id="spec_srv_inst" onchange="autoCheck('srv_inst', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="Cable tendido, sin canalizar.">Cable tendido, sin canalizar.</option>
                         <option value="Cableado tendido parcialidad Gewiss">Cableado tendido parcialidad Gewiss</option>
                         <option value="Cableado con canalización interna">Cableado con canalización interna</option>
@@ -466,7 +485,8 @@
             <div class="row-item" data-chk="srv_vlan">
                 <div class="chk"><input type="checkbox" id="srv_vlan"> Red y VLANs</div>
                 <div style="grid-column: span 3;">
-                    <select id="spec_srv_vlan">
+                    <select id="spec_srv_vlan" onchange="autoCheck('srv_vlan', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="Sin configuración específica">Sin configuración específica</option>
                         <option value="Configuración Modem para segmentación IP's para cámaras IP">Configuración Modem para segmentación IP's para cámaras IP</option>
                         <option value="Configuración Vlans">Configuración Vlans</option>
@@ -476,7 +496,8 @@
             <div class="row-item" data-chk="srv_nvr">
                 <div class="chk"><input type="checkbox" id="srv_nvr"> Configuración NVR/DVR</div>
                 <div style="grid-column: span 3;">
-                    <select id="spec_srv_nvr">
+                    <select id="spec_srv_nvr" onchange="autoCheck('srv_nvr', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="Configuración básica">Configuración básica</option>
                         <option value="Configuración horario, alerta y cruce de línea">Configuración horario, alerta y cruce de línea</option>
                     </select>
@@ -485,7 +506,8 @@
             <div class="row-item" data-chk="srv_remoto">
                 <div class="chk"><input type="checkbox" id="srv_remoto"> Acceso Remoto</div>
                 <div style="grid-column: span 3;">
-                    <select id="spec_srv_remoto">
+                    <select id="spec_srv_remoto" onchange="autoCheck('srv_remoto', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="Desactivación de Hik-Connect">Desactivación de Hik-Connect</option>
                         <option value="Alta y configuración de plataforma Hik-Connect">Alta y configuración de plataforma Hik-Connect</option>
                         <option value="Creación de Hik-Connect y compartir App.">Creación de Hik-Connect y compartir App.</option>
@@ -497,7 +519,8 @@
             <div class="row-item" data-chk="srv_alturas">
                 <div class="chk"><input type="checkbox" id="srv_alturas"> Trabajos en Altura</div>
                 <div style="grid-column: span 3;">
-                    <select id="spec_srv_alturas">
+                    <select id="spec_srv_alturas" onchange="autoCheck('srv_alturas', this)">
+                        <option value="">Seleccionar...</option>
                         <option value="Trabajo sin riesgo">Trabajo sin riesgo</option>
                         <option value="Riesgo de trabajo por altura >5m">Riesgo de trabajo por altura &gt;5m</option>
                         <option value="Riesgo de trabajo elevado >8">Riesgo de trabajo elevado &gt;8</option>
@@ -506,6 +529,7 @@
             </div>
         </div>
 
+        <!-- 8. ENTREGABLES Y COMPLEMENTOS -->
         <div class="card">
             <h2>8. Entregables y Sistemas Complementarios</h2>
             <div class="checkbox-group">
@@ -518,6 +542,7 @@
             </div>
         </div>
 
+        <!-- BOTONES -->
         <div class="btn-group">
             <button type="button" class="btn btn-wa" onclick="enviarWhatsApp()">WhatsApp</button>
             <button type="button" class="btn btn-json" onclick="exportarJSON()">Guardar Respaldo (.json)</button>
@@ -540,7 +565,51 @@
         return document.getElementById(id) && document.getElementById(id).checked;
     }
 
+    // ========================================================
+    // REGLA: PALOMEAR AUTOMÁTICAMENTE CUANDO CAMBIE EL SELECT
+    // ========================================================
+    function autoCheck(checkboxId, selectElement) {
+        const checkbox = document.getElementById(checkboxId);
+        if (checkbox) {
+            if (selectElement.value !== "") {
+                checkbox.checked = true;
+            } else {
+                checkbox.checked = false;
+            }
+        }
+    }
+
+    // ========================================================
+    // REGLA DE PROTECCIÓN: VALIDAR CONSISTENCIAS ANTES DE ENVIAR/GUARDAR
+    // ========================================================
+    function validarFormularioSeguro() {
+        const filas = document.querySelectorAll('[data-chk]');
+        let formularioValido = true;
+        let elementosOlvidados = [];
+
+        filas.forEach(fila => {
+            const idChk = fila.getAttribute('data-chk');
+            const checkbox = document.getElementById(idChk);
+            const select = fila.querySelector('select');
+
+            // Si el select tiene algo elegido, el checkbox TIENE que estar palomeado
+            if (select && select.value !== "" && checkbox && !checkbox.checked) {
+                formularioValido = false;
+                // Obtener el texto descriptivo de la fila
+                elementosOlvidados.push(checkbox.parentNode.textContent.trim());
+            }
+        });
+
+        if (!formularioValido) {
+            alert("⚠️ AVISO DE PROTECCIÓN INTEGRAL:\n\nHas seleccionado especificaciones para los siguientes conceptos pero olvidaste marcar o mantuviste deseleccionado su botón de activación:\n\n• " + elementosOlvidados.join("\n• ") + "\n\nPor favor, verifica las casillas antes de continuar.");
+            return false;
+        }
+        return true;
+    }
+
     function exportarJSON() {
+        if (!validarFormularioSeguro()) return;
+
         const formulario = document.getElementById('masterForm');
         const inputs = formulario.querySelectorAll('input, select, textarea');
         let datos = {};
@@ -597,6 +666,8 @@
     }
 
     function ejecutarImpresionClean() {
+        if (!validarFormularioSeguro()) return;
+
         const elementosFiltrables = document.querySelectorAll('[data-chk]');
         
         elementosFiltrables.forEach(elemento => {
@@ -617,6 +688,8 @@
     }
 
     function enviarWhatsApp() {
+        if (!validarFormularioSeguro()) return;
+
         const cliente = obtenerVal('cliente');
         if(!cliente) { alert("Ingrese el nombre de la escuela o cliente."); return; }
 
