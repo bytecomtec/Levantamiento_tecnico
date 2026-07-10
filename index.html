@@ -22,51 +22,43 @@
         .row-item > div.chk { flex: 0 0 auto; min-width: 180px; font-weight: 500; font-size: 0.85rem; }
         .checkbox-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-top: 8px; }
         .checkbox-item { display: flex; align-items: center; background: #fafafa; padding: 8px; border-radius: 4px; border: 1px solid #eef; }
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn-wa { background: #25d366; color: white; padding: 12px; border: none; border-radius: 5px; font-weight: bold; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn-pdf { background: var(--blue); color: white; padding: 12px; border: none; border-radius: 5px; font-weight: bold; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        /* Área de carga de archivos JSON */
+        .import-box { background: #eef4fa; border: 2px dashed #003366; padding: 12px; border-radius: 6px; margin-bottom: 15px; text-align: center; }
+        .import-box label { display: inline-block; background: #003366; color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-top: 5px; }
+        .import-box input[type="file"] { display: none; }
+
+        /* Botones extendidos */
+        .btn-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 15px; }
+        .btn { padding: 12px; border: none; border-radius: 5px; font-weight: bold; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); color: white; text-align: center; }
+        .btn-wa { background: #25d366; }
+        .btn-pdf { background: var(--blue); }
+        .btn-json { background: #4a5568; }
+        
         .footer { text-align: center; font-size: 0.8rem; color: #666; padding: 15px; }
         
-        /* ==========================================================================
-           REGLAS DE IMPRESIÓN ULTRA OPTIMIZADAS (CERO ESPACIOS BLANCOS EXCESIVOS)
-           ==========================================================================
-        */
         @media print {
             body { background: white; padding: 0; margin: 0; color: #000; font-size: 10pt; line-height: 1.2; }
             .container { max-width: 100%; padding: 0; margin: 0; box-shadow: none; }
-            
-            /* Eliminación absoluta de elementos interactivos o vacíos */
-            .btn-group, .footer, input[type="checkbox"] { display: none !important; }
+            .btn-group, .footer, input[type="checkbox"], .import-box { display: none !important; }
             .no-print-row, .is-empty { display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; padding: 0 !important; margin: 0 !important; border: none !important; }
-
-            /* Cabecera compacta */
             .header { background: transparent; color: #000; padding: 0 0 5px 0; border-radius: 0; text-align: right; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #004B87; margin-bottom: 10px; }
             .header img { display: block; position: static; transform: none; height: 55px; width: auto; }
             .header-text { text-align: right; width: 100%; }
             .header strong { font-size: 1.3rem; font-weight: bold; display: block; letter-spacing: 0.5px; }
             .header small { font-size: 0.85rem; color: #333; display: block; margin-top: 1px; }
-
-            /* Organización hiper-compacta de bloques */
             .card { box-shadow: none; border: none; padding: 0; margin-bottom: 12px; page-break-inside: avoid; background: transparent; }
             h2 { font-size: 1.05rem; color: #004B87 !important; border: none; padding-left: 0; margin-top: 10px; margin-bottom: 6px; text-transform: uppercase; font-weight: bold; border-bottom: 1px solid #DDD; padding-bottom: 2px; }
-            
-            /* Datos Generales en rejilla optimizada sin espacios muertos */
             .site-data-grid { display: grid !important; gap: 4px 15px; margin-bottom: 4px; }
             .grid-2 { grid-template-columns: 1fr 1fr !important; }
             .grid-3 { grid-template-columns: 1fr 1fr 1fr !important; }
             .data-field label, label { font-size: 0.85rem; color: #000; font-weight: bold; margin: 0; }
             .site-data-grid input, .site-data-grid select { border: none !important; padding: 1px 0 !important; font-size: 0.9rem; background: transparent !important; color: #222; font-family: inherit; margin-bottom: 2px; }
-            
-            /* Renglones de Dispositivos (Filas modo tabla compacta) */
             .row-item { background: transparent !important; border: none !important; border-bottom: 1px dotted #DCDCDC !important; padding: 4px 0 !important; margin-bottom: 0 !important; border-radius: 0 !important; display: grid !important; grid-template-columns: 210px 45px 130px 1fr !important; gap: 8px !important; align-items: center !important; }
             .row-item > div { min-width: auto !important; }
             .row-item > div.chk { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
             .row-item input, .row-item select { border: none !important; background: transparent !important; padding: 0 !important; font-size: 0.9rem; font-family: inherit; color: #222; }
-
-            /* Tarjeta de Conectividad sin marcos pesados */
             #card_conectividad { border: none !important; padding: 0 !important; margin-top: 5px; background: transparent !important; }
-
-            /* Sección 8 de Entregables Compacta */
             .checkbox-group { grid-template-columns: 1fr 1fr !important; gap: 4px 15px !important; margin-top: 4px; }
             .checkbox-item { background: transparent !important; border: none !important; padding: 1px 0 !important; }
             .checkbox-item label { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
@@ -82,6 +74,12 @@
             <strong>BYTECOMTEC</strong>
             <small>Ingeniería y Seguridad Digital — Ficha de Levantamiento Técnico</small>
         </div>
+    </div>
+
+    <div class="import-box">
+        <span style="font-size: 0.9rem; font-weight: bold; color: #003366;">¿Deseas editar un respaldo anterior?</span><br>
+        <label for="importFile">Seleccionar archivo .json</label>
+        <input type="file" id="importFile" accept=".json" onchange="importarJSON(event)">
     </div>
 
     <form id="masterForm">
@@ -479,8 +477,9 @@
         </div>
 
         <div class="btn-group">
-            <button type="button" class="btn-wa" onclick="enviarWhatsApp()">Enviar Resumen a WhatsApp</button>
-            <button type="button" class="btn-pdf" onclick="ejecutarImpresionClean()">Imprimir / Guardar en PDF</button>
+            <button type="button" class="btn btn-wa" onclick="enviarWhatsApp()">WhatsApp</button>
+            <button type="button" class="btn btn-json" onclick="exportarJSON()">Guardar Respaldo (.json)</button>
+            <button type="button" class="btn btn-pdf" onclick="ejecutarImpresionClean()">Imprimir PDF</button>
         </div>
     </form>
 </div>
@@ -499,6 +498,71 @@
         return document.getElementById(id) && document.getElementById(id).checked;
     }
 
+    // ==========================================
+    // NUEVA FUNCIÓN: EXPORTAR A ARCHIVO JSON
+    // ==========================================
+    function exportarJSON() {
+        const formulario = document.getElementById('masterForm');
+        const inputs = formulario.querySelectorAll('input, select, textarea');
+        let datos = {};
+
+        inputs.forEach(input => {
+            if (input.type === 'checkbox') {
+                datos[input.id] = input.checked;
+            } else {
+                datos[input.id] = input.value;
+            }
+        });
+
+        const jsonString = JSON.stringify(datos, null, 2);
+        const blob = new Blob([jsonString], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        
+        // Formatear nombre del archivo: cliente_fecha.json
+        let nombreCliente = (obtenerVal('cliente') || 'levantamiento').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        let fechaHoy = obtenerVal('fecha') || new Date().toISOString().split('T')[0];
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `levantamiento_${nombreCliente}_${fechaHoy}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // ==========================================
+    // NUEVA FUNCIÓN: IMPORTAR / CARGAR DESDE JSON
+    // ==========================================
+    function importarJSON(event) {
+        const archivo = event.target.files[0];
+        if (!archivo) return;
+
+        const lector = new FileReader();
+        lector.onload = function(e) {
+            try {
+                const datos = JSON.parse(e.target.result);
+                
+                // Recorrer los campos e inyectar el valor recuperado
+                for (const id in datos) {
+                    const elemento = document.getElementById(id);
+                    if (elemento) {
+                        if (elemento.type === 'checkbox') {
+                            elemento.checked = datos[id];
+                        } else {
+                            elemento.value = datos[id];
+                        }
+                    }
+                }
+                alert("✓ Respaldo cargado con éxito. El formulario ha sido restaurado.");
+            } catch (error) {
+                alert("Error: El archivo seleccionado no tiene un formato de levantamiento válido.");
+            }
+        };
+        lector.readAsText(archivo);
+    }
+
+    // Proceso de render limpio para impresión
     function ejecutarImpresionClean() {
         const elementosFiltrables = document.querySelectorAll('[data-chk]');
         
@@ -508,21 +572,18 @@
             if (!isChecked(idCheckbox)) {
                 elemento.classList.add('no-print-row'); 
                 const inputsHijos = elemento.querySelectorAll('input, select, textarea');
-                inputsHijos.forEach(input => {
-                    input.classList.add('is-empty');
-                });
+                inputsHijos.forEach(input => { input.classList.add('is-empty'); });
             } else {
                 elemento.classList.remove('no-print-row');
                 const inputsHijos = elemento.querySelectorAll('input, select, textarea');
-                inputsHijos.forEach(input => {
-                    input.classList.remove('is-empty');
-                });
+                inputsHijos.forEach(input => { input.classList.remove('is-empty'); });
             }
         });
 
         window.print();
     }
 
+    // Envío del string optimizado para mensajería instantánea
     function enviarWhatsApp() {
         const cliente = obtenerVal('cliente');
         if(!cliente) { alert("Ingrese el nombre de la escuela o cliente."); return; }
