@@ -38,13 +38,14 @@ function inicializarEventosOperativos() {
     });
 
     // Mostrar/Ocultar panel de cálculo rápido
-document.getElementById('btnCalcularHDD')?.addEventListener('click', () => {
-    const panel = document.getElementById('calculadoraPanel');
-    if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-});
+    document.getElementById('btnCalcularHDD')?.addEventListener('click', () => {
+        const panel = document.getElementById('calculadoraPanel');
+        if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    });
 
-// Ejecutar el cálculo matemático automático
-document.getElementById('btnProcesarCalculo')?.addEventListener('click', calcularAlmacenamientoBytecomtec);
+    // Ejecutar el cálculo matemático automático
+    document.getElementById('btnProcesarCalculo')?.addEventListener('click', calcularAlmacenamientoBytecomtec);
+    
     // Enlace de Eventos de Botones Principales (Removiendo inline onclick de HTML)
     document.getElementById('btnWhatsApp')?.addEventListener('click', enviarWhatsApp);
     document.getElementById('btnExportar')?.addEventListener('click', exportarJSON);
@@ -217,46 +218,6 @@ function enviarWhatsApp() {
         }
     });
 
-    // Declaración global limpia para ejecución directa desde el HTML
-function calcularAlmacenamientoBytecomtec() {
-    console.log("Calculadora Bytecomtec llamada con éxito desde el botón.");
-
-    // 1. Obtener elementos del DOM de forma segura
-    const notasHDD = document.getElementById('notes_hdd');
-    const chkHDD = document.getElementById('req_hdd');
-    const selectorHDD = document.getElementById('spec_hdd');
-    const eCompresion = document.getElementById('calc_compresion');
-    const inputCamas = document.getElementById('cant_domo');
-
-    // 2. Extraer valores con respaldos por si el DOM no responde
-    const totalCamaras = inputCamas ? (parseInt(inputCamas.value) || 0) : 25;
-    const specHDD = selectorHDD ? selectorHDD.value : "10 TB";
-    const tipoCompresion = eCompresion ? eCompresion.value : 'H.265+';
-
-    // 3. Extraer número del disco duro (ej: "10 TB" -> 10)
-    let capacidadTB = parseInt(specHDD.match(/\d+/)) || 10;
-
-    // 4. Asignar Bitrate según códec seleccionado
-    let bitrateKbps = 512; // H.265+ por defecto
-    if (tipoCompresion.includes('H.264')) bitrateKbps = 2048;
-    if (tipoCompresion.includes('H.265') && !tipoCompresion.includes('+')) bitrateKbps = 1024;
-
-    // 5. Algoritmo matemático para días de respaldo
-    const gigabytesPorDisco = capacidadTB * 1000; 
-    const bitsTotalesPorDia = totalCamaras * (bitrateKbps * 1000) * 86400;
-    const gigabytesConsumidosPorDia = bitsTotalesPorDia / 8 / 1024 / 1024 / 1024;
-    const diasCalculados = Math.floor(gigabytesPorDisco / gigabytesConsumidosPorDia);
-
-    // 6. Imprimir resultado y dar confirmación visual en pantalla
-    if (notasHDD) {
-        notasHDD.value = `${diasCalculados} días estimados (${totalCamaras} cáms con ${tipoCompresion}).`;
-        notasHDD.style.backgroundColor = "#def7ec"; // Fondo verde de éxito
-        notasHDD.style.color = "#03543f";
-    }
-
-    if (chkHDD) chkHDD.checked = true;
-}
-
     // Procesamiento de Adicionales
     let extras = [];
     FormConfig.adicionales.forEach(item => {
@@ -269,4 +230,45 @@ function calcularAlmacenamientoBytecomtec() {
     
     msg += `_Formulario Unificado Bytecomtec 2026_`;
     window.open(`https://wa.me/?text=${msg}`, '_blank');
+}
+
+// ==========================================
+// FUNCIÓN DE CÁLCULO INDEPENDIENTE Y GLOBAL
+// ==========================================
+function calcularAlmacenamientoBytecomtec() {
+    console.log("Calculadora Bytecomtec llamada con éxito desde el botón.");
+
+    const notasHDD = document.getElementById('notes_hdd');
+    const chkHDD = document.getElementById('req_hdd');
+    const selectorHDD = document.getElementById('spec_hdd');
+    const eCompresion = document.getElementById('calc_compresion');
+    const inputCamas = document.getElementById('cant_domo');
+
+    // Forzar valores por si hay datos vacíos
+    const totalCamaras = inputCamas ? (parseInt(inputCamas.value) || 0) : 25;
+    const specHDD = selectorHDD ? selectorHDD.value : "10 TB";
+    const tipoCompresion = eCompresion ? eCompresion.value : 'H.265+';
+
+    // Extraer número del disco duro (ej: "10 TB" -> 10)
+    let capacidadTB = parseInt(specHDD.match(/\d+/)) || 10;
+
+    // Asignar Bitrate según códec seleccionado
+    let bitrateKbps = 512; // H.265+ por defecto
+    if (tipoCompresion.includes('H.264')) bitrateKbps = 2048;
+    if (tipoCompresion.includes('H.265') && !tipoCompresion.includes('+')) bitrateKbps = 1024;
+
+    // Algoritmo matemático para días de respaldo
+    const gigabytesPorDisco = capacidadTB * 1000; 
+    const bitsTotalesPorDia = totalCamaras * (bitrateKbps * 1000) * 86400;
+    const gigabytesConsumidosPorDia = bitsTotalesPorDia / 8 / 1024 / 1024 / 1024;
+    const diasCalculados = Math.floor(gigabytesPorDisco / gigabytesConsumidosPorDia);
+
+    // Imprimir resultado y dar confirmación visual en pantalla
+    if (notasHDD) {
+        notasHDD.value = `${diasCalculados} días estimados (${totalCamaras} cáms con ${tipoCompresion}).`;
+        notasHDD.style.backgroundColor = "#def7ec"; // Fondo verde de éxito
+        notasHDD.style.color = "#03543f";
+    }
+
+    if (chkHDD) chkHDD.checked = true;
 }
