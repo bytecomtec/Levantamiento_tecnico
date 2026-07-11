@@ -234,6 +234,15 @@ function enviarWhatsApp() {
 
 function configurarAutomatizaciones() {
     console.log("Automatizaciones cargadas");
+// Diagnóstico: Pon esto al principio de la función
+const inputRollos = document.getElementById('cantidad_rollos');
+if (!inputRollos) {
+    console.error("ERROR: No existe un elemento con id='cantidad_rollos'");
+} else {
+    inputRollos.addEventListener('change', () => {
+        console.log("¡Evento de rollos capturado exitosamente!");
+    });
+}
 
     document.addEventListener('change', (e) => {
         // --- 1. LÓGICA DE FIBRA ÓPTICA Y AUTOMATIZACIONES ---
