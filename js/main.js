@@ -293,23 +293,36 @@ function configurarAutomatizaciones() {
         });
     }
 
-    // C) Lógica de Checkbox/Select (Asegúrate de que esta parte esté cerrada correctamente)
+// C) Lógica de Checkbox/Select
     document.addEventListener('change', (e) => {
         if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
             const cont = e.target.closest('.row-item');
             if (!cont) return;
 
             const campoCant = cont.querySelector('input[type="number"]');
+            
+            // Si el campo está vacío, pedimos cantidad
             if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
                 let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-                if (cantidad) campoCant.value = cantidad;
-                else if (e.target.type === 'checkbox') e.target.checked = false;
+                
+                if (cantidad) {
+                    campoCant.value = cantidad;
+                    
+                    // --- AQUÍ ESTÁ LA CORRECCIÓN ---
+                    // Forzamos manualmente el disparo del evento para que 
+                    // cualquier otra función que dependa de este número se entere
+                    campoCant.dispatchEvent(new Event('change'));
+                    console.log("Cantidad actualizada y evento disparado para:", campoCant.id);
+                } else if (e.target.type === 'checkbox') {
+                    e.target.checked = false;
+                    return;
+                }
             }
+            
             const chk = cont.querySelector('input[type="checkbox"]');
             if (chk) chk.checked = true;
         }
     });
-}
 
 // ==========================================
 // FUNCIÓN DE CÁLCULO INDEPENDIENTE Y GLOBAL
