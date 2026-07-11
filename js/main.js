@@ -303,23 +303,38 @@ function configurarAutomatizaciones() {
         });
     }
 
-    document.addEventListener('change', (e) => {
-        if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
-            const cont = e.target.closest('.row-item');
-            if (cont) {
-                const campoCant = cont.querySelector('input[type="number"]');
-                if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
-                    let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-                    if (cantidad) {
-                        campoCant.value = cantidad;
-                        campoCant.dispatchEvent(new Event('change', { bubbles: true }));
-                    } else if (e.target.type === 'checkbox') {
-                        e.target.checked = false;
-                    }
+// C) Lógica de Checkbox/Select
+document.addEventListener('change', (e) => {
+    // Evitamos que el prompt se dispare con el campo de fibra, ya que ese tiene su propia lógica
+    if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
+        const cont = e.target.closest('.row-item');
+        if (!cont) return;
+
+        const campoCant = cont.querySelector('input[type="number"]');
+        
+        // Si el campo está vacío, pedimos cantidad
+        if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
+            // Usamos un pequeño retraso para permitir que el prompt finalice correctamente
+            setTimeout(() => {
+                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+                if (cantidad) {
+                    campoCant.value = cantidad;
+                    // Forzamos el evento para que los totalizadores (si existen) lo detecten
+                    campoCant.dispatchEvent(new Event('change', { bubbles: true }));
+                    console.log("Cantidad aplicada:", cantidad);
+                } else if (e.target.type === 'checkbox') {
+                    e.target.checked = false;
                 }
-            }
+            }, 50); 
         }
-    });
+        
+        const chk = cont.querySelector('input[type="checkbox"]');
+        if (chk) {
+            chk.checked = true;
+            chk.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    }
+});
 }
 
 // ==========================================
