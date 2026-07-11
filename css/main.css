@@ -884,12 +884,26 @@ table { width: 100%; border-collapse: collapse; }
     .import-box, .btn-group, #btnCalcularHDD, .nav-buttons, .no-print, #calculadoraPanel { 
         display: none !important; 
     }
-/* Ocultar flechas y calendario de forma global */
-    input::-webkit-calendar-picker-indicator,
-    input::-webkit-inner-spin-button,
-    input::-webkit-outer-spin-button {
-        display: none !important;
-        -webkit-appearance: none !important;
+
+/* Ocultar selectores numéricos en navegadores Webkit (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Ocultar en Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Opcional: Si quieres que el input parezca texto normal */
+input[type="number"] {
+    border: none;
+    background: transparent;
+    width: 30px; /* Ajusta según el espacio que necesites */
+    text-align: center;
+}
     }
     
     /* Estructura: Header como parte de la tabla */
