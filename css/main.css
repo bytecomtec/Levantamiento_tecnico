@@ -288,32 +288,29 @@ input[type="checkbox"] {
 
 
 @media print {
-    /* 1. Definimos los márgenes de la hoja */
-    @page {
-        margin: 120px 20px 20px 20px;
-    }
-
-    /* 2. El encabezado se repite en cada página usando position: fixed */
-    .header {
-        position: fixed !important;
-        top: 0 !important;
-        left: 20px !important;
-        right: 20px !important;
-        height: 100px !important;
-        background: white !important;
-        border-bottom: 2px solid #003366 !important;
-        display: flex !important;
-        z-index: 9999 !important;
-    }
-
-    /* 3. El contenedor NO debe tener margen superior porque el fixed ya reservó el espacio */
-    .container {
-        margin-top: 0 !important;
-        padding-top: 0 !important;
-    }
-
-    /* 4. Ocultar elementos innecesarios */
-    .import-box, .btn-group, #btnCalcularHDD, #calculadoraPanel, .footer {
+    /* 1. Ocultar el encabezado y pie de página */
+    .header, .footer, .import-box, .btn-group {
         display: none !important;
+    }
+
+    /* 2. Ocultar el panel de la calculadora y su botón */
+    #calculadoraPanel, #btnCalcularHDD {
+        display: none !important;
+    }
+
+    /* 3. Asegurar que los elementos NO seleccionados no se impriman */
+    .no-print-row {
+        display: none !important;
+    }
+
+    /* 4. Ajustar márgenes para que aproveche toda la hoja */
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 100% !important;
+        margin: 0;
+        padding: 10px;
     }
 }
