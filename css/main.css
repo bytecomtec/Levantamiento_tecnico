@@ -242,6 +242,8 @@ input[type="checkbox"] {
     .grid-3 { grid-template-columns: 1fr 1fr 1fr !important; }
     .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr !important; }
     .data-field label, label { font-size: 0.85rem; color: #000; font-weight: bold; margin: 0; }
+
+
     
     /* REMOCIÓN DE FLECHAS SELECT EN PDF */
     select {
@@ -283,4 +285,32 @@ input[type="checkbox"] {
     .checkbox-group { grid-template-columns: 1fr 1fr !important; gap: 4px 15px !important; margin-top: 4px; }
     .checkbox-item { background: transparent !important; border: none !important; padding: 1px 0 !important; }
     .checkbox-item label { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
+
+@media print {
+    /* 1. Ocultar el encabezado y pie de página */
+    .header, .footer, .import-box, .btn-group {
+        display: none !important;
+    }
+
+    /* 2. Ocultar el panel de la calculadora y su botón */
+    #calculadoraPanel, #btnCalcularHDD {
+        display: none !important;
+    }
+
+    /* 3. Asegurar que los elementos NO seleccionados no se impriman */
+    .no-print-row {
+        display: none !important;
+    }
+
+    /* 4. Ajustar márgenes para que aproveche toda la hoja */
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 100% !important;
+        margin: 0;
+        padding: 10px;
+    }
+}
 }
