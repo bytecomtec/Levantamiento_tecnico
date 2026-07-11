@@ -289,7 +289,7 @@ input[type="checkbox"] {
 @media print {
     /* 1. Definir márgenes de página para dejar espacio al encabezado */
     @page {
-        margin: 2cm 1cm 1cm 1cm; /* Espacio superior para el logo */
+        margin: 1cm 1cm 1cm 1cm; /* Espacio superior para el logo */
     }
 
     /* 2. Fijar el encabezado en todas las páginas */
@@ -304,13 +304,6 @@ input[type="checkbox"] {
         background: white; /* Para evitar transparencias */
         border-bottom: 2px solid #003366; /* Línea divisoria profesional */
         z-index: 999;
-    }
-
-    /* 3. Asegurar que el logo sea visible */
-    .header img {
-        display: block !important;
-        width: 100px !important; /* Tamaño controlado */
-        margin-right: 15px;
     }
 
     /* 4. Ocultar lo que NO quieres en el PDF */
