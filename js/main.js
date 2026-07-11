@@ -236,7 +236,7 @@ function configurarAutomatizaciones() {
     console.log("Automatizaciones cargadas");
 
     document.addEventListener('change', (e) => {
-        // 1. Lógica de Fibra Óptica
+        // 1. Lógica de Fibra Óptica (Se dispara al cambiar Cant. Rollos)
         if (e.target.id === 'cantidad_rollos') {
             const rollos = parseInt(e.target.value) || 0;
             const tf = document.getElementById('tipo_fibra');
@@ -253,7 +253,7 @@ function configurarAutomatizaciones() {
                 const elCant = document.getElementById(c.id);
                 if (elCant) {
                     elCant.value = rollos * 2;
-                    // Buscamos modelo y notas en el contenedor padre .row-item
+                    // Buscamos modelo y notas en el mismo row-item
                     const cont = elCant.closest('.row-item');
                     if (cont) {
                         const m = cont.querySelector('input[id*="modelo"]');
@@ -261,11 +261,12 @@ function configurarAutomatizaciones() {
                         if (m) m.value = c.mod;
                         if (n) n.value = c.nota;
                     }
+                    elCant.dispatchEvent(new Event('change'));
                 }
             });
         }
 
-        // 2. Lógica de Checkboxes (Asignación de cantidad)
+        // 2. Lógica de Checkboxes (Preguntar cantidad y asignar)
         if (e.target.type === 'checkbox' && e.target.checked) {
             let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
             if (cantidad) {
@@ -274,35 +275,12 @@ function configurarAutomatizaciones() {
                 if (campo) {
                     campo.value = cantidad;
                     campo.dispatchEvent(new Event('change'));
+                    console.log("Cantidad asignada a:", campo.id);
                 }
             }
         }
     }); 
 }
-
-// --- Lógica de Preguntar Cantidad (Búsqueda Universal) ---
-if (e.target.type === 'checkbox' && e.target.checked) {
-    let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-    
-    if (cantidad) {
-        // Buscamos el contenedor padre común (row-item)
-        const contenedor = e.target.closest('.row-item');
-        
-        // Buscamos dentro de ese contenedor cualquier input que sea de tipo number
-        let campoCant = contenedor ? contenedor.querySelector('input[type="number"]') : null;
-        
-        if (campoCant) {
-            campoCant.value = cantidad;
-            console.log("Cantidad asignada a:", campoCant.id);
-            // Disparamos el evento por si el cálculo de almacenamiento necesita actualizarse
-            campoCant.dispatchEvent(new Event('change'));
-        } else {
-            console.error("No se encontró un campo numérico dentro del row-item.");
-        }
-    }
-}
-    }); // Fin del addEventListener
-} // Fin de configurarAutomatizaciones
 
 // ==========================================
 // FUNCIÓN DE CÁLCULO INDEPENDIENTE Y GLOBAL
