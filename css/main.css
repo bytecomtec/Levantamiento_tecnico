@@ -288,33 +288,33 @@ input[type="checkbox"] {
 
 
 @media print {
-    /* 1. Definimos un margen superior de 100px. 
-       Todo lo que pongamos dentro de este espacio de 100px estará en el "header". */
+    /* 1. Márgenes estándar para que la impresora no recorte */
     @page {
-        margin: 100px 20px 20px 20px;
+        margin: 15mm; 
     }
 
-    /* 2. El encabezado se coloca en el espacio del margen superior */
+    /* 2. Encabezado como bloque normal */
     .header {
-        position: fixed;
-        top: -100px; /* Se mueve hacia arriba para ocupar el espacio del margen */
-        left: 20px;
-        right: 20px;
-        height: 80px;
-        display: flex !important;
-        align-items: center;
-        border-bottom: 2px solid #003366;
-        background-color: white !important;
-        z-index: 9999;
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 20px !important;
+        border-bottom: 2px solid #003366 !important;
+        padding-bottom: 10px !important;
     }
 
-    /* 3. El contenedor comienza exactamente en el borde superior de la hoja */
+    .header img {
+        display: block !important;
+        width: 120px !important; /* Tamaño visible */
+        margin-bottom: 5px !important;
+    }
+
+    /* 3. Asegurar que el contenido NO se empuje de más */
     .container {
         margin-top: 0 !important;
         padding-top: 0 !important;
     }
 
-    /* 4. Ocultar elementos de UI */
+    /* 4. Ocultar botones y calculadora */
     .import-box, .btn-group, #btnCalcularHDD, #calculadoraPanel, .footer {
         display: none !important;
     }
