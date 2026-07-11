@@ -259,17 +259,28 @@ function configurarAutomatizaciones() {
             const inputCant = document.getElementById(item.idCant);
             if (inputCant) {
                 inputCant.value = rollos * 2;
+                // --- FORZAR NOTIFICACIÓN ---
+                inputCant.dispatchEvent(new Event('change', { bubbles: true }));
+
                 const cont = inputCant.closest('.row-item');
                 if (cont) {
-                    // Usamos querySelectorAll por si hay varios elementos
                     const selSpec = cont.querySelector('select[id^="spec_"]');
                     const selNotes = cont.querySelector('select[id^="notes_"]');
                     
-                    if (selSpec) selSpec.value = item.spec;
-                    if (selNotes) selNotes.value = item.notes;
+                    if (selSpec) {
+                        selSpec.value = item.spec;
+                        selSpec.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                    if (selNotes) {
+                        selNotes.value = item.notes;
+                        selNotes.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
                     
                     const chk = cont.querySelector('input[type="checkbox"]');
-                    if (chk) chk.checked = true;
+                    if (chk) {
+                        chk.checked = true;
+                        chk.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
                 }
             }
         });
