@@ -122,22 +122,6 @@
     <div><input type="text" id="notes_hdd" placeholder="Días de grabación / Notas"></div>
 </div>
 
-<div id="calculadoraPanel" style="display: none; background: #eef4fa; border: 1px solid #003366; padding: 12px; border-radius: 6px; margin: 8px 0;">
-    <span style="font-size: 0.85rem; font-weight: bold; color: #003366;">🧮 Calcular Días de Grabación Disponibles:</span>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 5px;">
-        <div>
-            <label style="margin:0; font-size:0.75rem;">Compresión en NVR:</label>
-            <select id="calc_compresion" style="padding:4px; width:100%;">
-                <option value="H.265+">H.265+ (Recomendado)</option>
-                <option value="H.265">H.265</option>
-                <option value="H.264">H.264 (Estándar)</option>
-            </select>
-        </div>
-        <div style="display: flex; align-items: flex-end;">
-            <button type="button" id="btnProcesarCalculo" style="background:#ff8800; color:white; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%; font-size:0.8rem;">Estimar Días</button>
-        </div>
-    </div>
-</div>
             <div class="row-item" data-chk="req_monitor">
                 <div class="chk"><input type="checkbox" id="req_monitor"> Monitor Local</div>
                 <div><input type="number" id="cant_monitor" placeholder="Cant."></div>
@@ -261,6 +245,29 @@
                 <div><input type="text" id="notes_analitica" placeholder="Notas"></div>
             </div>
         </div>
+
+        </div> <div class="card" style="background-color: #f0f7ff; border-left: 5px solid #003366;">
+    <button type="button" id="btnCalcularHDD" style="padding: 10px; font-weight: bold; cursor: pointer;">
+        Configurar Almacenamiento (HDD) y Calcular Días
+    </button>
+
+    <div id="calculadoraPanel" style="display: none; background: #eef4fa; border: 1px solid #003366; padding: 12px; border-radius: 6px; margin: 8px 0;">
+        <span style="font-size: 0.85rem; font-weight: bold; color: #003366;">🧮 Calcular Días de Grabación Disponibles:</span>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 5px;">
+            <div>
+                <label style="margin:0; font-size:0.75rem;">Compresión en NVR:</label>
+                <select id="calc_compresion" style="padding:4px; width:100%;">
+                    <option value="H.265+">H.265+ (Recomendado)</option>
+                    <option value="H.265">H.265</option>
+                    <option value="H.264">H.264 (Estándar)</option>
+                </select>
+            </div>
+            <div style="display: flex; align-items: flex-end;">
+                <button type="button" id="btnProcesarCalculo" style="background:#ff8800; color:white; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%; font-size:0.8rem;">Estimar Días</button>
+            </div>
+        </div>
+    </div>
+</div>
 
         <div class="card">
             <h2>3. Conectividad, Red y Cableado</h2>
