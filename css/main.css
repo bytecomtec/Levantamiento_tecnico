@@ -287,19 +287,18 @@ input[type="checkbox"] {
     .checkbox-item label { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
 
 
-    /* 1. Fijar el encabezado en todas las páginas */
 @media print {
-    /* 1. Define los márgenes de la página (El margen superior de 120px es para el header) */
+    /* 1. Definimos un margen superior de 140px para todas las páginas */
     @page {
-        margin: 120px 20px 20px 20px;
+        margin: 140px 20px 20px 20px;
     }
 
-    /* 2. Encabezado fijo en el espacio del margen superior */
+    /* 2. El encabezado se posiciona arriba, pero sin usar 'fixed' para evitar solapamientos */
     .header {
-        position: fixed;
-        top: 0;
-        left: 20px;
-        right: 20px;
+        position: absolute; /* Cambiamos de fixed a absolute */
+        top: -120px;        /* Lo subimos al espacio del margen */
+        left: 0;
+        right: 0;
         height: 100px;
         display: flex !important;
         align-items: center;
@@ -307,19 +306,13 @@ input[type="checkbox"] {
         border-bottom: 2px solid #003366;
     }
 
-    /* 3. Evitar que el contenido se encime en la primera página */
-.container {
+    /* 3. Aseguramos que el contenido comience justo después del margen */
+    .container {
         margin-top: 0 !important;
         padding-top: 0 !important;
     }
 
-    /* 4. Asegurar que las tarjetas no se corten mal */
-    .card {
-        break-inside: avoid;
-        margin-bottom: 10px;
-    }
-
-    /* 5. Ocultar lo que no queremos imprimir */
+    /* 4. Ocultamos lo innecesario */
     .import-box, .btn-group, #btnCalcularHDD, #calculadoraPanel, .footer {
         display: none !important;
     }
