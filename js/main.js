@@ -266,21 +266,28 @@ function configurarAutomatizaciones() {
             });
         }
 
- // 2. Lógica para Preguntar Cantidad (Checkboxes y Selects)
-        if ((e.target.type === 'checkbox' && e.target.checked) || (e.target.tagName === 'SELECT' && e.target.value !== "")) {
+// 2. Lógica para Preguntar Cantidad (Activada solo por SELECT)
+        // Ya no escuchamos el cambio del checkbox, ahora escuchamos el SELECT
+        if (e.target.tagName === 'SELECT' && e.target.value !== "") {
             
-            // Si es un checkbox, verificamos si está marcado. 
-            // Si es un select, verificamos que no sea la opción vacía.
+            // 1. Encontrar el contenedor de la fila
+            const cont = e.target.closest('.row-item');
+            
+            // 2. Marcar el checkbox automáticamente si existe en esta fila
+            const chk = cont ? cont.querySelector('input[type="checkbox"]') : null;
+            if (chk) {
+                chk.checked = true;
+            }
+
+            // 3. Preguntar cantidad
             let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
             
             if (cantidad) {
-                const cont = e.target.closest('.row-item');
                 const campo = cont ? cont.querySelector('input[type="number"]') : null;
-                
                 if (campo) {
                     campo.value = cantidad;
                     campo.dispatchEvent(new Event('change'));
-                    console.log("Cantidad asignada a:", campo.id);
+                    console.log("Cantidad asignada automáticamente a:", campo.id);
                 }
             }
         }
