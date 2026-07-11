@@ -233,20 +233,15 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones cargadas y sincronizadas");
+    console.log("Automatizaciones cargadas");
 
     document.addEventListener('change', (e) => {
-        
-        // 1. --- LÓGICA DE FIBRA ÓPTICA ---
-        // Se dispara cuando cambias el valor del campo con ID 'cantidad_rollos'
+        // 1. Lógica de Fibra Óptica
         if (e.target.id === 'cantidad_rollos') {
             const rollos = parseInt(e.target.value) || 0;
-            console.log("Calculando fibra para:", rollos, "rollos");
-            
             const tf = document.getElementById('tipo_fibra');
             if (tf) tf.value = 'pre-fabricado';
 
-            // Definición de componentes
             const campos = [
                 { id: 'conv_cantidad', mod: 'MC220L', nota: 'TP-link' },
                 { id: 'caja_cantidad', mod: 'FTB-501', nota: 'FiberHome' },
@@ -258,37 +253,31 @@ function configurarAutomatizaciones() {
                 const elCant = document.getElementById(c.id);
                 if (elCant) {
                     elCant.value = rollos * 2;
-                    // Disparamos evento para que el resto del sistema detecte el cambio
-                    elCant.dispatchEvent(new Event('change'));
-                }
-
-                // Búsqueda inteligente de modelo y notas en el mismo contenedor
-                const contenedor = elCant ? elCant.closest('.row-item') : null;
-                if (contenedor) {
-                    const campoMod = contenedor.querySelector('input[id*="modelo"]');
-                    const campoNota = contenedor.querySelector('input[id*="notas"]');
-                    
-                    if (campoMod) campoMod.value = c.mod;
-                    if (campoNota) campoNota.value = c.nota;
+                    // Buscamos modelo y notas en el contenedor padre .row-item
+                    const cont = elCant.closest('.row-item');
+                    if (cont) {
+                        const m = cont.querySelector('input[id*="modelo"]');
+                        const n = cont.querySelector('input[id*="notas"]');
+                        if (m) m.value = c.mod;
+                        if (n) n.value = c.nota;
+                    }
                 }
             });
         }
 
-        // 2. --- LÓGICA DE CHECKBOXES (Asignación de Cantidad) ---
+        // 2. Lógica de Checkboxes (Asignación de cantidad)
         if (e.target.type === 'checkbox' && e.target.checked) {
             let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
             if (cantidad) {
-                const contenedor = e.target.closest('.row-item');
-                const campoCant = contenedor ? contenedor.querySelector('input[type="number"]') : null;
-                
-                if (campoCant) {
-                    campoCant.value = cantidad;
-                    campoCant.dispatchEvent(new Event('change'));
-                    console.log("Cantidad asignada a:", campoCant.id);
+                const cont = e.target.closest('.row-item');
+                const campo = cont ? cont.querySelector('input[type="number"]') : null;
+                if (campo) {
+                    campo.value = cantidad;
+                    campo.dispatchEvent(new Event('change'));
                 }
             }
         }
-    });
+    }); 
 }
 
 // --- Lógica de Preguntar Cantidad (Búsqueda Universal) ---
