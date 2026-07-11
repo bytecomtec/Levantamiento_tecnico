@@ -287,30 +287,25 @@ input[type="checkbox"] {
     .checkbox-item label { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
 
 @media print {
-    /* 1. Ocultar el encabezado y pie de página */
-    .header, .footer, .import-box, .btn-group {
+    /* Oculta los botones y controles */
+    .btn-group, .import-box, #btnCalcularHDD, #calculadoraPanel {
         display: none !important;
     }
 
-    /* 2. Ocultar el panel de la calculadora y su botón */
-    #calculadoraPanel, #btnCalcularHDD {
+    /* Oculta el encabezado y pie, PERO permite que el logo se vea */
+    .header-text, .footer {
         display: none !important;
     }
+    
+    /* Asegura que el logo sí se imprima */
+    .header img {
+        display: block !important;
+        width: 150px; /* Ajusta el tamaño según necesites */
+        margin-bottom: 20px;
+    }
 
-    /* 3. Asegurar que los elementos NO seleccionados no se impriman */
     .no-print-row {
         display: none !important;
-    }
-
-    /* 4. Ajustar márgenes para que aproveche toda la hoja */
-    body {
-        margin: 0;
-        padding: 0;
-    }
-    .container {
-        max-width: 100% !important;
-        margin: 0;
-        padding: 10px;
     }
 }
 }
