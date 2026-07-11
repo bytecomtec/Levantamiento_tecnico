@@ -123,22 +123,18 @@
 </div>
 
 <div id="calculadoraPanel" style="display: none; background: #eef4fa; border: 1px solid #003366; padding: 12px; border-radius: 6px; margin: 8px 0;">
-    <span style="font-size: 0.85rem; font-weight: bold; color: #003366;">🧮 Parámetros de Grabación Estimada:</span>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-top: 5px;">
+    <span style="font-size: 0.85rem; font-weight: bold; color: #003366;">🧮 Calcular Días de Grabación Disponibles:</span>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 5px;">
         <div>
-            <label style="margin:0; font-size:0.75rem;">Días deseados:</label>
-            <input type="number" id="calc_dias" value="15" style="padding:4px;">
-        </div>
-        <div>
-            <label style="margin:0; font-size:0.75rem;">Compresión:</label>
-            <select id="calc_compresion" style="padding:4px;">
+            <label style="margin:0; font-size:0.75rem;">Compresión en NVR:</label>
+            <select id="calc_compresion" style="padding:4px; width:100%;">
                 <option value="H.265+">H.265+ (Recomendado)</option>
                 <option value="H.265">H.265</option>
                 <option value="H.264">H.264 (Estándar)</option>
             </select>
         </div>
         <div style="display: flex; align-items: flex-end;">
-            <button type="button" id="btnProcesarCalculo" style="background:#ff8800; color:white; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%; font-size:0.8rem;">Estimar TB</button>
+            <button type="button" id="btnProcesarCalculo" style="background:#ff8800; color:white; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%; font-size:0.8rem;">Estimar Días</button>
         </div>
     </div>
 </div>
