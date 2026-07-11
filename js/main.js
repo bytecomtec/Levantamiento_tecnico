@@ -237,70 +237,33 @@ function configurarAutomatizaciones() {
 
     document.addEventListener('change', (e) => {
         // 1. --- Lógica de Fibra Óptica ---
-        if (e.target.id === 'cantidad_rollos') {
-            const rollos = parseInt(e.target.value) || 0;
-            const tf = document.getElementById('tipo_fibra');
-            if(tf) tf.value = 'pre-fabricado';
-
-            const campos = [
-                {id: 'conv_cantidad', mod: 'MC220L', nota: 'TP-link'},
-                {id: 'caja_cantidad', mod: 'FTB-501', nota: 'FiberHome'},
-                {id: 'pigtail_cantidad', mod: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro'},
-                {id: 'sfp_cantidad', mod: 'TP-link', nota: 'TL-SM321/TL-SM321B'}
-            ];
-
-            campos.forEach(c => {
-                const elCant = document.getElementById(c.id);
-                if(elCant) elCant.value = rollos * 2;
-                
-                // Buscamos los campos correspondientes reemplazando 'cantidad' por 'modelo' o 'notas'
-                const campoMod = document.getElementById(c.id.replace('cantidad', 'modelo'));
-                const campoNota = document.getElementById(c.id.replace('cantidad', 'notas'));
-                
-                if(campoMod) campoMod.value = c.mod;
-                if(campoNota) campoNota.value = c.nota;
-            });
-        }
-
-        // 2. --- Lógica de Preguntar Cantidad (Búsqueda Inteligente) ---
         if (e.target.type === 'checkbox' && e.target.checked) {
-            let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+    let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+    
+    if (cantidad) {
+        // 1. Intento por ID: busca 'cant_' + nombre del checkbox
+        let idBase = e.target.id.replace('chk_', '').replace('req_', '');
+        let campoCant = document.getElementById('cant_' + idBase);
+        
+        // 2. Si no lo encuentra, busca en todo el contenedor padre (independientemente si es TR o DIV)
+        if (!campoCant) {
+            // Buscamos cualquier input type number en el contenedor padre inmediato
+            const contenedorPadre = e.target.parentElement;
+            campoCant = contenedorPadre.querySelector('input[type="number"]');
             
-            if (cantidad) {
-                // Primero intenta por ID: ej. chk_jacks -> cant_jacks
-                let idBase = e.target.id.replace('chk_', '').replace('req_', '');
-                let campoCant = document.getElementById('cant_' + idBase);
-                
-                if (campoCant) {
-                    campoCant.value = cantidad;
-                    console.log("Asignado por ID a:", campoCant.id);
-                } else {
-                    // Fallback: Busca el primer input number en la misma fila (tr)
-                    const fila = e.target.closest('tr');
-                    const fallback = fila ? fila.querySelector('input[type="number"]') : null;
-                    if(fallback) {
-                        fallback.value = cantidad;
-                        console.log("Asignado por fila (fallback) a:", fallback.id);
-                    } else {
-                        console.error("No se pudo asignar cantidad. ID esperado: cant_" + idBase);
-                    }
-                }
+            // 3. Fallback final: si aún no lo encuentra, busca en todo el formulario
+            if (!campoCant) {
+                campoCant = document.querySelector(`input[id*='${idBase}'][type='number']`);
             }
         }
-    });
 
-    // 3. --- Valores por defecto al cargar ---
-    const modem = document.getElementById('cuentaConModem');
-    if(modem) modem.checked = true;
-    const prov = document.getElementById('proveedor');
-    if(prov) prov.value = 'Telmex';
-    const vel = document.getElementById('velocidad');
-    if(vel) vel.value = '50Mb';
-    
-    const plan = document.getElementById('check_planos');
-    if(plan) plan.checked = true;
-    const mem = document.getElementById('check_memoria_tecnica');
-    if(mem) mem.checked = true;
+        if (campoCant) {
+            campoCant.value = cantidad;
+            console.log("Cantidad asignada correctamente a:", campoCant.id);
+        } else {
+            console.error("No se encontró campo numérico para: " + idBase);
+        }
+    }
 }
 
 // ==========================================
