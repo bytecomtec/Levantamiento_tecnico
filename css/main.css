@@ -876,7 +876,12 @@ input[type="checkbox"] {
     body > .header {
         display: none !important;
     }
-
+    
+    /* Ocultar elementos innecesarios */
+    .import-box, .btn-group, #btnCalcularHDD, .nav-buttons {
+        display: none !important;
+    }
+    
     /* Asegurar que el header dentro de la tabla sí se vea */
     thead .header {
         display: flex !important;
@@ -892,15 +897,24 @@ input[type="checkbox"] {
     }
     
     /* Esto obliga al footer de la tabla a quedarse abajo */
+table {
+        width: 100%;
+        min-height: 100vh;
+        position: relative;
+    }
+
     tfoot {
         display: table-footer-group;
+        position: fixed; /* Aquí sí es necesario en el tfoot para forzarlo al fondo */
+        bottom: 0;
+        width: 100%;
     }
 
     .footer {
         text-align: center;
         border-top: 1px solid #ccc;
-        padding-top: 10px;
+        padding: 10px 0;
         font-size: 10px;
-        width: 100%;
+        background: white; /* Asegura que tape cualquier texto detrás */
     }
 } /* <--- Esta es la única llave necesaria para cerrar @media print */
