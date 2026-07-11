@@ -242,12 +242,11 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones cargadas");
+    console.log("Automatizaciones cargadas correctamente");
 
     document.addEventListener('change', (e) => {
-        // --- Lógica de Fibra Óptica ---
+        // 1. --- Lógica de Fibra Óptica ---
         if (e.target.id === 'cantidad_rollos') {
-            console.log("Detectado cambio en rollos:", e.target.value);
             const rollos = parseInt(e.target.value) || 0;
             const tf = document.getElementById('tipo_fibra');
             if(tf) tf.value = 'pre-fabricado';
@@ -260,39 +259,57 @@ function configurarAutomatizaciones() {
             ];
 
             campos.forEach(c => {
-                if(document.getElementById(c.id)) {
-                    document.getElementById(c.id).value = rollos * 2;
-                    console.log("Asignado cantidad a:", c.id);
-                }
-                // Ajuste para buscar el campo de modelo/notas por ID dinámico
+                const elCant = document.getElementById(c.id);
+                if(elCant) elCant.value = rollos * 2;
+                
+                // Buscamos los campos correspondientes reemplazando 'cantidad' por 'modelo' o 'notas'
                 const campoMod = document.getElementById(c.id.replace('cantidad', 'modelo'));
                 const campoNota = document.getElementById(c.id.replace('cantidad', 'notas'));
+                
                 if(campoMod) campoMod.value = c.mod;
                 if(campoNota) campoNota.value = c.nota;
             });
         }
 
-        // --- Lógica de Preguntar Cantidad ---
+        // 2. --- Lógica de Preguntar Cantidad (Búsqueda Inteligente) ---
         if (e.target.type === 'checkbox' && e.target.checked) {
-            // Buscamos el elemento dentro del mismo TR
-            const fila = e.target.closest('tr');
-            const campoCant = fila ? fila.querySelector('input[type="number"]') : null;
+            let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
             
-            console.log("Checkbox marcado. ¿Fila encontrada?", !!fila);
-            console.log("¿Campo numérico encontrado?", !!campoCant);
-
-            if (campoCant) {
-                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-                if (cantidad) {
+            if (cantidad) {
+                // Primero intenta por ID: ej. chk_jacks -> cant_jacks
+                let idBase = e.target.id.replace('chk_', '').replace('req_', '');
+                let campoCant = document.getElementById('cant_' + idBase);
+                
+                if (campoCant) {
                     campoCant.value = cantidad;
-                    // Disparamos evento para que el resto del sistema sepa que cambió
-                    campoCant.dispatchEvent(new Event('change'));
+                    console.log("Asignado por ID a:", campoCant.id);
+                } else {
+                    // Fallback: Busca el primer input number en la misma fila (tr)
+                    const fila = e.target.closest('tr');
+                    const fallback = fila ? fila.querySelector('input[type="number"]') : null;
+                    if(fallback) {
+                        fallback.value = cantidad;
+                        console.log("Asignado por fila (fallback) a:", fallback.id);
+                    } else {
+                        console.error("No se pudo asignar cantidad. ID esperado: cant_" + idBase);
+                    }
                 }
-            } else {
-                console.warn("No se encontró un input[type='number'] en esta fila.");
             }
         }
     });
+
+    // 3. --- Valores por defecto al cargar ---
+    const modem = document.getElementById('cuentaConModem');
+    if(modem) modem.checked = true;
+    const prov = document.getElementById('proveedor');
+    if(prov) prov.value = 'Telmex';
+    const vel = document.getElementById('velocidad');
+    if(vel) vel.value = '50Mb';
+    
+    const plan = document.getElementById('check_planos');
+    if(plan) plan.checked = true;
+    const mem = document.getElementById('check_memoria_tecnica');
+    if(mem) mem.checked = true;
 }
 
 // ==========================================
