@@ -236,16 +236,13 @@ function configurarAutomatizaciones() {
     console.log("Automatizaciones cargadas (Modo Auto-Ejecución)");
 
     document.addEventListener('input', (e) => { // Cambiado de 'change' a 'input' para Fibra
-        // 1. LÓGICA DE FIBRA (Se ejecuta al instante de escribir)
-        if (e.target.id === 'cant_fo_cable') {
-            const rollos = parseInt(e.target.value) || 0;
-            
-            // Si el campo está vacío, limpiamos los valores relacionados
-            if (e.target.value === "") {
-                // (Opcional) Puedes añadir aquí lógica para limpiar los campos si borras el número
-                return;
-            }
+document.addEventListener('input', (e) => {
+    if (e.target.id === 'cant_fo_cable') {
+        const valor = e.target.value;
+        const rollos = parseInt(valor) || 0;
 
+        // Usamos un pequeño delay para asegurar que el navegador procese el valor
+        setTimeout(() => {
             const notasFibra = document.getElementById('notes_fo_cable');
             if (notasFibra) notasFibra.value = 'Pre-fabricado';
 
@@ -272,12 +269,16 @@ function configurarAutomatizaciones() {
                 }
             });
 
+            // Entregables
             const planos = document.getElementById('check_planos');
             const memoria = document.getElementById('check_memoria_tecnica');
             if (planos) planos.checked = true;
             if (memoria) memoria.checked = true;
-        }
-    });
+            
+            console.log("Operaciones de fibra aplicadas para:", rollos, "rollos");
+        }, 100); // 100ms es suficiente para que el valor sea leído correctamente
+    }
+});
 
     // 2. LÓGICA DE CHECKBOX/SELECT (Se mantiene en 'change' para no interrumpir mientras escribes)
     document.addEventListener('change', (e) => {
