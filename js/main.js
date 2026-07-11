@@ -1,11 +1,11 @@
 /**
- * Lógica de Operación del Formulario de Levantamientos - Bytecomtec
+ * Lógica de Operación del Formulario - Bytecomtec
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     inicializarFechaHora();
     inicializarEventosOperativos();
-    configurarAutomatizaciones(); // <--- IMPORTANTE
+    configurarAutomatizaciones(); 
 });
 function inicializarFechaHora() {
     const ahora = new Date();
@@ -236,35 +236,58 @@ function configurarAutomatizaciones() {
     console.log("Automatizaciones cargadas correctamente");
 
     document.addEventListener('change', (e) => {
-        // 1. --- Lógica de Fibra Óptica ---
-        if (e.target.type === 'checkbox' && e.target.checked) {
-    let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-    
-    if (cantidad) {
-        // 1. Intento por ID: busca 'cant_' + nombre del checkbox
-        let idBase = e.target.id.replace('chk_', '').replace('req_', '');
-        let campoCant = document.getElementById('cant_' + idBase);
         
-        // 2. Si no lo encuentra, busca en todo el contenedor padre (independientemente si es TR o DIV)
-        if (!campoCant) {
-            // Buscamos cualquier input type number en el contenedor padre inmediato
-            const contenedorPadre = e.target.parentElement;
-            campoCant = contenedorPadre.querySelector('input[type="number"]');
-            
-            // 3. Fallback final: si aún no lo encuentra, busca en todo el formulario
-            if (!campoCant) {
-                campoCant = document.querySelector(`input[id*='${idBase}'][type='number']`);
-            }
+        // --- 1. Lógica de Fibra Óptica ---
+        if (e.target.id === 'cantidad_rollos') {
+            const rollos = parseInt(e.target.value) || 0;
+            const tf = document.getElementById('tipo_fibra');
+            if (tf) tf.value = 'pre-fabricado';
+
+            const campos = [
+                { id: 'conv_cantidad', mod: 'MC220L', nota: 'TP-link' },
+                { id: 'caja_cantidad', mod: 'FTB-501', nota: 'FiberHome' },
+                { id: 'pigtail_cantidad', mod: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro' },
+                { id: 'sfp_cantidad', mod: 'TP-link', nota: 'TL-SM321/TL-SM321B' }
+            ];
+
+            campos.forEach(c => {
+                const elCant = document.getElementById(c.id);
+                if (elCant) elCant.value = rollos * 2;
+
+                const campoMod = document.getElementById(c.id.replace('cantidad', 'modelo'));
+                const campoNota = document.getElementById(c.id.replace('cantidad', 'notas'));
+                if (campoMod) campoMod.value = c.mod;
+                if (campoNota) campoNota.value = c.nota;
+            });
         }
 
-        if (campoCant) {
-            campoCant.value = cantidad;
-            console.log("Cantidad asignada correctamente a:", campoCant.id);
-        } else {
-            console.error("No se encontró campo numérico para: " + idBase);
+        // --- 2. Lógica de Preguntar Cantidad (Checkboxes) ---
+        if (e.target.type === 'checkbox' && e.target.checked) {
+            let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+
+            if (cantidad) {
+                let idBase = e.target.id.replace('chk_', '').replace('req_', '');
+                let campoCant = document.getElementById('cant_' + idBase);
+
+                if (!campoCant) {
+                    const contenedorPadre = e.target.parentElement;
+                    campoCant = contenedorPadre.querySelector('input[type="number"]');
+                }
+
+                if (!campoCant) {
+                    campoCant = document.querySelector(`input[id*='${idBase}'][type='number']`);
+                }
+
+                if (campoCant) {
+                    campoCant.value = cantidad;
+                    console.log("Cantidad asignada correctamente a:", campoCant.id);
+                } else {
+                    console.error("No se encontró campo numérico para: " + idBase);
+                }
+            }
         }
-    }
-}
+    }); // Fin del addEventListener
+} // Fin de configurarAutomatizaciones
 
 // ==========================================
 // FUNCIÓN DE CÁLCULO INDEPENDIENTE Y GLOBAL
