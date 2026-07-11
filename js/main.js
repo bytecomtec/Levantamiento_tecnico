@@ -233,16 +233,13 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones cargadas (Modo Auto-Ejecución)");
+    console.log("Automatizaciones cargadas correctamente");
 
-    document.addEventListener('input', (e) => { // Cambiado de 'change' a 'input' para Fibra
-document.addEventListener('input', (e) => {
-    if (e.target.id === 'cant_fo_cable') {
-        const valor = e.target.value;
-        const rollos = parseInt(valor) || 0;
+    // 1. LÓGICA DE FIBRA (Escucha cambios constantes mientras escribes)
+    document.addEventListener('input', (e) => {
+        if (e.target.id === 'cant_fo_cable') {
+            const rollos = parseInt(e.target.value) || 0;
 
-        // Usamos un pequeño delay para asegurar que el navegador procese el valor
-        setTimeout(() => {
             const notasFibra = document.getElementById('notes_fo_cable');
             if (notasFibra) notasFibra.value = 'Pre-fabricado';
 
@@ -275,18 +272,19 @@ document.addEventListener('input', (e) => {
             if (planos) planos.checked = true;
             if (memoria) memoria.checked = true;
             
-            console.log("Operaciones de fibra aplicadas para:", rollos, "rollos");
-        }, 100); // 100ms es suficiente para que el valor sea leído correctamente
-    }
-});
+            console.log("Operaciones aplicadas para:", rollos, "rollos");
+        }
+    });
 
-    // 2. LÓGICA DE CHECKBOX/SELECT (Se mantiene en 'change' para no interrumpir mientras escribes)
+    // 2. LÓGICA DE CHECKBOX/SELECT (Se mantiene en 'change')
     document.addEventListener('change', (e) => {
         if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
             const cont = e.target.closest('.row-item');
             if (!cont) return;
 
             const campoCant = cont.querySelector('input[type="number"]');
+            
+            // Solo pedir si está vacío
             if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
                 let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
                 if (cantidad) {
@@ -296,6 +294,7 @@ document.addEventListener('input', (e) => {
                     return;
                 }
             }
+            
             const chk = cont.querySelector('input[type="checkbox"]');
             if (chk) chk.checked = true;
         }
