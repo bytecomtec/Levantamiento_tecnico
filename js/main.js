@@ -232,6 +232,59 @@ function enviarWhatsApp() {
     window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
 
+function configurarAutomatizaciones() {
+    // 1. Valores por default (Conectividad)
+    document.getElementById('cuentaConModem').checked = true;
+    document.getElementById('proveedor').value = 'Telmex';
+    document.getElementById('velocidad').value = '50Mb';
+
+    // 2. Entregables default
+    document.getElementById('check_planos').checked = true;
+    document.getElementById('check_memoria_tecnica').checked = true;
+
+    // 3. Lógica de Fibra Óptica (Cálculos automáticos)
+    const inputRollos = document.getElementById('cantidad_rollos');
+    if (inputRollos) {
+        inputRollos.addEventListener('input', () => {
+            const rollos = parseInt(inputRollos.value) || 0;
+            
+            // Asignar "pre-fabricado" automáticamente
+            document.getElementById('tipo_fibra').value = 'pre-fabricado';
+
+            // Cálculos multiplicadores
+            document.getElementById('conv_cantidad').value = rollos * 2;
+            document.getElementById('conv_modelo').value = 'MC220L';
+            document.getElementById('conv_notas').value = 'TP-link';
+
+            document.getElementById('caja_cantidad').value = rollos * 2;
+            document.getElementById('caja_modelo').value = 'FTB-501';
+            document.getElementById('caja_notas').value = 'FiberHome';
+
+            document.getElementById('pigtail_cantidad').value = rollos * 2;
+            document.getElementById('pigtail_modelo').value = 'LP-FO-LCU-SCA-01';
+            document.getElementById('pigtail_notas').value = 'LinkedPro';
+
+            document.getElementById('sfp_cantidad').value = rollos * 2;
+            document.getElementById('sfp_marca').value = 'TP-link';
+            document.getElementById('sfp_notas').value = 'TL-SM321/TL-SM321B';
+        });
+    }
+
+    // 4. Preguntar cantidad automáticamente al seleccionar/checkear
+    document.querySelectorAll('input[type="checkbox"], select').forEach(element => {
+        element.addEventListener('change', function() {
+            if (this.checked || (this.tagName === 'SELECT' && this.value !== "" && this.value !== "Seleccionar...")) {
+                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+                if (cantidad) {
+                    // Buscar si tiene un campo cantidad cercano (ej. nombre_cant)
+                    const campoCant = document.getElementById(this.id.replace('chk_', 'cant_'));
+                    if (campoCant) campoCant.value = cantidad;
+                }
+            }
+        });
+    });
+}
+
 // ==========================================
 // FUNCIÓN DE CÁLCULO INDEPENDIENTE Y GLOBAL
 // ==========================================
