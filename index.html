@@ -101,26 +101,28 @@
                 </div>
                 <div><input type="text" id="notes_dispositivo" placeholder="Canales / Marca / Especificaciones"></div>
             </div>
-<div class="row-item" data-chk="req_hdd">
-    <div class="chk">
-        <input type="checkbox" id="req_hdd"> Discos Duros (CCTV)
-        <button type="button" id="btnCalcularHDD" class="link-tools" style="background:none; border:none; cursor:pointer; padding:0;">🧮 Calcular Almacenamiento Interno</button>
-    </div>
-    <div><input type="number" id="cant_hdd" value="1" min="1" placeholder="Cant."></div>    <div>
-        <select id="spec_hdd">
-            <option value="">Seleccionar...</option>
-            <option value="1 TB">1 TB</option>
-            <option value="2 TB">2 TB</option>
-            <option value="4 TB">4 TB</option>
-            <option value="6 TB">6 TB</option>
-            <option value="8 TB">8 TB</option>
-            <option value="10 TB">10 TB</option>
-            <option value="12 TB">12 TB</option>
-            <option value="16 TB">16 TB</option>
-        </select>
-    </div>
-    <div><input type="text" id="notes_hdd" placeholder="Días de grabación / Notas"></div>
-</div>
+            <div class="row-item" data-chk="req_hdd">
+                <div class="chk">
+                    <input type="checkbox" id="req_hdd"> Discos Duros (CCTV)
+                    <button type="button" id="btnCalcularHDD" class="link-tools" style="background:none; border:none; cursor:pointer; padding:0;">🧮 Calcular Almacenamiento Interno</button>
+                </div>
+
+                <div><input type="number" id="cant_hdd" value="1" min="1" placeholder="Cant."></div>    
+                <div>
+                    <select id="spec_hdd">
+                        <option value="">Seleccionar...</option>
+                        <option value="1 TB">1 TB</option>
+                        <option value="2 TB">2 TB</option>
+                        <option value="4 TB">4 TB</option>
+                        <option value="6 TB">6 TB</option>
+                        <option value="8 TB">8 TB</option>
+                        <option value="10 TB">10 TB</option>
+                        <option value="12 TB">12 TB</option>
+                        <option value="16 TB">16 TB</option>
+                    </select>
+                </div>
+                <div><input type="text" id="notes_hdd" placeholder="Días de grabación / Notas"></div>
+            </div>
 
             <div class="row-item" data-chk="req_monitor">
                 <div class="chk"><input type="checkbox" id="req_monitor"> Monitor Local</div>
@@ -644,17 +646,17 @@
             </div>
         </div>
 
-<div class="card">
-    <h2>8. Entregables y Sistemas Complementarios</h2>
-    <div class="checkbox-group">
-        <div class="row-item" data-chk="ent_planos"><input type="checkbox" id="ent_planos"> Planos</div>
-        <div class="row-item" data-chk="ent_memoria"><input type="checkbox" id="ent_memoria"> Memoria Técnica</div>
-        <div class="row-item" data-chk="ent_cert"><input type="checkbox" id="ent_cert"> Certificación Fluke</div>
-        <div class="row-item" data-chk="wifi"><input type="checkbox" id="wifi"> Red WiFi Profesiona</div>
-        <div class="row-item" data-chk="audio"><input type="checkbox" id="audio"> Audio Escolar/Voceo</div>
-        <div class="row-item" data-chk="tv"><input type="checkbox" id="tv"> Pantallas TV</div>
-    </div>
-</div>
+        <div class="card">
+            <h2>8. Entregables y Sistemas Complementarios</h2>
+            <div class="checkbox-group">
+                <div class="row-item" data-chk="ent_planos"><input type="checkbox" id="ent_planos"> Planos:</div>
+                <div class="row-item" data-chk="ent_memoria"><input type="checkbox" id="ent_memoria"> Memoria Técnica</div>
+                <div class="row-item" data-chk="ent_cert"><input type="checkbox" id="ent_cert"> Certificación Fluke</div>
+                <div class="row-item" data-chk="wifi"><input type="checkbox" id="wifi"> Red WiFi Profesional (Aulas)</div>
+                <div class="row-item" data-chk="audio"><input type="checkbox" id="audio"> Audio Escolar/Voceo</div>
+                <div class="row-item" data-chk="tv"><input type="checkbox" id="tv"> Pantallas TV</div>
+            </div>
+        </div>
 
         <div class="btn-group">
             <button type="button" class="btn btn-wa" id="btnWhatsApp">WhatsApp</button>
