@@ -233,14 +233,15 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones cargadas");
+    console.log("Automatizaciones cargadas y bloque de Fibra sincronizado");
 
     document.addEventListener('change', (e) => {
-        // 1. Lógica de Fibra Óptica (Escuchamos el ID correcto: cant_fo_cable)
+        // 1. --- LÓGICA EXCLUSIVA DE FIBRA ÓPTICA ---
         if (e.target.id === 'cant_fo_cable') {
+            console.log("Detectado cambio en Fibra Óptica");
             const rollos = parseInt(e.target.value) || 0;
             
-            // Auto-seleccionar "Pre-fabricado" en la lista de notas
+            // Auto-seleccionar "Pre-fabricado"
             const notasSelect = document.getElementById('notes_fo_cable');
             if (notasSelect) notasSelect.value = 'Pre-fabricado';
 
@@ -266,20 +267,22 @@ function configurarAutomatizaciones() {
                 }
             });
 
-            // Activar Entregables (Asegúrate que estos IDs existan en tu HTML)
             const planos = document.getElementById('check_planos');
             const memoria = document.getElementById('check_memoria_tecnica');
             if (planos) planos.checked = true;
             if (memoria) memoria.checked = true;
+            return; // Salimos para que no entre en la lógica de abajo
         }
 
-        // 2. Lógica Flexible (Checkbox/Select)
-        if (e.target.tagName === 'SELECT' || e.target.type === 'checkbox') {
+        // 2. --- LÓGICA DE CHECKBOXES/SELECTS (Cualquier otra sección) ---
+        // Excluimos explícitamente el campo de fibra para que no pida cantidad extra
+        if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
             const cont = e.target.closest('.row-item');
             if (!cont) return;
 
             const campoCant = cont.querySelector('input[type="number"]');
             
+            // Solo pedir si está vacío y si es un elemento válido
             if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
                 let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
                 if (cantidad) {
