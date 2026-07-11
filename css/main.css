@@ -291,19 +291,7 @@ input[type="checkbox"] {
     .btn-group, .import-box, #btnCalcularHDD, #calculadoraPanel {
         display: none !important;
     }
-
-    /* Oculta el encabezado y pie, PERO permite que el logo se vea */
-    .header-text, .footer {
-        display: none !important;
-    }
     
-    /* Asegura que el logo sí se imprima */
-    .header img {
-        display: block !important;
-        width: 150px; /* Ajusta el tamaño según necesites */
-        margin-bottom: 20px;
-    }
-
     .no-print-row {
         display: none !important;
     }
