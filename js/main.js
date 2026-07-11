@@ -233,15 +233,12 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones cargadas y bloque de Fibra sincronizado");
+    console.log("Automatizaciones cargadas");
 
     document.addEventListener('change', (e) => {
-        // 1. --- LÓGICA EXCLUSIVA DE FIBRA ÓPTICA ---
+        // --- 1. LÓGICA DE FIBRA ÓPTICA ---
         if (e.target.id === 'cant_fo_cable') {
-            console.log("Detectado cambio en Fibra Óptica");
             const rollos = parseInt(e.target.value) || 0;
-            
-            // Auto-seleccionar "Pre-fabricado"
             const notasSelect = document.getElementById('notes_fo_cable');
             if (notasSelect) notasSelect.value = 'Pre-fabricado';
 
@@ -255,7 +252,10 @@ function configurarAutomatizaciones() {
             campos.forEach(c => {
                 const elCant = document.getElementById(c.id);
                 if (elCant) {
+                    // Usamos un atributo de datos para marcar que esto es un cambio automático
+                    elCant.dataset.auto = "true"; 
                     elCant.value = rollos * 2;
+                    
                     const cont = elCant.closest('.row-item');
                     if (cont) {
                         const m = cont.querySelector('input[id*="modelo"], select[id*="modelo"]');
@@ -271,30 +271,39 @@ function configurarAutomatizaciones() {
             const memoria = document.getElementById('check_memoria_tecnica');
             if (planos) planos.checked = true;
             if (memoria) memoria.checked = true;
-            return; // Salimos para que no entre en la lógica de abajo
+            return; // Detenemos la ejecución aquí
         }
 
-        // 2. --- LÓGICA DE CHECKBOXES/SELECTS (Cualquier otra sección) ---
-        // Excluimos explícitamente el campo de fibra para que no pida cantidad extra
-        if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
-            const cont = e.target.closest('.row-item');
-            if (!cont) return;
-
-            const campoCant = cont.querySelector('input[type="number"]');
+        // --- 2. LÓGICA FLEXIBLE (Checkboxes y Selects) ---
+        // Verificamos: 
+        // 1. Que no sea el campo de fibra (ya lo procesamos arriba)
+        // 2. Que el cambio no haya sido provocado por nuestra propia automatización (dataset.auto)
+        if (e.target.id !== 'cant_fo_cable' && !e.target.dataset.auto) {
             
-            // Solo pedir si está vacío y si es un elemento válido
-            if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
-                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-                if (cantidad) {
-                    campoCant.value = cantidad;
-                    campoCant.dispatchEvent(new Event('change'));
-                } else if (e.target.type === 'checkbox') {
-                    e.target.checked = false;
+            if (e.target.tagName === 'SELECT' || e.target.type === 'checkbox') {
+                const cont = e.target.closest('.row-item');
+                if (!cont) return;
+
+                const campoCant = cont.querySelector('input[type="number"]');
+                
+                // Solo pedir si está vacío
+                if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
+                    let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+                    if (cantidad) {
+                        campoCant.value = cantidad;
+                    } else if (e.target.type === 'checkbox') {
+                        e.target.checked = false;
+                        return; // Si cancela, no seguimos
+                    }
                 }
+                
+                const chk = cont.querySelector('input[type="checkbox"]');
+                if (chk) chk.checked = true;
             }
-            const chk = cont.querySelector('input[type="checkbox"]');
-            if (chk) chk.checked = true;
         }
+        
+        // Limpiamos el flag de automatización después de procesar
+        if (e.target.dataset.auto) delete e.target.dataset.auto;
     }); 
 }
 
