@@ -233,42 +233,35 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones cargadas");
+    console.log("Automatizaciones cargadas (Modo Flexible)");
 
     document.addEventListener('change', (e) => {
-        // 1. Lógica de Fibra Óptica
+        // 1. Lógica de Fibra Óptica (Se mantiene igual)
         if (e.target.id === 'cantidad_rollos') {
-            // ... (mantén tu lógica actual de fibra aquí)
+            // ... (tu lógica de fibra)
         }
 
-        // 2. Lógica de Preguntar Cantidad (Selects y Checkboxes)
+        // 2. Lógica de Preguntar Cantidad (Flexible)
+        // Se ejecuta si tocas un CHECKBOX o un SELECT, pero solo una vez por fila.
         if (e.target.tagName === 'SELECT' || e.target.type === 'checkbox') {
             const cont = e.target.closest('.row-item');
             if (!cont) return;
 
             const campoCant = cont.querySelector('input[type="number"]');
             
-            // Solo pedir cantidad si el campo está vacío o es cero
+            // Solo pedir cantidad si el campo está vacío o es "0" (Solo la primera vez)
             if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
                 let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
                 if (cantidad) {
                     campoCant.value = cantidad;
                     campoCant.dispatchEvent(new Event('change'));
+                } else {
+                    // Si el usuario cancela el prompt, desmarcamos el checkbox para evitar errores
+                    if (e.target.type === 'checkbox') e.target.checked = false;
                 }
             }
-
-            // Lógica para deshabilitar listas de la derecha automáticamente
-            // Buscamos selects que no sean el que acaba de activar el evento
-            const todosLosSelects = cont.querySelectorAll('select');
-            todosLosSelects.forEach(sel => {
-                // Si el select no es el que el usuario acaba de tocar, lo deshabilitamos
-                if (sel !== e.target) {
-                    sel.disabled = true; 
-                    sel.style.opacity = "0.6"; // Efecto visual de deshabilitado
-                }
-            });
             
-            // Asegurar que el checkbox se marque
+            // Aseguramos que el checkbox esté marcado si hay actividad en la fila
             const chk = cont.querySelector('input[type="checkbox"]');
             if (chk) chk.checked = true;
         }
