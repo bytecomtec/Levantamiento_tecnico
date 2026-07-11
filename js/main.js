@@ -261,31 +261,31 @@ function configurarAutomatizaciones() {
             });
         }
 
-        // --- 2. Lógica de Preguntar Cantidad (Checkboxes) ---
-        if (e.target.type === 'checkbox' && e.target.checked) {
-            let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+// --- Lógica de Preguntar Cantidad (Búsqueda Universal Mejorada) ---
+if (e.target.type === 'checkbox' && e.target.checked) {
+    let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
 
-            if (cantidad) {
-                let idBase = e.target.id.replace('chk_', '').replace('req_', '');
-                let campoCant = document.getElementById('cant_' + idBase);
+    if (cantidad) {
+        let idBase = e.target.id.replace('chk_', '').replace('req_', '');
+        
+        // Buscamos el contenedor más cercano que agrupe la fila (clase común 'fila' o 'row')
+        // Si no tienes una clase, el selector buscará en el formulario completo
+        let campoCant = document.getElementById('cant_' + idBase);
 
-                if (!campoCant) {
-                    const contenedorPadre = e.target.parentElement;
-                    campoCant = contenedorPadre.querySelector('input[type="number"]');
-                }
-
-                if (!campoCant) {
-                    campoCant = document.querySelector(`input[id*='${idBase}'][type='number']`);
-                }
-
-                if (campoCant) {
-                    campoCant.value = cantidad;
-                    console.log("Cantidad asignada correctamente a:", campoCant.id);
-                } else {
-                    console.error("No se encontró campo numérico para: " + idBase);
-                }
-            }
+        if (!campoCant) {
+            // Intento de búsqueda global dentro del formulario si el ID exacto no existe
+            campoCant = document.querySelector(`input[id*='${idBase}'][type='number']`);
         }
+
+        if (campoCant) {
+            campoCant.value = cantidad;
+            campoCant.dispatchEvent(new Event('change')); // Dispara evento para cálculos
+            console.log("Cantidad asignada a:", campoCant.id);
+        } else {
+            console.error("No se encontró campo de cantidad para: " + idBase);
+        }
+    }
+}
     }); // Fin del addEventListener
 } // Fin de configurarAutomatizaciones
 
