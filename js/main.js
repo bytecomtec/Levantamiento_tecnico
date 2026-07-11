@@ -235,22 +235,28 @@ function enviarWhatsApp() {
 
 function configurarAutomatizaciones() {
     // 1. Valores por default (Conectividad)
-    document.getElementById('cuentaConModem').checked = true;
-    document.getElementById('proveedor').value = 'Telmex';
-    document.getElementById('velocidad').value = '50Mb';
+    console.log("Automatizaciones cargadas correctamente");
+    const modem = document.getElementById('cuentaConModem');
+    const prov = document.getElementById('proveedor');
+    const vel = document.getElementById('velocidad');
+    if(modem) modem.checked = true;
+    if(prov) prov.value = 'Telmex';
+    if(vel) vel.value = '50Mb';
 
     // 2. Entregables default
-    document.getElementById('check_planos').checked = true;
-    document.getElementById('check_memoria_tecnica').checked = true;
+    const plan = document.getElementById('check_planos');
+    const mem = document.getElementById('check_memoria_tecnica');
+    if(plan) plan.checked = true;
+    if(mem) mem.checked = true;
 
-    // 3. Lógica de Fibra Óptica (Cálculos)
-    const inputRollos = document.getElementById('cantidad_rollos');
-    if (inputRollos) {
-        inputRollos.addEventListener('input', () => {
-            const rollos = parseInt(inputRollos.value) || 0;
-            document.getElementById('tipo_fibra').value = 'pre-fabricado';
+    // 3. Delegación de eventos para capturar clicks en cualquier checkbox o select
+    document.addEventListener('change', (e) => {
+        // --- Lógica de Fibra Óptica ---
+        if (e.target.id === 'cantidad_rollos') {
+            const rollos = parseInt(e.target.value) || 0;
+            const tf = document.getElementById('tipo_fibra');
+            if(tf) tf.value = 'pre-fabricado';
 
-            // Actualización de campos
             const campos = [
                 {id: 'conv_cantidad', val: rollos * 2, mod: 'MC220L', nota: 'TP-link'},
                 {id: 'caja_cantidad', val: rollos * 2, mod: 'FTB-501', nota: 'FiberHome'},
@@ -263,24 +269,18 @@ function configurarAutomatizaciones() {
                 if(document.getElementById(c.id.replace('cantidad', 'modelo'))) document.getElementById(c.id.replace('cantidad', 'modelo')).value = c.mod;
                 if(document.getElementById(c.id.replace('cantidad', 'notas'))) document.getElementById(c.id.replace('cantidad', 'notas')).value = c.nota;
             });
-        });
-    }
+        }
 
-    // 4. Preguntar cantidad (Versión robusta)
-    // Buscamos inputs que tengan un campo de texto o número hermano
-    document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
-        chk.addEventListener('change', function() {
-            if (this.checked) {
-                // Buscamos un input tipo número dentro del mismo contenedor (fila)
-                const fila = this.closest('tr') || this.closest('.row');
-                const campoCant = fila ? fila.querySelector('input[type="number"]') : null;
-                
-                if (campoCant) {
-                    let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-                    if (cantidad) campoCant.value = cantidad;
-                }
+        // --- Lógica de Preguntar Cantidad ---
+        if (e.target.type === 'checkbox' && e.target.checked) {
+            const fila = e.target.closest('tr') || e.target.closest('.row');
+            const campoCant = fila ? fila.querySelector('input[type="number"]') : null;
+            
+            if (campoCant) {
+                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+                if (cantidad) campoCant.value = cantidad;
             }
-        });
+        }
     });
 }
 
