@@ -288,42 +288,48 @@ input[type="checkbox"] {
 
 
 @media print {
-    /* 1. Márgenes físicos para la hoja de papel */
+    /* 1. Definir los márgenes de toda la hoja */
     @page {
-        margin: 15mm; 
+        margin: 20mm 10mm; /* Margen superior e inferior para logo y pie */
     }
 
-    /* 2. El encabezado no debe ser fijo, sino un bloque que ocupa espacio */
+    /* 2. Definir el encabezado repetible */
+    thead {
+        display: table-header-group;
+    }
+
+    /* 3. Definir el pie de página repetible */
+    tfoot {
+        display: table-footer-group;
+    }
+
+    /* 4. Estilo del Logo y Encabezado */
     .header {
+        position: fixed;
+        top: 0;
+        width: 100%;
         display: block !important;
-        width: 100% !important;
-        margin-bottom: 20px !important;
-        padding-bottom: 10px !important;
-        border-bottom: 2px solid #003366 !important;
+        border-bottom: 2px solid #003366;
     }
 
-    /* 3. Asegurar tamaño del logo sin deformación */
+    /* 5. Estilo del Pie de Página */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        border-top: 1px solid #ccc;
+        font-size: 10px;
+    }
+
+    /* 6. Forzar que el logo no se deforme */
     .header img {
-        display: block !important;
-        width: 80px !important;
+        width: 60px !important; /* Ajusta este tamaño para que no estorbe */
         height: auto !important;
-        margin-bottom: 5px !important;
     }
 
-    /* 4. Forzar el encabezado al inicio de cada página */
-    /* Esto ayuda a que el navegador repita el bloque en cada página nueva */
-    .header {
-        break-inside: avoid;
-    }
-
-    /* 5. Asegurar que el contenedor principal no tenga márgenes que empujen el contenido */
-    .container {
-        margin-top: 0 !important;
-        padding-top: 0 !important;
-    }
-
-    /* 6. Ocultar todos los elementos de control y calculadora */
-    .import-box, .btn-group, #btnCalcularHDD, #calculadoraPanel, .footer, .nav-buttons {
+    /* 7. Ocultar botones y elementos de UI */
+    .import-box, .btn-group, #btnCalcularHDD, #calculadoraPanel, .nav-buttons {
         display: none !important;
     }
 }
