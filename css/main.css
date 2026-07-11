@@ -917,4 +917,21 @@ table {
         font-size: 10px;
         background: white; /* Asegura que tape cualquier texto detrás */
     }
+/* Ocultar las flechas de incremento/decremento en inputs tipo number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+/* Ocultar el selector de calendario en inputs tipo date */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+    
 } /* <--- Esta es la única llave necesaria para cerrar @media print */
