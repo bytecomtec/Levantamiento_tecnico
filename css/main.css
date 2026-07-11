@@ -288,29 +288,34 @@ input[type="checkbox"] {
 
 
 @media print {
-    /* 1. Ocultar el encabezado y pie de página */
-    .header, .footer, .import-box, .btn-group {
-        display: none !important;
+    /* 1. Definimos un margen superior de 100px. 
+       Todo lo que pongamos dentro de este espacio de 100px estará en el "header". */
+    @page {
+        margin: 100px 20px 20px 20px;
     }
 
-    /* 2. Ocultar el panel de la calculadora y su botón */
-    #calculadoraPanel, #btnCalcularHDD {
-        display: none !important;
+    /* 2. El encabezado se coloca en el espacio del margen superior */
+    .header {
+        position: fixed;
+        top: -100px; /* Se mueve hacia arriba para ocupar el espacio del margen */
+        left: 20px;
+        right: 20px;
+        height: 80px;
+        display: flex !important;
+        align-items: center;
+        border-bottom: 2px solid #003366;
+        background-color: white !important;
+        z-index: 9999;
     }
 
-    /* 3. Asegurar que los elementos NO seleccionados no se impriman */
-    .no-print-row {
-        display: none !important;
-    }
-
-    /* 4. Ajustar márgenes para que aproveche toda la hoja */
-    body {
-        margin: 0;
-        padding: 0;
-    }
+    /* 3. El contenedor comienza exactamente en el borde superior de la hoja */
     .container {
-        max-width: 100% !important;
-        margin: 0;
-        padding: 10px;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* 4. Ocultar elementos de UI */
+    .import-box, .btn-group, #btnCalcularHDD, #calculadoraPanel, .footer {
+        display: none !important;
     }
 }
