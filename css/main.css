@@ -870,25 +870,26 @@ input[type="checkbox"] {
     .checkbox-item { background: transparent !important; border: none !important; padding: 1px 0 !important; }
     .checkbox-item label { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
 
-/* --- ESTILOS GENERALES --- */
+/* --- ESTILOS GENERALES (Pantalla) --- */
 body { font-family: Arial, sans-serif; margin: 20px; }
 table { width: 100%; border-collapse: collapse; }
 
 /* --- ESTILOS DE IMPRESIÓN (PDF) --- */
 @media print {
+    /* 1. Configuración de página */
     body { margin: 0; padding: 0; }
     @page { margin: 15mm; }
 
-    /* 1. Ocultar elementos innecesarios */
+    /* 2. Ocultar elementos de UI y botones */
     .import-box, .btn-group, #btnCalcularHDD, .nav-buttons, .no-print, #calculadoraPanel { 
         display: none !important; 
     }
 
-    /* 2. Encabezado y Pie de página nativos de la tabla */
+    /* 3. Estructura de Encabezado y Pie de página (Nativo) */
     thead { display: table-header-group; }
     tfoot { display: table-footer-group; }
 
-    /* 3. Estilo del Header */
+    /* 4. Estilo del Header */
     thead .header {
         display: flex !important;
         align-items: center;
@@ -897,7 +898,12 @@ table { width: 100%; border-collapse: collapse; }
     }
     thead .header img { width: 60px !important; display: block !important; margin-right: 15px; }
 
-    /* 4. Estilo del Footer (dentro del tfoot) */
+    /* 5. EL TRUCO PARA EL FOOTER: Forzamos a la tabla a ocupar toda la página */
+    table {
+        height: 100vh; /* Obliga a la tabla a expandirse */
+        position: relative;
+    }
+
     .footer {
         text-align: center;
         border-top: 1px solid #ccc;
@@ -905,9 +911,11 @@ table { width: 100%; border-collapse: collapse; }
         font-size: 10px;
         width: 100%;
         margin-top: 20px;
+        /* Asegura que el footer se mantenga al final */
+        display: block; 
     }
 
-    /* 5. Limpieza de formularios */
+    /* 6. Limpieza de formularios */
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
@@ -916,6 +924,7 @@ table { width: 100%; border-collapse: collapse; }
         border: none !important;
         background: transparent !important;
         -webkit-appearance: none;
+        appearance: none;
         font-size: 10pt;
         color: black !important;
     }
