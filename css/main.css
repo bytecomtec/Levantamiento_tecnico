@@ -286,44 +286,41 @@ input[type="checkbox"] {
     .checkbox-item { background: transparent !important; border: none !important; padding: 1px 0 !important; }
     .checkbox-item label { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
 
+
+    /* 1. Fijar el encabezado en todas las páginas */
 @media print {
-    /* 1. Definir márgenes de página para dejar espacio al encabezado */
+    /* 1. Define los márgenes de la página (El margen superior de 120px es para el header) */
     @page {
-        margin: 1cm 1cm 1cm 1cm; /* Espacio superior para el logo */
+        margin: 120px 20px 20px 20px;
     }
 
-    /* 2. Fijar el encabezado en todas las páginas */
-@media print {
-    /* 1. Define márgenes de la hoja física */
-    @page {
-        margin: 120px 20px 20px 20px; /* Margen superior amplio (120px) para el encabezado */
-    }
-
-    /* 2. Encabezado fijo y posicionado correctamente */
+    /* 2. Encabezado fijo en el espacio del margen superior */
     .header {
         position: fixed;
         top: 0;
         left: 20px;
         right: 20px;
-        height: 100px; /* Ajusta según sea necesario */
+        height: 100px;
         display: flex !important;
         align-items: center;
         background: white;
         border-bottom: 2px solid #003366;
-        z-index: 999;
     }
 
     /* 3. Evitar que el contenido se encime en la primera página */
-    .container {
-        margin-top: 100px !important; /* Espacio para que el header no tape el formulario */
+.container {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
     }
 
-    /* 4. Ocultar lo que NO quieres en el PDF */
-    .import-box, .btn-group, #btnCalcularHDD, #calculadoraPanel, .footer {
-        display: none !important;
+    /* 4. Asegurar que las tarjetas no se corten mal */
+    .card {
+        break-inside: avoid;
+        margin-bottom: 10px;
     }
-    
-    .no-print-row {
+
+    /* 5. Ocultar lo que no queremos imprimir */
+    .import-box, .btn-group, #btnCalcularHDD, #calculadoraPanel, .footer {
         display: none !important;
     }
 }
