@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     inicializarFechaHora();
     inicializarEventosOperativos();
+    configurarAutomatizaciones(); // <-- ¡ESTO ES LO QUE FALTABA!
 });
 
 function inicializarFechaHora() {
