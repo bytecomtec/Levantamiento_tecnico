@@ -288,33 +288,31 @@ input[type="checkbox"] {
 
 
 @media print {
-    /* 1. Resetear márgenes de página */
+    /* 1. Definimos los márgenes de la hoja */
     @page {
-        margin: 20px; /* Margen pequeño para que la impresora no corte nada */
+        margin: 120px 20px 20px 20px;
     }
 
-    /* 2. Encabezado estático (sin absolute/fixed) */
+    /* 2. El encabezado se repite en cada página usando position: fixed */
     .header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 20px !important;
+        right: 20px !important;
+        height: 100px !important;
+        background: white !important;
+        border-bottom: 2px solid #003366 !important;
         display: flex !important;
-        align-items: center;
-        border-bottom: 2px solid #003366;
-        margin-bottom: 20px; /* Espacio para separar del contenido */
-        width: 100%;
+        z-index: 9999 !important;
     }
 
-    .header img {
-        display: block !important;
-        width: 100px !important;
-        margin-right: 15px;
-        visibility: visible !important;
-    }
-
-    /* 3. El contenedor principal no necesita márgenes extra */
+    /* 3. El contenedor NO debe tener margen superior porque el fixed ya reservó el espacio */
     .container {
         margin-top: 0 !important;
+        padding-top: 0 !important;
     }
 
-    /* 4. Ocultar botones y calculadora */
+    /* 4. Ocultar elementos innecesarios */
     .import-box, .btn-group, #btnCalcularHDD, #calculadoraPanel, .footer {
         display: none !important;
     }
