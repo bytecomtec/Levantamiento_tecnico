@@ -884,7 +884,14 @@ table { width: 100%; border-collapse: collapse; }
     .import-box, .btn-group, #btnCalcularHDD, .nav-buttons, .no-print, #calculadoraPanel { 
         display: none !important; 
     }
-
+/* Ocultar flechas y calendario de forma global */
+    input::-webkit-calendar-picker-indicator,
+    input::-webkit-inner-spin-button,
+    input::-webkit-outer-spin-button {
+        display: none !important;
+        -webkit-appearance: none !important;
+    }
+    
     /* Estructura: Header como parte de la tabla */
     thead { display: table-header-group; }
 
