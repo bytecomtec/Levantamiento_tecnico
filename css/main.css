@@ -939,9 +939,6 @@ table {
     input[type=number] { -moz-appearance: textfield; }
 
     /* Ocultar selector de calendario */
-input[type="date"] {
-        color: transparent !important; /* Esconde el texto del calendario */
-    }
     input[type="date"]::-webkit-calendar-picker-indicator {
         display: none !important;
     }
