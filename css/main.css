@@ -870,102 +870,54 @@ input[type="checkbox"] {
     .checkbox-item { background: transparent !important; border: none !important; padding: 1px 0 !important; }
     .checkbox-item label { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
 
-/* --- ESTILOS GENERALES (Pantalla) --- */
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+/* --- ESTILOS GENERALES --- */
+body { font-family: Arial, sans-serif; margin: 20px; }
+table { width: 100%; border-collapse: collapse; }
 
 /* --- ESTILOS DE IMPRESIÓN (PDF) --- */
 @media print {
-    /* 1. Reset para forzar el diseño de página */
     body { margin: 0; padding: 0; }
-    
-    @page {
-        margin: 15mm; /* Margen estándar para evitar cortes */
-    }
+    @page { margin: 15mm; }
 
-    /* 2. Ocultar elementos de UI y botones */
-    .import-box, 
-    .btn-group, 
-    #btnCalcularHDD, 
-    .nav-buttons,
-    /* Elemento específico de cálculo si existe */
-    .no-print { 
+    /* 1. Ocultar elementos innecesarios */
+    .import-box, .btn-group, #btnCalcularHDD, .nav-buttons, .no-print, #calculadoraPanel { 
         display: none !important; 
     }
 
-    /* 3. Estructura de Encabezado y Pie de página */
+    /* 2. Encabezado y Pie de página nativos de la tabla */
     thead { display: table-header-group; }
     tfoot { display: table-footer-group; }
 
-    /* Estilo del Header */
+    /* 3. Estilo del Header */
     thead .header {
         display: flex !important;
         align-items: center;
         border-bottom: 2px solid #003366;
         margin-bottom: 15px;
     }
+    thead .header img { width: 60px !important; display: block !important; margin-right: 15px; }
 
-    thead .header img {
-        width: 60px !important;
-        height: auto !important;
-        display: block !important;
-        margin-right: 15px;
-    }
-
-  /* 1. Asegurar que el contenido pueda crecer */
-    body {
-        margin: 0;
-        padding: 0;
-    }
-
-    /* 2. Este es el truco para que aparezca en todas las hojas */
-    .footer-print {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 40px; /* Ajusta según el tamaño de tu logo/texto */
+    /* 4. Estilo del Footer (dentro del tfoot) */
+    .footer {
         text-align: center;
         border-top: 1px solid #ccc;
-        background: white;
-        padding: 5px;
+        padding-top: 10px;
         font-size: 10px;
-        display: block !important;
+        width: 100%;
+        margin-top: 20px;
     }
 
-    /* 3. Evitar que el contenido se encime con el footer */
-    table {
-        margin-bottom: 50px; 
-    }
-
-    /* 4. Limpieza de Formularios para impresión */
-    /* Ocultar flechas de números */
+    /* 5. Limpieza de formularios */
     input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-    input[type=number] { -moz-appearance: textfield; }
-
-    /* Ocultar selector de calendario */
-    input[type="date"]::-webkit-calendar-picker-indicator {
-        display: none !important;
-    }
-
-    /* Estilo de inputs como texto plano */
+    input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type="date"]::-webkit-calendar-picker-indicator { display: none !important; }
+    
     input, select {
         border: none !important;
         background: transparent !important;
         -webkit-appearance: none;
-        appearance: none;
         font-size: 10pt;
+        color: black !important;
     }
 }
 
