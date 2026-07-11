@@ -235,18 +235,19 @@ function enviarWhatsApp() {
 function configurarAutomatizaciones() {
     console.log("Automatizaciones cargadas");
 
-    // Función de cálculo centralizada
     function ejecutarCalculoFibra() {
+        console.log("Ejecutando cálculo de fibra..."); // DIAGNÓSTICO
         const inputRollos = document.getElementById('cant_fo_cable');
-        if (!inputRollos) return;
+        if (!inputRollos) {
+            console.error("No se encontró el campo cant_fo_cable");
+            return;
+        }
         
         const rollos = parseInt(inputRollos.value) || 0;
         
-        // 1. Nota de fibra
         const notasFibra = document.getElementById('notes_fo_cable');
         if (notasFibra) notasFibra.value = 'Pre-fabricado';
 
-        // 2. Mapeo de elementos
         const map = [
             { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
             { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
@@ -260,46 +261,56 @@ function configurarAutomatizaciones() {
                 inputCant.value = rollos * 2;
                 const cont = inputCant.closest('.row-item');
                 if (cont) {
+                    // Usamos querySelectorAll por si hay varios elementos
                     const selSpec = cont.querySelector('select[id^="spec_"]');
                     const selNotes = cont.querySelector('select[id^="notes_"]');
+                    
                     if (selSpec) selSpec.value = item.spec;
                     if (selNotes) selNotes.value = item.notes;
+                    
                     const chk = cont.querySelector('input[type="checkbox"]');
                     if (chk) chk.checked = true;
                 }
             }
         });
 
-        // Entregables
         const planos = document.getElementById('check_planos');
         const memoria = document.getElementById('check_memoria_tecnica');
         if (planos) planos.checked = true;
         if (memoria) memoria.checked = true;
-        
-        console.log("Cálculo ejecutado para:", rollos, "rollos");
     }
 
-    // A) Escuchar el input (tiempo real)
+    // A) Escuchar input
     document.addEventListener('input', (e) => {
-        if (e.target.id === 'cant_fo_cable') {
-            ejecutarCalculoFibra();
-        }
+        if (e.target.id === 'cant_fo_cable') ejecutarCalculoFibra();
     });
 
-    // B) Escuchar tu botón (Si tienes el ID correcto, cámbialo aquí)
-    const btnAceptar = document.getElementById('btn_aceptar'); // <--- CAMBIA 'btn_aceptar' POR EL ID REAL DE TU BOTÓN
+    // B) Escuchar botón (Verifica que el ID sea correcto)
+    const btnAceptar = document.getElementById('btn_aceptar');
     if (btnAceptar) {
         btnAceptar.addEventListener('click', (e) => {
-            e.preventDefault(); // Evita que se recargue la página si es un formulario
             ejecutarCalculoFibra();
         });
     }
 
-    // C) Lógica de Checkbox/Select
+    // C) Lógica de Checkbox/Select (Asegúrate de que esta parte esté cerrada correctamente)
     document.addEventListener('change', (e) => {
-        // ... (tu lógica actual de checkbox/select)
+        if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
+            const cont = e.target.closest('.row-item');
+            if (!cont) return;
+
+            const campoCant = cont.querySelector('input[type="number"]');
+            if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
+                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+                if (cantidad) campoCant.value = cantidad;
+                else if (e.target.type === 'checkbox') e.target.checked = false;
+            }
+            const chk = cont.querySelector('input[type="checkbox"]');
+            if (chk) chk.checked = true;
+        }
     });
 }
+
 // ==========================================
 // FUNCIÓN DE CÁLCULO INDEPENDIENTE Y GLOBAL
 // ==========================================
