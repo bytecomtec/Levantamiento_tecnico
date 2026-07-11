@@ -266,12 +266,17 @@ function configurarAutomatizaciones() {
             });
         }
 
-        // 2. Lógica de Checkboxes (Preguntar cantidad y asignar)
-        if (e.target.type === 'checkbox' && e.target.checked) {
+ // 2. Lógica para Preguntar Cantidad (Checkboxes y Selects)
+        if ((e.target.type === 'checkbox' && e.target.checked) || (e.target.tagName === 'SELECT' && e.target.value !== "")) {
+            
+            // Si es un checkbox, verificamos si está marcado. 
+            // Si es un select, verificamos que no sea la opción vacía.
             let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+            
             if (cantidad) {
                 const cont = e.target.closest('.row-item');
                 const campo = cont ? cont.querySelector('input[type="number"]') : null;
+                
                 if (campo) {
                     campo.value = cantidad;
                     campo.dispatchEvent(new Event('change'));
