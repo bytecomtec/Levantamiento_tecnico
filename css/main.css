@@ -293,17 +293,29 @@ input[type="checkbox"] {
     }
 
     /* 2. Fijar el encabezado en todas las páginas */
+@media print {
+    /* 1. Define márgenes de la hoja física */
+    @page {
+        margin: 120px 20px 20px 20px; /* Margen superior amplio (120px) para el encabezado */
+    }
+
+    /* 2. Encabezado fijo y posicionado correctamente */
     .header {
         position: fixed;
         top: 0;
-        left: 0;
-        right: 0;
-        height: 60px; /* Altura de tu encabezado */
+        left: 20px;
+        right: 20px;
+        height: 100px; /* Ajusta según sea necesario */
         display: flex !important;
         align-items: center;
-        background: white; /* Para evitar transparencias */
-        border-bottom: 2px solid #003366; /* Línea divisoria profesional */
+        background: white;
+        border-bottom: 2px solid #003366;
         z-index: 999;
+    }
+
+    /* 3. Evitar que el contenido se encime en la primera página */
+    .container {
+        margin-top: 100px !important; /* Espacio para que el header no tape el formulario */
     }
 
     /* 4. Ocultar lo que NO quieres en el PDF */
