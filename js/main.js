@@ -233,17 +233,19 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones cargadas");
+    console.log("Automatizaciones cargadas correctamente");
 
-    // Función que hace todo el trabajo pesado
     function ejecutarCalculoFibra() {
-        const inputRollos = document.getElementById('cant_fo_cable'); // ID REAL DE TU HTML
+        // Corregido: Buscamos el ID real de tu HTML
+        const inputRollos = document.getElementById('cant_fo_cable'); 
+        
         if (!inputRollos) {
-            console.error("No se encontró el elemento con id 'cant_fo_cable'");
+            console.error("ERROR: No existe un elemento con id='cant_fo_cable' en tu HTML");
             return;
         }
 
         const rollos = parseInt(inputRollos.value) || 0;
+        
         const notasFibra = document.getElementById('notes_fo_cable');
         if (notasFibra) notasFibra.value = 'Pre-fabricado';
 
@@ -258,13 +260,13 @@ function configurarAutomatizaciones() {
             const inputCant = document.getElementById(item.idCant);
             if (inputCant) {
                 inputCant.value = rollos * 2;
-                // Disparamos el evento para que el sistema "sienta" el cambio
                 inputCant.dispatchEvent(new Event('change', { bubbles: true }));
 
                 const cont = inputCant.closest('.row-item');
                 if (cont) {
                     const selSpec = cont.querySelector('select[id^="spec_"]');
                     const selNotes = cont.querySelector('select[id^="notes_"]');
+                    
                     if (selSpec) {
                         selSpec.value = item.spec;
                         selSpec.dispatchEvent(new Event('change', { bubbles: true }));
@@ -273,6 +275,11 @@ function configurarAutomatizaciones() {
                         selNotes.value = item.notes;
                         selNotes.dispatchEvent(new Event('change', { bubbles: true }));
                     }
+                    const chk = cont.querySelector('input[type="checkbox"]');
+                    if (chk) {
+                        chk.checked = true;
+                        chk.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
                 }
             }
         });
@@ -283,90 +290,37 @@ function configurarAutomatizaciones() {
         if (memoria) memoria.checked = true;
     }
 
-    // A) Escuchar input de rollos
+    // Eventos
     document.addEventListener('input', (e) => {
-        if (e.target.id === 'cant_fo_cable') {
-            ejecutarCalculoFibra();
-        }
+        if (e.target.id === 'cant_fo_cable') ejecutarCalculoFibra();
     });
 
-    // B) Escuchar botón (Asegúrate que tu botón en HTML tenga id="btn_aceptar")
     const btnAceptar = document.getElementById('btn_aceptar');
     if (btnAceptar) {
         btnAceptar.addEventListener('click', (e) => {
+            e.preventDefault();
             ejecutarCalculoFibra();
         });
     }
 
-    // C) Lógica de Checkbox/Select
     document.addEventListener('change', (e) => {
         if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
             const cont = e.target.closest('.row-item');
-            if (!cont) return;
-
-            const campoCant = cont.querySelector('input[type="number"]');
-            if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
-                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-                if (cantidad) {
-                    campoCant.value = cantidad;
-                    campoCant.dispatchEvent(new Event('change', { bubbles: true }));
-                } else if (e.target.type === 'checkbox') {
-                    e.target.checked = false;
+            if (cont) {
+                const campoCant = cont.querySelector('input[type="number"]');
+                if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
+                    let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+                    if (cantidad) {
+                        campoCant.value = cantidad;
+                        campoCant.dispatchEvent(new Event('change', { bubbles: true }));
+                    } else if (e.target.type === 'checkbox') {
+                        e.target.checked = false;
+                    }
                 }
             }
         }
     });
 }
-
-        const planos = document.getElementById('check_planos');
-        const memoria = document.getElementById('check_memoria_tecnica');
-        if (planos) planos.checked = true;
-        if (memoria) memoria.checked = true;
-    }
-
-    // A) Escuchar input
-    document.addEventListener('input', (e) => {
-        if (e.target.id === 'cant_fo_cable') ejecutarCalculoFibra();
-    });
-
-    // B) Escuchar botón (Verifica que el ID sea correcto)
-    const btnAceptar = document.getElementById('btn_aceptar');
-    if (btnAceptar) {
-        btnAceptar.addEventListener('click', (e) => {
-            ejecutarCalculoFibra();
-        });
-    }
-
-// C) Lógica de Checkbox/Select
-    document.addEventListener('change', (e) => {
-        if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
-            const cont = e.target.closest('.row-item');
-            if (!cont) return;
-
-            const campoCant = cont.querySelector('input[type="number"]');
-            
-            // Si el campo está vacío, pedimos cantidad
-            if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
-                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-                
-                if (cantidad) {
-                    campoCant.value = cantidad;
-                    
-                    // --- AQUÍ ESTÁ LA CORRECCIÓN ---
-                    // Forzamos manualmente el disparo del evento para que 
-                    // cualquier otra función que dependa de este número se entere
-                    campoCant.dispatchEvent(new Event('change'));
-                    console.log("Cantidad actualizada y evento disparado para:", campoCant.id);
-                } else if (e.target.type === 'checkbox') {
-                    e.target.checked = false;
-                    return;
-                }
-            }
-            
-            const chk = cont.querySelector('input[type="checkbox"]');
-            if (chk) chk.checked = true;
-        }
-    });
 
 // ==========================================
 // FUNCIÓN DE CÁLCULO INDEPENDIENTE Y GLOBAL
