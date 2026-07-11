@@ -233,35 +233,68 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones cargadas (Modo Flexible)");
+    console.log("Automatizaciones cargadas");
 
     document.addEventListener('change', (e) => {
-        // 1. Lógica de Fibra Óptica (Se mantiene igual)
+        // --- 1. LÓGICA DE FIBRA ÓPTICA Y AUTOMATIZACIONES ---
         if (e.target.id === 'cantidad_rollos') {
-            // ... (tu lógica de fibra)
+            const rollos = parseInt(e.target.value) || 0;
+            
+            // Tipo de fibra
+            const tf = document.getElementById('tipo_fibra');
+            if (tf) tf.value = 'pre-fabricado';
+
+            // Configuración de los elementos a automatizar
+            const configuracion = [
+                { id: 'conv_cantidad', modelo: 'MC220L', nota: 'TP-link' },
+                { id: 'caja_cantidad', modelo: 'FTB-501', nota: 'FiberHome' },
+                { id: 'pigtail_cantidad', modelo: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro' },
+                { id: 'sfp_cantidad', modelo: 'TP-link', nota: 'TL-SM321/TL-SM321B' }
+            ];
+
+            configuracion.forEach(item => {
+                const campoCant = document.getElementById(item.id);
+                if (campoCant) {
+                    campoCant.value = rollos * 2;
+                    campoCant.dispatchEvent(new Event('change'));
+                    
+                    // Buscar campos de modelo y notas en el contenedor padre (row-item)
+                    const cont = campoCant.closest('.row-item');
+                    if (cont) {
+                        // Buscamos los inputs por ID usando comodines
+                        const m = cont.querySelector('input[id*="modelo"], select[id*="modelo"]');
+                        const n = cont.querySelector('input[id*="notas"], textarea[id*="notas"]');
+                        if (m) m.value = item.modelo;
+                        if (n) n.value = item.nota;
+                    }
+                }
+            });
+
+            // Activar Entregables Obligatorios (Sección 8)
+            const planos = document.getElementById('check_planos');
+            const memoria = document.getElementById('check_memoria_tecnica');
+            if (planos) planos.checked = true;
+            if (memoria) memoria.checked = true;
         }
 
-        // 2. Lógica de Preguntar Cantidad (Flexible)
-        // Se ejecuta si tocas un CHECKBOX o un SELECT, pero solo una vez por fila.
+        // --- 2. LÓGICA FLEXIBLE DE CANTIDADES (Checkbox/Select) ---
         if (e.target.tagName === 'SELECT' || e.target.type === 'checkbox') {
             const cont = e.target.closest('.row-item');
             if (!cont) return;
 
             const campoCant = cont.querySelector('input[type="number"]');
             
-            // Solo pedir cantidad si el campo está vacío o es "0" (Solo la primera vez)
+            // Solo preguntar cantidad si está vacío o en 0
             if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
                 let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
                 if (cantidad) {
                     campoCant.value = cantidad;
                     campoCant.dispatchEvent(new Event('change'));
-                } else {
-                    // Si el usuario cancela el prompt, desmarcamos el checkbox para evitar errores
-                    if (e.target.type === 'checkbox') e.target.checked = false;
+                } else if (e.target.type === 'checkbox') {
+                    e.target.checked = false;
                 }
             }
             
-            // Aseguramos que el checkbox esté marcado si hay actividad en la fila
             const chk = cont.querySelector('input[type="checkbox"]');
             if (chk) chk.checked = true;
         }
