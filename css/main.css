@@ -873,7 +873,6 @@ input[type="checkbox"] {
 
 @media print {
     /* Ocultar cualquier .header que no esté dentro de un thead */
-    /* Esto evita que un header "olvidado" en el body se imprima */
     body > .header {
         display: none !important;
     }
@@ -893,7 +892,7 @@ input[type="checkbox"] {
     }
     
     /* Esto obliga al footer de la tabla a quedarse abajo */
-tfoot {
+    tfoot {
         display: table-footer-group;
     }
 
@@ -904,5 +903,4 @@ tfoot {
         font-size: 10px;
         width: 100%;
     }
-}
-}
+} /* <--- Esta es la única llave necesaria para cerrar @media print */
