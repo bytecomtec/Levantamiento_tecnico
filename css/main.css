@@ -874,18 +874,23 @@ input[type="checkbox"] {
 body { font-family: Arial, sans-serif; margin: 20px; }
 table { width: 100%; border-collapse: collapse; }
 
+/* --- ESTILOS GENERALES (Pantalla) --- */
+body { font-family: Arial, sans-serif; margin: 20px; }
+table { width: 100%; border-collapse: collapse; }
+
 /* --- ESTILOS DE IMPRESIÓN (PDF) --- */
 @media print {
     /* 1. Configuración de página */
-    body { margin: 0; padding: 0; }
+    body { margin: 0; padding: 0; background: white; }
     @page { margin: 15mm; }
 
-    /* 2. Ocultar elementos de UI y botones */
+    /* 2. Ocultar elementos de UI */
     .import-box, .btn-group, #btnCalcularHDD, .nav-buttons, .no-print, #calculadoraPanel { 
         display: none !important; 
     }
 
-    /* 3. Estructura de Encabezado y Pie de página (Nativo) */
+    /* 3. Estructura de tabla para impresión */
+    table { width: 100%; table-layout: fixed; }
     thead { display: table-header-group; }
     tfoot { display: table-footer-group; }
 
@@ -894,16 +899,13 @@ table { width: 100%; border-collapse: collapse; }
         display: flex !important;
         align-items: center;
         border-bottom: 2px solid #003366;
+        padding-bottom: 10px;
         margin-bottom: 15px;
     }
     thead .header img { width: 60px !important; display: block !important; margin-right: 15px; }
 
-    /* 5. EL TRUCO PARA EL FOOTER: Forzamos a la tabla a ocupar toda la página */
-    table {
-        height: 100vh; /* Obliga a la tabla a expandirse */
-        position: relative;
-    }
-
+    /* 5. Estilo del Footer (Nativo) */
+    /* Nota: Sin 'position: fixed' para permitir que table-footer-group funcione */
     .footer {
         text-align: center;
         border-top: 1px solid #ccc;
@@ -911,8 +913,6 @@ table { width: 100%; border-collapse: collapse; }
         font-size: 10px;
         width: 100%;
         margin-top: 20px;
-        /* Asegura que el footer se mantenga al final */
-        display: block; 
     }
 
     /* 6. Limpieza de formularios */
