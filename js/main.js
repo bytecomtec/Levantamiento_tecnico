@@ -236,43 +236,51 @@ function configurarAutomatizaciones() {
     console.log("Automatizaciones cargadas");
 
     document.addEventListener('change', (e) => {
-        // --- 1. LÓGICA DE FIBRA ÓPTICA ---
-        if (e.target.id === 'cant_fo_cable') {
-            const rollos = parseInt(e.target.value) || 0;
-            const notasSelect = document.getElementById('notes_fo_cable');
-            if (notasSelect) notasSelect.value = 'Pre-fabricado';
+// --- 1. LÓGICA DE FIBRA ÓPTICA (Versión Directa) ---
+if (e.target.id === 'cant_fo_cable') {
+    console.log("Calculando Fibra...");
+    const rollos = parseInt(e.target.value) || 0;
+    
+    // 1.1 Actualizar nota de fibra
+    const notasSelect = document.getElementById('notes_fo_cable');
+    if (notasSelect) notasSelect.value = 'Pre-fabricado';
 
-            const campos = [
-                { id: 'conv_cantidad', mod: 'MC220L', nota: 'TP-link' },
-                { id: 'caja_cantidad', mod: 'FTB-501', nota: 'FiberHome' },
-                { id: 'pigtail_cantidad', mod: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro' },
-                { id: 'sfp_cantidad', mod: 'TP-link', nota: 'TL-SM321/TL-SM321B' }
-            ];
+    // 1.2 Definir los componentes
+    const componentes = [
+        { id: 'conv_cantidad', mod: 'MC220L', nota: 'TP-link' },
+        { id: 'caja_cantidad', mod: 'FTB-501', nota: 'FiberHome' },
+        { id: 'pigtail_cantidad', mod: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro' },
+        { id: 'sfp_cantidad', mod: 'TP-link', nota: 'TL-SM321/TL-SM321B' }
+    ];
 
-            campos.forEach(c => {
-                const elCant = document.getElementById(c.id);
-                if (elCant) {
-                    // Usamos un atributo de datos para marcar que esto es un cambio automático
-                    elCant.dataset.auto = "true"; 
-                    elCant.value = rollos * 2;
-                    
-                    const cont = elCant.closest('.row-item');
-                    if (cont) {
-                        const m = cont.querySelector('input[id*="modelo"], select[id*="modelo"]');
-                        const n = cont.querySelector('input[id*="notas"], textarea[id*="notas"]');
-                        if (m) m.value = c.mod;
-                        if (n) n.value = c.nota;
-                    }
-                    elCant.dispatchEvent(new Event('change'));
-                }
-            });
-
-            const planos = document.getElementById('check_planos');
-            const memoria = document.getElementById('check_memoria_tecnica');
-            if (planos) planos.checked = true;
-            if (memoria) memoria.checked = true;
-            return; // Detenemos la ejecución aquí
+    // 1.3 Aplicar cambios de forma manual y forzada
+    componentes.forEach(c => {
+        const campoCant = document.getElementById(c.id);
+        if (campoCant) {
+            // Asignar cantidad
+            campoCant.value = rollos * 2;
+            
+            // Buscar contenedor para llenar modelo y notas
+            const cont = campoCant.closest('.row-item');
+            if (cont) {
+                // Buscamos selects o inputs por ID
+                const m = cont.querySelector('select[id*="modelo"], input[id*="modelo"]');
+                const n = cont.querySelector('select[id*="notas"], input[id*="notas"]');
+                
+                if (m) { m.value = c.mod; }
+                if (n) { n.value = c.nota; }
+            }
         }
+    });
+
+    // 1.4 Activar Entregables
+    const planos = document.getElementById('check_planos');
+    const memoria = document.getElementById('check_memoria_tecnica');
+    if (planos) planos.checked = true;
+    if (memoria) memoria.checked = true;
+    
+    console.log("Fibra procesada con éxito.");
+}
 
         // --- 2. LÓGICA FLEXIBLE (Checkboxes y Selects) ---
         // Verificamos: 
