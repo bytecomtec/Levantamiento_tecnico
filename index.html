@@ -26,32 +26,40 @@
             <tr>
                 <td>
 
-
-    <div class="import-box">
-        <span style="font-size: 0.9rem; font-weight: bold; color: #003366;">¿Deseas editar un respaldo anterior?</span><br>
-        <label for="importFile">Seleccionar archivo .json</label>
-        <input type="file" id="importFile" accept=".json">
+<div class="container">
+    <div class="header">
+        <img src="logo.png" alt="Logo Bytecomtec">
+        <div class="header-text">
+            <strong>BYTECOMTEC</strong>
+            <small>Ingeniería y Seguridad Digital — Ficha de Levantamiento Técnico</small>
+        </div>
     </div>
 
+                <div class="import-box">
+                    <span style="font-size: 0.9rem; font-weight: bold; color: #003366;">¿Deseas editar un respaldo anterior?</span><br>
+                    <label for="importFile">Seleccionar archivo .json</label>
+                    <input type="file" id="importFile" accept=".json">
+                </div>
+
     <form id="masterForm">
-        <div class="card">
-            <h2>Datos del Sitio y Alcance</h2>
-            <div class="site-data-grid grid-2">
-                <div class="data-field">
-                    <label>Nombre del Cliente / Escuela:</label>
-                    <input type="text" id="cliente" required placeholder="Ej. Escuela Primaria Tláhuac">
+            <div class="card">
+                <h2>Datos del Sitio y Alcance</h2>
+                    <div class="site-data-grid grid-2">
+                        <div class="data-field">
+                            <label>Nombre del Cliente / Escuela:</label>
+                            <input type="text" id="cliente" required placeholder="Ej. Escuela Primaria Tláhuac">
+                        </div>
+                        <div class="data-field">
+                            <label>Nombre del Proyecto:</label>
+                            <input type="text" id="proyecto" placeholder="Ej. Infraestructura CCTV LEEN">
+                        </div>
+                    </div>
+                <div class="site-data-grid" style="grid-template-columns: 1fr;">
+                    <div class="data-field">
+                        <label>Dirección del Sitio:</label>
+                        <input type="text" id="direccion" placeholder="Dirección completa del plantel">
+                    </div>
                 </div>
-                <div class="data-field">
-                    <label>Nombre del Proyecto:</label>
-                    <input type="text" id="proyecto" placeholder="Ej. Infraestructura CCTV LEEN">
-                </div>
-            </div>
-            <div class="site-data-grid" style="grid-template-columns: 1fr;">
-                <div class="data-field">
-                    <label>Dirección del Sitio:</label>
-                    <input type="text" id="direccion" placeholder="Dirección completa del plantel">
-                </div>
-            </div>
             <div class="site-data-grid grid-4">
                 <div class="data-field">
                     <label>Atendió por el Cliente:</label>
@@ -674,28 +682,19 @@
             <button type="button" class="btn btn-json" id="btnExportar">Guardar Respaldo (.json)</button>
             <button type="button" class="btn btn-pdf" id="btnImprimir">Imprimir PDF</button>
         </div>
+        <div class="footer">
+            Bytecomtec CDMX | Ingeniería que protege el futuro<br>
+            <small>Expediente de Transparencia de Infraestructura Tecnológica Escolar 2026</small>
+        </div>
+
     </form>
 </div>
 
-<div class="footer">
-    Bytecomtec CDMX | Ingeniería que protege el futuro<br>
-    <small>Expediente de Transparencia de Infraestructura Tecnológica Escolar 2026</small>
-</div>
-
-<script src="js/config.js"></script>
-<script src="js/main.js"></script>
             </tr>
         </tbody>
-        
-        <tfoot>
-            <tr>
-                <td>
-                    <div class="footer">
-                        <p>Documento de uso interno - Página <span class="page-number"></span></p>
-                    </div>
-                </td>
-            </tr>
-        </tfoot>
+
     </table>
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
