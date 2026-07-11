@@ -261,28 +261,24 @@ function configurarAutomatizaciones() {
             });
         }
 
-// --- Lógica de Preguntar Cantidad (Búsqueda Universal Mejorada) ---
+// --- Lógica de Preguntar Cantidad (Búsqueda Universal) ---
 if (e.target.type === 'checkbox' && e.target.checked) {
     let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-
+    
     if (cantidad) {
-        let idBase = e.target.id.replace('chk_', '').replace('req_', '');
+        // Buscamos el contenedor padre común (row-item)
+        const contenedor = e.target.closest('.row-item');
         
-        // Buscamos el contenedor más cercano que agrupe la fila (clase común 'fila' o 'row')
-        // Si no tienes una clase, el selector buscará en el formulario completo
-        let campoCant = document.getElementById('cant_' + idBase);
-
-        if (!campoCant) {
-            // Intento de búsqueda global dentro del formulario si el ID exacto no existe
-            campoCant = document.querySelector(`input[id*='${idBase}'][type='number']`);
-        }
-
+        // Buscamos dentro de ese contenedor cualquier input que sea de tipo number
+        let campoCant = contenedor ? contenedor.querySelector('input[type="number"]') : null;
+        
         if (campoCant) {
             campoCant.value = cantidad;
-            campoCant.dispatchEvent(new Event('change')); // Dispara evento para cálculos
             console.log("Cantidad asignada a:", campoCant.id);
+            // Disparamos el evento por si el cálculo de almacenamiento necesita actualizarse
+            campoCant.dispatchEvent(new Event('change'));
         } else {
-            console.error("No se encontró campo de cantidad para: " + idBase);
+            console.error("No se encontró un campo numérico dentro del row-item.");
         }
     }
 }
