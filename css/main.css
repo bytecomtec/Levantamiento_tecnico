@@ -893,10 +893,15 @@ input[type="checkbox"] {
     }
     
     /* Esto obliga al footer de la tabla a quedarse abajo */
-    tfoot {
+tfoot {
         display: table-footer-group;
-        position: fixed;
-        bottom: 0;
+    }
+
+    .footer {
+        text-align: center;
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+        font-size: 10px;
         width: 100%;
     }
 }
