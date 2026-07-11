@@ -919,14 +919,30 @@ table {
         margin-right: 15px;
     }
 
-    /* Estilo del Footer */
-    .footer {
+  /* 1. Asegurar que el contenido pueda crecer */
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* 2. Este es el truco para que aparezca en todas las hojas */
+    .footer-print {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px; /* Ajusta según el tamaño de tu logo/texto */
         text-align: center;
         border-top: 1px solid #ccc;
-        padding-top: 10px;
+        background: white;
+        padding: 5px;
         font-size: 10px;
-        width: 100%;
-        margin-top: 20px;
+        display: block !important;
+    }
+
+    /* 3. Evitar que el contenido se encime con el footer */
+    table {
+        margin-bottom: 50px; 
     }
 
     /* 4. Limpieza de Formularios para impresión */
