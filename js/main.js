@@ -235,6 +235,11 @@ function enviarWhatsApp() {
 function configurarAutomatizaciones() {
     console.log("Automatizaciones cargadas correctamente");
 
+    document.addEventListener('change', (e) => {
+    console.log("Evento change detectado en:", e.target.id); // <--- AÑADE ESTO
+    // ... resto de tu código
+});
+    
     function ejecutarCalculoFibra() {
         // Corregido: Buscamos el ID real de tu HTML
         const inputRollos = document.getElementById('cant_fo_cable'); 
