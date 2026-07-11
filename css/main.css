@@ -288,31 +288,33 @@ input[type="checkbox"] {
 
 
 @media print {
-    /* 1. Definimos un margen superior de 140px para todas las páginas */
+    /* 1. Resetear márgenes de página */
     @page {
-        margin: 140px 20px 20px 20px;
+        margin: 20px; /* Margen pequeño para que la impresora no corte nada */
     }
 
-    /* 2. El encabezado se posiciona arriba, pero sin usar 'fixed' para evitar solapamientos */
+    /* 2. Encabezado estático (sin absolute/fixed) */
     .header {
-        position: absolute; /* Cambiamos de fixed a absolute */
-        top: -120px;        /* Lo subimos al espacio del margen */
-        left: 0;
-        right: 0;
-        height: 100px;
         display: flex !important;
         align-items: center;
-        background: white;
         border-bottom: 2px solid #003366;
+        margin-bottom: 20px; /* Espacio para separar del contenido */
+        width: 100%;
     }
 
-    /* 3. Aseguramos que el contenido comience justo después del margen */
+    .header img {
+        display: block !important;
+        width: 100px !important;
+        margin-right: 15px;
+        visibility: visible !important;
+    }
+
+    /* 3. El contenedor principal no necesita márgenes extra */
     .container {
         margin-top: 0 !important;
-        padding-top: 0 !important;
     }
 
-    /* 4. Ocultamos lo innecesario */
+    /* 4. Ocultar botones y calculadora */
     .import-box, .btn-group, #btnCalcularHDD, #calculadoraPanel, .footer {
         display: none !important;
     }
