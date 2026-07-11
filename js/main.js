@@ -2,11 +2,19 @@
  * Lógica de Operación del Formulario de Levantamientos - Bytecomtec
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+// FORZAR EJECUCIÓN (Ejecuta el código apenas se carga, o si ya cargó, lo ejecuta de inmediato)
+function initBytecomtec() {
+    console.log("Sistema Bytecomtec: Inicializando eventos...");
     inicializarFechaHora();
     inicializarEventosOperativos();
-    configurarAutomatizaciones(); // <-- ¡ESTO ES LO QUE FALTABA!
-});
+    configurarAutomatizaciones(); 
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBytecomtec);
+} else {
+    initBytecomtec();
+}
 
 function inicializarFechaHora() {
     const ahora = new Date();
