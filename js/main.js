@@ -243,43 +243,41 @@ function configurarAutomatizaciones() {
     document.getElementById('check_planos').checked = true;
     document.getElementById('check_memoria_tecnica').checked = true;
 
-    // 3. Lógica de Fibra Óptica (Cálculos automáticos)
+    // 3. Lógica de Fibra Óptica (Cálculos)
     const inputRollos = document.getElementById('cantidad_rollos');
     if (inputRollos) {
         inputRollos.addEventListener('input', () => {
             const rollos = parseInt(inputRollos.value) || 0;
-            
-            // Asignar "pre-fabricado" automáticamente
             document.getElementById('tipo_fibra').value = 'pre-fabricado';
 
-            // Cálculos multiplicadores
-            document.getElementById('conv_cantidad').value = rollos * 2;
-            document.getElementById('conv_modelo').value = 'MC220L';
-            document.getElementById('conv_notas').value = 'TP-link';
+            // Actualización de campos
+            const campos = [
+                {id: 'conv_cantidad', val: rollos * 2, mod: 'MC220L', nota: 'TP-link'},
+                {id: 'caja_cantidad', val: rollos * 2, mod: 'FTB-501', nota: 'FiberHome'},
+                {id: 'pigtail_cantidad', val: rollos * 2, mod: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro'},
+                {id: 'sfp_cantidad', val: rollos * 2, mod: 'TP-link', nota: 'TL-SM321/TL-SM321B'}
+            ];
 
-            document.getElementById('caja_cantidad').value = rollos * 2;
-            document.getElementById('caja_modelo').value = 'FTB-501';
-            document.getElementById('caja_notas').value = 'FiberHome';
-
-            document.getElementById('pigtail_cantidad').value = rollos * 2;
-            document.getElementById('pigtail_modelo').value = 'LP-FO-LCU-SCA-01';
-            document.getElementById('pigtail_notas').value = 'LinkedPro';
-
-            document.getElementById('sfp_cantidad').value = rollos * 2;
-            document.getElementById('sfp_marca').value = 'TP-link';
-            document.getElementById('sfp_notas').value = 'TL-SM321/TL-SM321B';
+            campos.forEach(c => {
+                if(document.getElementById(c.id)) document.getElementById(c.id).value = c.val;
+                if(document.getElementById(c.id.replace('cantidad', 'modelo'))) document.getElementById(c.id.replace('cantidad', 'modelo')).value = c.mod;
+                if(document.getElementById(c.id.replace('cantidad', 'notas'))) document.getElementById(c.id.replace('cantidad', 'notas')).value = c.nota;
+            });
         });
     }
 
-    // 4. Preguntar cantidad automáticamente al seleccionar/checkear
-    document.querySelectorAll('input[type="checkbox"], select').forEach(element => {
-        element.addEventListener('change', function() {
-            if (this.checked || (this.tagName === 'SELECT' && this.value !== "" && this.value !== "Seleccionar...")) {
-                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-                if (cantidad) {
-                    // Buscar si tiene un campo cantidad cercano (ej. nombre_cant)
-                    const campoCant = document.getElementById(this.id.replace('chk_', 'cant_'));
-                    if (campoCant) campoCant.value = cantidad;
+    // 4. Preguntar cantidad (Versión robusta)
+    // Buscamos inputs que tengan un campo de texto o número hermano
+    document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+        chk.addEventListener('change', function() {
+            if (this.checked) {
+                // Buscamos un input tipo número dentro del mismo contenedor (fila)
+                const fila = this.closest('tr') || this.closest('.row');
+                const campoCant = fila ? fila.querySelector('input[type="number"]') : null;
+                
+                if (campoCant) {
+                    let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+                    if (cantidad) campoCant.value = cantidad;
                 }
             }
         });
