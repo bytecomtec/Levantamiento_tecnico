@@ -15,7 +15,6 @@ if (document.readyState === 'loading') {
 } else {
     initBytecomtec();
 }
-
 function inicializarFechaHora() {
     const ahora = new Date();
     
