@@ -246,45 +246,50 @@ if (!inputRollos) {
 
     document.addEventListener('change', (e) => {
         // --- 1. LÓGICA DE FIBRA ÓPTICA Y AUTOMATIZACIONES ---
-        if (e.target.id === 'cantidad_rollos') {
-            const rollos = parseInt(e.target.value) || 0;
+// Lógica de Fibra Óptica (Reemplaza el bloque anterior por este)
+if (e.target.id === 'cantidad_rollos') {
+    const rollos = parseInt(e.target.value) || 0;
+    console.log("Procesando fibra. Rollos:", rollos);
+
+    const tf = document.getElementById('tipo_fibra');
+    if (tf) tf.value = 'pre-fabricado';
+
+    // Lista de elementos a automatizar
+    const items = [
+        { id: 'conv_cantidad', modelo: 'MC220L', nota: 'TP-link' },
+        { id: 'caja_cantidad', modelo: 'FTB-501', nota: 'FiberHome' },
+        { id: 'pigtail_cantidad', modelo: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro' },
+        { id: 'sfp_cantidad', modelo: 'TP-link', nota: 'TL-SM321/TL-SM321B' }
+    ];
+
+    items.forEach(item => {
+        // Buscamos el input de cantidad
+        const campoCant = document.getElementById(item.id);
+        
+        if (campoCant) {
+            campoCant.value = rollos * 2;
             
-            // Tipo de fibra
-            const tf = document.getElementById('tipo_fibra');
-            if (tf) tf.value = 'pre-fabricado';
-
-            // Configuración de los elementos a automatizar
-            const configuracion = [
-                { id: 'conv_cantidad', modelo: 'MC220L', nota: 'TP-link' },
-                { id: 'caja_cantidad', modelo: 'FTB-501', nota: 'FiberHome' },
-                { id: 'pigtail_cantidad', modelo: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro' },
-                { id: 'sfp_cantidad', modelo: 'TP-link', nota: 'TL-SM321/TL-SM321B' }
-            ];
-
-            configuracion.forEach(item => {
-                const campoCant = document.getElementById(item.id);
-                if (campoCant) {
-                    campoCant.value = rollos * 2;
-                    campoCant.dispatchEvent(new Event('change'));
-                    
-                    // Buscar campos de modelo y notas en el contenedor padre (row-item)
-                    const cont = campoCant.closest('.row-item');
-                    if (cont) {
-                        // Buscamos los inputs por ID usando comodines
-                        const m = cont.querySelector('input[id*="modelo"], select[id*="modelo"]');
-                        const n = cont.querySelector('input[id*="notas"], textarea[id*="notas"]');
-                        if (m) m.value = item.modelo;
-                        if (n) n.value = item.nota;
-                    }
-                }
-            });
-
-            // Activar Entregables Obligatorios (Sección 8)
-            const planos = document.getElementById('check_planos');
-            const memoria = document.getElementById('check_memoria_tecnica');
-            if (planos) planos.checked = true;
-            if (memoria) memoria.checked = true;
+            // Buscamos el contenedor padre (row-item)
+            const cont = campoCant.closest('.row-item');
+            if (cont) {
+                // Buscamos los inputs de modelo y notas dentro de ese mismo cont
+                const m = cont.querySelector('input[id*="modelo"], select[id*="modelo"]');
+                const n = cont.querySelector('input[id*="notas"], textarea[id*="notas"]');
+                
+                if (m) m.value = item.modelo;
+                if (n) n.value = item.nota;
+            }
+        } else {
+            console.warn("No encontrado campo con id:", item.id);
         }
+    });
+
+    // Activar Entregables (Sección 8)
+    const planos = document.getElementById('check_planos');
+    const memoria = document.getElementById('check_memoria_tecnica');
+    if (planos) planos.checked = true;
+    if (memoria) memoria.checked = true;
+}
 
         // --- 2. LÓGICA FLEXIBLE DE CANTIDADES (Checkbox/Select) ---
         if (e.target.tagName === 'SELECT' || e.target.type === 'checkbox') {
