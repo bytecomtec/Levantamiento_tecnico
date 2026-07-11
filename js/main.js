@@ -236,20 +236,26 @@ function enviarWhatsApp() {
 // FUNCIÓN DE CÁLCULO INDEPENDIENTE Y GLOBAL
 // ==========================================
 function calcularAlmacenamientoBytecomtec() {
-    console.log("Calculadora Dinámica Bytecomtec para Domos y Bullets iniciada...");
+    console.log("Calculadora Dinámica Bytecomtec (Soporte Multi-bahía) iniciada...");
 
     const notasHDD = document.getElementById('notes_hdd');
     const chkHDD = document.getElementById('req_hdd');
     const selectorHDD = document.getElementById('spec_hdd');
     const eCompresion = document.getElementById('calc_compresion');
+    
+    // NUEVO: Capturar la cantidad de discos duros (bahías)
+    const cantHDDEl = document.getElementById('cant_hdd'); 
+    const cantHDD = cantHDDEl ? (parseInt(cantHDDEl.value) || 1) : 1;
 
     // 1. Obtener valores de la infraestructura de almacenamiento y códec
     const specHDD = selectorHDD ? selectorHDD.value : "10 TB";
     const tipoCompresion = eCompresion ? eCompresion.value : 'H.265+';
-    let capacidadTB = parseInt(specHDD.match(/\d+/)) || 10;
+    let capacidadPorDiscoTB = parseInt(specHDD.match(/\d+/)) || 10;
+
+    // NUEVO: Calcular la capacidad total combinada de todas las bahías
+    let capacidadTotalTB = capacidadPorDiscoTB * cantHDD;
 
     // 2. Diccionario de Bitrates Estándar por Megapíxel (Margen seguro a 15-20 FPS)
-    // Estructura: [H.264, H.265 estándar, H.265+ optimizado]
     const matrizBitrates = {
         "2MP":  [2048, 1536, 1024],
         "4MP":  [4096, 3072, 2048],
@@ -267,13 +273,12 @@ function calcularAlmacenamientoBytecomtec() {
         columnaCodec = 1;
     }
 
-    // 4. Capturar los elementos reales de tu HTML
+    // 4. Capturar los elementos reales de tu HTML (Cámaras)
     const cantDomoEl = document.getElementById('cant_domo');
     const supeDomoEl = document.getElementById('supe_domo');
     const cantBulletEl = document.getElementById('cant_bullet');
     const supeBulletEl = document.getElementById('supe_bullet');
 
-    // Extraer cantidades y resoluciones elegidas
     const cantDomo = cantDomoEl ? (parseInt(cantDomoEl.value) || 0) : 0;
     const resDomo = supeDomoEl ? supeDomoEl.value : "";
 
@@ -284,29 +289,27 @@ function calcularAlmacenamientoBytecomtec() {
     let bitsTotalesPorDia = 0;
     let resumenCamarasActivas = [];
 
-    // Procesar Domos si tienen cantidad y resolución
     if (cantDomo > 0 && resDomo) {
         const bitrateDomo = matrizBitrates[resDomo] ? matrizBitrates[resDomo][columnaCodec] : matrizBitrates["2MP"][columnaCodec];
         bitsTotalesPorDia += cantDomo * (bitrateDomo * 1000) * 86400;
         resumenCamarasActivas.push(`${cantDomo} Domos ${resDomo}`);
     }
 
-    // Procesar Bullets si tienen cantidad y resolución
     if (cantBullet > 0 && resBullet) {
         const bitrateBullet = matrizBitrates[resBullet] ? matrizBitrates[resBullet][columnaCodec] : matrizBitrates["2MP"][columnaCodec];
         bitsTotalesPorDia += cantBullet * (bitrateBullet * 1000) * 86400;
         resumenCamarasActivas.push(`${cantBullet} Bullets ${resBullet}`);
     }
 
-    // Escenario de respaldo automático si el formulario se procesa vacío (25 cámaras de 2MP)
+    // Escenario de respaldo automático si el formulario está vacío
     if (bitsTotalesPorDia === 0) {
         const bitratePorDefecto = matrizBitrates["2MP"][columnaCodec];
         bitsTotalesPorDia = 25 * (bitratePorDefecto * 1000) * 86400;
         resumenCamarasActivas.push(`25 cáms 2MP`);
     }
 
-    // 6. Espacio neto real utilizable del disco (Conversión binaria estricta de 1024 y -5% de NVR)
-    const gigabytesUtiles = (capacidadTB * 931.32) * 0.95;
+    // 6. Espacio neto real utilizable modificado usando la capacidad total (TB Totales * 931.32 * 0.95)
+    const gigabytesUtiles = (capacidadTotalTB * 931.32) * 0.95;
 
     // Convertir bits diarios consumidos totales a Gigabytes Binarios
     const gigabytesConsumidosPorDia = bitsTotalesPorDia / 8 / 1024 / 1024 / 1024;
@@ -314,10 +317,13 @@ function calcularAlmacenamientoBytecomtec() {
     // Calcular días netos seguros redondeando hacia abajo
     const diasCalculados = Math.floor(gigabytesUtiles / gigabytesConsumidosPorDia);
 
-    // 7. Imprimir resultado y estructurar texto para Bytecomtec
+    // 7. Imprimir resultado en la interfaz
     if (notasHDD) {
         const desgloseFinal = resumenCamarasActivas.join(" + ");
-        notasHDD.value = `${diasCalculados} días estimados (${desgloseFinal} con ${tipoCompresion}).`;
+        // Añadimos una pequeña nota aclaratoria si son múltiples discos para transparencia técnica
+        const textoDiscos = cantHDD > 1 ? ` en ${cantHDD} discos de ${capacidadPorDiscoTB}TB` : '';
+        
+        notasHDD.value = `${diasCalculados} días estimados (${desgloseFinal} con ${tipoCompresion}${textoDiscos}).`;
         notasHDD.style.backgroundColor = "#def7ec"; 
         notasHDD.style.color = "#03543f";
     }
