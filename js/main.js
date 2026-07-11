@@ -236,82 +236,71 @@ function configurarAutomatizaciones() {
     console.log("Automatizaciones cargadas");
 
     document.addEventListener('change', (e) => {
-// --- 1. LÓGICA DE FIBRA ÓPTICA (Versión Directa) ---
-if (e.target.id === 'cant_fo_cable') {
-    console.log("Calculando Fibra...");
-    const rollos = parseInt(e.target.value) || 0;
-    
-    // 1.1 Actualizar nota de fibra
-    const notasSelect = document.getElementById('notes_fo_cable');
-    if (notasSelect) notasSelect.value = 'Pre-fabricado';
-
-    // 1.2 Definir los componentes
-    const componentes = [
-        { id: 'conv_cantidad', mod: 'MC220L', nota: 'TP-link' },
-        { id: 'caja_cantidad', mod: 'FTB-501', nota: 'FiberHome' },
-        { id: 'pigtail_cantidad', mod: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro' },
-        { id: 'sfp_cantidad', mod: 'TP-link', nota: 'TL-SM321/TL-SM321B' }
-    ];
-
-    // 1.3 Aplicar cambios de forma manual y forzada
-    componentes.forEach(c => {
-        const campoCant = document.getElementById(c.id);
-        if (campoCant) {
-            // Asignar cantidad
-            campoCant.value = rollos * 2;
+        // --- 1. LÓGICA DE FIBRA ÓPTICA (Sincronizada con tus IDs) ---
+        if (e.target.id === 'cant_fo_cable') {
+            const rollos = parseInt(e.target.value) || 0;
             
-            // Buscar contenedor para llenar modelo y notas
-            const cont = campoCant.closest('.row-item');
-            if (cont) {
-                // Buscamos selects o inputs por ID
-                const m = cont.querySelector('select[id*="modelo"], input[id*="modelo"]');
-                const n = cont.querySelector('select[id*="notas"], input[id*="notas"]');
-                
-                if (m) { m.value = c.mod; }
-                if (n) { n.value = c.nota; }
-            }
-        }
-    });
+            // 1.1 Auto-seleccionar "Pre-fabricado" en la nota de Fibra
+            const notasFibra = document.getElementById('notes_fo_cable');
+            if (notasFibra) notasFibra.value = 'Pre-fabricado';
 
-    // 1.4 Activar Entregables
-    const planos = document.getElementById('check_planos');
-    const memoria = document.getElementById('check_memoria_tecnica');
-    if (planos) planos.checked = true;
-    if (memoria) memoria.checked = true;
-    
-    console.log("Fibra procesada con éxito.");
-}
+            // 1.2 Definición de mapeo (ID del campo, valor del select de especificación, valor del select de notas)
+            const map = [
+                { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
+                { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
+                { idCant: 'cant_fo_pigtails', spec: 'LP-FO-LCU-SCA-01', notes: 'LinkedPro' },
+                { idCant: 'cant_fo_sfp', spec: 'TP-link', notes: 'TL-SM321A/ TL-SM321B' }
+            ];
 
-        // --- 2. LÓGICA FLEXIBLE (Checkboxes y Selects) ---
-        // Verificamos: 
-        // 1. Que no sea el campo de fibra (ya lo procesamos arriba)
-        // 2. Que el cambio no haya sido provocado por nuestra propia automatización (dataset.auto)
-        if (e.target.id !== 'cant_fo_cable' && !e.target.dataset.auto) {
-            
-            if (e.target.tagName === 'SELECT' || e.target.type === 'checkbox') {
-                const cont = e.target.closest('.row-item');
-                if (!cont) return;
-
-                const campoCant = cont.querySelector('input[type="number"]');
-                
-                // Solo pedir si está vacío
-                if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
-                    let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-                    if (cantidad) {
-                        campoCant.value = cantidad;
-                    } else if (e.target.type === 'checkbox') {
-                        e.target.checked = false;
-                        return; // Si cancela, no seguimos
+            map.forEach(item => {
+                const inputCant = document.getElementById(item.idCant);
+                if (inputCant) {
+                    inputCant.value = rollos * 2;
+                    
+                    // Buscar el contenedor padre para localizar los selects
+                    const cont = inputCant.closest('.row-item');
+                    if (cont) {
+                        const selSpec = cont.querySelector('select[id^="spec_"]');
+                        const selNotes = cont.querySelector('select[id^="notes_"]');
+                        
+                        if (selSpec) selSpec.value = item.spec;
+                        if (selNotes) selNotes.value = item.notes;
                     }
+                    // Activar el checkbox de esa fila
+                    const chk = cont.querySelector('input[type="checkbox"]');
+                    if (chk) chk.checked = true;
                 }
-                
-                const chk = cont.querySelector('input[type="checkbox"]');
-                if (chk) chk.checked = true;
-            }
+            });
+
+            // 1.3 Activar Entregables (Asegúrate que estos IDs existan)
+            const planos = document.getElementById('check_planos');
+            const memoria = document.getElementById('check_memoria_tecnica');
+            if (planos) planos.checked = true;
+            if (memoria) memoria.checked = true;
+            return;
         }
-        
-        // Limpiamos el flag de automatización después de procesar
-        if (e.target.dataset.auto) delete e.target.dataset.auto;
+
+        // --- 2. LÓGICA DE CHECKBOX/SELECT PARA OTROS ELEMENTOS ---
+        if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
+            const cont = e.target.closest('.row-item');
+            if (!cont) return;
+
+            const campoCant = cont.querySelector('input[type="number"]');
+            
+            // Pedir cantidad solo si está vacío
+            if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
+                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+                if (cantidad) {
+                    campoCant.value = cantidad;
+                } else if (e.target.type === 'checkbox') {
+                    e.target.checked = false;
+                    return;
+                }
+            }
+            
+            const chk = cont.querySelector('input[type="checkbox"]');
+            if (chk) chk.checked = true;
+        }
     }); 
 }
 
