@@ -67,7 +67,7 @@ const FormConfig = {
                 { id: "pwr_tierra", label: "Tierra Física", cant: null, spec: "spec_pwr_tierra", notes: null }
             ]
         },
-        {
+{
             titulo: "7. MANO DE OBRA Y SERVICIOS",
             elementos: [
                 { id: "srv_inst", label: "Instalación Física", cant: null, spec: "spec_srv_inst", notes: null },
@@ -77,14 +77,19 @@ const FormConfig = {
                 { id: "srv_remoto", label: "Acceso Remoto", cant: null, spec: "spec_srv_remoto", notes: null },
                 { id: "srv_alturas", label: "Trabajos Altura", cant: null, spec: "spec_srv_alturas", notes: null }
             ]
+        },
+        {
+            titulo: "8. ENTREGABLES Y SISTEMAS COMPLEMENTARIOS",
+            elementos: [
+                { id: "ent_planos", label: "Planos As-Built", cant: null, spec: "spec_ent_planos", notes: null },
+                { id: "ent_memoria", label: "Memoria Técnica e IPs", cant: null, spec: "spec_ent_memoria", notes: null },
+                { id: "ent_cert", label: "Certificación Fluke", cant: null, spec: "spec_ent_cert", notes: null },
+                { id: "wifi", label: "WiFi Profesional", cant: null, spec: "spec_wifi", notes: null },
+                { id: "audio", label: "Audio Escolar / Voceo", cant: null, spec: "spec_audio", notes: null },
+                { id: "tv", label: "Pantallas TV", cant: null, spec: "spec_tv", notes: null }
+            ]
         }
     ],
     adicionales: [
-        { id: "ent_planos", label: "Planos As-Built" },
-        { id: "ent_memoria", label: "Memoria Técnica e IPs" },
-        { id: "ent_cert", label: "Certificación Fluke" },
-        { id: "wifi", label: "WiFi Profesional (Aulas)" },
-        { id: "audio", label: "Audio Escolar / Voceo" },
-        { id: "tv", label: "Pantallas TV / Aulas Media" }
-    ]
-};
+        // Se dejan vacíos si ya están en secciones, o se mantienen aquí si son checkboxes simples
+    ]};
