@@ -236,60 +236,41 @@ function configurarAutomatizaciones() {
     console.log("Automatizaciones cargadas");
 
     document.addEventListener('change', (e) => {
-        // 1. Lógica de Fibra Óptica (Se dispara al cambiar Cant. Rollos)
+        // 1. Lógica de Fibra Óptica
         if (e.target.id === 'cantidad_rollos') {
-            const rollos = parseInt(e.target.value) || 0;
-            const tf = document.getElementById('tipo_fibra');
-            if (tf) tf.value = 'pre-fabricado';
-
-            const campos = [
-                { id: 'conv_cantidad', mod: 'MC220L', nota: 'TP-link' },
-                { id: 'caja_cantidad', mod: 'FTB-501', nota: 'FiberHome' },
-                { id: 'pigtail_cantidad', mod: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro' },
-                { id: 'sfp_cantidad', mod: 'TP-link', nota: 'TL-SM321/TL-SM321B' }
-            ];
-
-            campos.forEach(c => {
-                const elCant = document.getElementById(c.id);
-                if (elCant) {
-                    elCant.value = rollos * 2;
-                    // Buscamos modelo y notas en el mismo row-item
-                    const cont = elCant.closest('.row-item');
-                    if (cont) {
-                        const m = cont.querySelector('input[id*="modelo"]');
-                        const n = cont.querySelector('input[id*="notas"]');
-                        if (m) m.value = c.mod;
-                        if (n) n.value = c.nota;
-                    }
-                    elCant.dispatchEvent(new Event('change'));
-                }
-            });
+            // ... (mantén tu lógica actual de fibra aquí)
         }
 
-// 2. Lógica para Preguntar Cantidad (Activada solo por SELECT)
-        // Ya no escuchamos el cambio del checkbox, ahora escuchamos el SELECT
-        if (e.target.tagName === 'SELECT' && e.target.value !== "") {
-            
-            // 1. Encontrar el contenedor de la fila
+        // 2. Lógica de Preguntar Cantidad (Selects y Checkboxes)
+        if (e.target.tagName === 'SELECT' || e.target.type === 'checkbox') {
             const cont = e.target.closest('.row-item');
-            
-            // 2. Marcar el checkbox automáticamente si existe en esta fila
-            const chk = cont ? cont.querySelector('input[type="checkbox"]') : null;
-            if (chk) {
-                chk.checked = true;
-            }
+            if (!cont) return;
 
-            // 3. Preguntar cantidad
-            let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+            const campoCant = cont.querySelector('input[type="number"]');
             
-            if (cantidad) {
-                const campo = cont ? cont.querySelector('input[type="number"]') : null;
-                if (campo) {
-                    campo.value = cantidad;
-                    campo.dispatchEvent(new Event('change'));
-                    console.log("Cantidad asignada automáticamente a:", campo.id);
+            // Solo pedir cantidad si el campo está vacío o es cero
+            if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
+                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+                if (cantidad) {
+                    campoCant.value = cantidad;
+                    campoCant.dispatchEvent(new Event('change'));
                 }
             }
+
+            // Lógica para deshabilitar listas de la derecha automáticamente
+            // Buscamos selects que no sean el que acaba de activar el evento
+            const todosLosSelects = cont.querySelectorAll('select');
+            todosLosSelects.forEach(sel => {
+                // Si el select no es el que el usuario acaba de tocar, lo deshabilitamos
+                if (sel !== e.target) {
+                    sel.disabled = true; 
+                    sel.style.opacity = "0.6"; // Efecto visual de deshabilitado
+                }
+            });
+            
+            // Asegurar que el checkbox se marque
+            const chk = cont.querySelector('input[type="checkbox"]');
+            if (chk) chk.checked = true;
         }
     }); 
 }
