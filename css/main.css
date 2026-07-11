@@ -870,68 +870,87 @@ input[type="checkbox"] {
     .checkbox-item { background: transparent !important; border: none !important; padding: 1px 0 !important; }
     .checkbox-item label { font-weight: bold !important; color: #004B87 !important; font-size: 0.9rem; }
 
+/* --- ESTILOS GENERALES (Pantalla) --- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* --- ESTILOS DE IMPRESIÓN (PDF) --- */
 @media print {
-    /* Ocultar cualquier .header que no esté dentro de un thead */
-    body > .header {
-        display: none !important;
-    }
+    /* 1. Reset para forzar el diseño de página */
+    body { margin: 0; padding: 0; }
     
-    /* Ocultar elementos innecesarios */
-    .import-box, .btn-group, #btnCalcularHDD, .nav-buttons {
-        display: none !important;
+    @page {
+        margin: 15mm; /* Margen estándar para evitar cortes */
     }
-    
-    /* Asegurar que el header dentro de la tabla sí se vea */
+
+    /* 2. Ocultar elementos de UI y botones */
+    .import-box, 
+    .btn-group, 
+    #btnCalcularHDD, 
+    .nav-buttons,
+    /* Elemento específico de cálculo si existe */
+    .no-print { 
+        display: none !important; 
+    }
+
+    /* 3. Estructura de Encabezado y Pie de página */
+    thead { display: table-header-group; }
+    tfoot { display: table-footer-group; }
+
+    /* Estilo del Header */
     thead .header {
         display: flex !important;
         align-items: center;
         border-bottom: 2px solid #003366;
+        margin-bottom: 15px;
     }
 
-    /* Asegurar que el logo del thead se mantenga uniforme */
     thead .header img {
         width: 60px !important;
         height: auto !important;
         display: block !important;
-    }
-    
-    /* Esto obliga al footer de la tabla a quedarse abajo */
-table {
-        width: 100%;
-        min-height: 100vh;
-        position: relative;
+        margin-right: 15px;
     }
 
-    tfoot {
-        display: table-footer-group;
-        position: fixed; /* Aquí sí es necesario en el tfoot para forzarlo al fondo */
-        bottom: 0;
-        width: 100%;
-    }
-
+    /* Estilo del Footer */
     .footer {
         text-align: center;
         border-top: 1px solid #ccc;
-        padding: 10px 0;
+        padding-top: 10px;
         font-size: 10px;
-        background: white; /* Asegura que tape cualquier texto detrás */
+        width: 100%;
+        margin-top: 20px;
     }
-/* Ocultar las flechas de incremento/decremento en inputs tipo number */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+
+    /* 4. Limpieza de Formularios para impresión */
+    /* Ocultar flechas de números */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] { -moz-appearance: textfield; }
+
+    /* Ocultar selector de calendario */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+    }
+
+    /* Estilo de inputs como texto plano */
+    input, select {
+        border: none !important;
+        background: transparent !important;
+        -webkit-appearance: none;
+        appearance: none;
+        font-size: 10pt;
+    }
 }
 
-input[type=number] {
-    -moz-appearance: textfield; /* Firefox */
-}
-
-/* Ocultar el selector de calendario en inputs tipo date */
-input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-}
-    
-} /* <--- Esta es la única llave necesaria para cerrar @media print */
