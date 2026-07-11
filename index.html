@@ -101,25 +101,48 @@
                 </div>
                 <div><input type="text" id="notes_dispositivo" placeholder="Canales / Marca / Especificaciones"></div>
             </div>
-            <div class="row-item" data-chk="req_hdd">
-                <div class="chk">
-                    <input type="checkbox" id="req_hdd"> Discos Duros (CCTV)
-                    <a href="https://hitools.hikvision.com/HiToolsDesigner/#/toolBox?site=mx" target="_blank" class="link-tools">🧮 Calcular Grabación (HiTools)</a>
-                </div>
-                <div><input type="number" id="cant_hdd" placeholder="Cant."></div>
-                <div>
-                    <select id="spec_hdd">
-                        <option value="">Seleccionar...</option>
-                        <option value="1 TB">1 TB</option>
-                        <option value="2 TB">2 TB</option>
-                        <option value="4 TB">4 TB</option>
-                        <option value="6 TB">6 TB</option>
-                        <option value="8 TB">8 TB</option>
-                        <option value="10 TB">10 TB</option>
-                    </select>
-                </div>
-                <div><input type="text" id="notes_hdd" placeholder="Días de grabación / Notas"></div>
-            </div>
+<div class="row-item" data-chk="req_hdd">
+    <div class="chk">
+        <input type="checkbox" id="req_hdd"> Discos Duros (CCTV)
+        <button type="button" id="btnCalcularHDD" class="link-tools" style="background:none; border:none; cursor:pointer; padding:0;">🧮 Calcular Almacenamiento Interno</button>
+    </div>
+    <div><input type="number" id="cant_hdd" placeholder="Cant."></div>
+    <div>
+        <select id="spec_hdd">
+            <option value="">Seleccionar...</option>
+            <option value="1 TB">1 TB</option>
+            <option value="2 TB">2 TB</option>
+            <option value="4 TB">4 TB</option>
+            <option value="6 TB">6 TB</option>
+            <option value="8 TB">8 TB</option>
+            <option value="10 TB">10 TB</option>
+            <option value="12 TB">12 TB</option>
+            <option value="16 TB">16 TB</option>
+        </select>
+    </div>
+    <div><input type="text" id="notes_hdd" placeholder="Días de grabación / Notas"></div>
+</div>
+
+<div id="calculadoraPanel" style="display: none; background: #eef4fa; border: 1px solid #003366; padding: 12px; border-radius: 6px; margin: 8px 0;">
+    <span style="font-size: 0.85rem; font-weight: bold; color: #003366;">🧮 Parámetros de Grabación Estimada:</span>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-top: 5px;">
+        <div>
+            <label style="margin:0; font-size:0.75rem;">Días deseados:</label>
+            <input type="number" id="calc_dias" value="15" style="padding:4px;">
+        </div>
+        <div>
+            <label style="margin:0; font-size:0.75rem;">Compresión:</label>
+            <select id="calc_compresion" style="padding:4px;">
+                <option value="H.265+">H.265+ (Recomendado)</option>
+                <option value="H.265">H.265</option>
+                <option value="H.264">H.264 (Estándar)</option>
+            </select>
+        </div>
+        <div style="display: flex; align-items: flex-end;">
+            <button type="button" id="btnProcesarCalculo" style="background:#ff8800; color:white; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%; font-size:0.8rem;">Estimar TB</button>
+        </div>
+    </div>
+</div>
             <div class="row-item" data-chk="req_monitor">
                 <div class="chk"><input type="checkbox" id="req_monitor"> Monitor Local</div>
                 <div><input type="number" id="cant_monitor" placeholder="Cant."></div>
