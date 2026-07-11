@@ -234,51 +234,54 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    // 1. Valores por default (Conectividad)
-    console.log("Automatizaciones cargadas correctamente");
-    const modem = document.getElementById('cuentaConModem');
-    const prov = document.getElementById('proveedor');
-    const vel = document.getElementById('velocidad');
-    if(modem) modem.checked = true;
-    if(prov) prov.value = 'Telmex';
-    if(vel) vel.value = '50Mb';
+    console.log("Automatizaciones cargadas");
 
-    // 2. Entregables default
-    const plan = document.getElementById('check_planos');
-    const mem = document.getElementById('check_memoria_tecnica');
-    if(plan) plan.checked = true;
-    if(mem) mem.checked = true;
-
-    // 3. Delegación de eventos para capturar clicks en cualquier checkbox o select
     document.addEventListener('change', (e) => {
         // --- Lógica de Fibra Óptica ---
         if (e.target.id === 'cantidad_rollos') {
+            console.log("Detectado cambio en rollos:", e.target.value);
             const rollos = parseInt(e.target.value) || 0;
             const tf = document.getElementById('tipo_fibra');
             if(tf) tf.value = 'pre-fabricado';
 
             const campos = [
-                {id: 'conv_cantidad', val: rollos * 2, mod: 'MC220L', nota: 'TP-link'},
-                {id: 'caja_cantidad', val: rollos * 2, mod: 'FTB-501', nota: 'FiberHome'},
-                {id: 'pigtail_cantidad', val: rollos * 2, mod: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro'},
-                {id: 'sfp_cantidad', val: rollos * 2, mod: 'TP-link', nota: 'TL-SM321/TL-SM321B'}
+                {id: 'conv_cantidad', mod: 'MC220L', nota: 'TP-link'},
+                {id: 'caja_cantidad', mod: 'FTB-501', nota: 'FiberHome'},
+                {id: 'pigtail_cantidad', mod: 'LP-FO-LCU-SCA-01', nota: 'LinkedPro'},
+                {id: 'sfp_cantidad', mod: 'TP-link', nota: 'TL-SM321/TL-SM321B'}
             ];
 
             campos.forEach(c => {
-                if(document.getElementById(c.id)) document.getElementById(c.id).value = c.val;
-                if(document.getElementById(c.id.replace('cantidad', 'modelo'))) document.getElementById(c.id.replace('cantidad', 'modelo')).value = c.mod;
-                if(document.getElementById(c.id.replace('cantidad', 'notas'))) document.getElementById(c.id.replace('cantidad', 'notas')).value = c.nota;
+                if(document.getElementById(c.id)) {
+                    document.getElementById(c.id).value = rollos * 2;
+                    console.log("Asignado cantidad a:", c.id);
+                }
+                // Ajuste para buscar el campo de modelo/notas por ID dinámico
+                const campoMod = document.getElementById(c.id.replace('cantidad', 'modelo'));
+                const campoNota = document.getElementById(c.id.replace('cantidad', 'notas'));
+                if(campoMod) campoMod.value = c.mod;
+                if(campoNota) campoNota.value = c.nota;
             });
         }
 
         // --- Lógica de Preguntar Cantidad ---
         if (e.target.type === 'checkbox' && e.target.checked) {
-            const fila = e.target.closest('tr') || e.target.closest('.row');
+            // Buscamos el elemento dentro del mismo TR
+            const fila = e.target.closest('tr');
             const campoCant = fila ? fila.querySelector('input[type="number"]') : null;
             
+            console.log("Checkbox marcado. ¿Fila encontrada?", !!fila);
+            console.log("¿Campo numérico encontrado?", !!campoCant);
+
             if (campoCant) {
                 let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-                if (cantidad) campoCant.value = cantidad;
+                if (cantidad) {
+                    campoCant.value = cantidad;
+                    // Disparamos evento para que el resto del sistema sepa que cambió
+                    campoCant.dispatchEvent(new Event('change'));
+                }
+            } else {
+                console.warn("No se encontró un input[type='number'] en esta fila.");
             }
         }
     });
