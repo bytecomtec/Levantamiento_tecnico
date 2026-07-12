@@ -11,21 +11,16 @@
 
 .row-item {
     display: grid;
-    /* Divide la fila en 4 partes: 2 partes para el nombre, 1 para cada campo */
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 15px; 
+    grid-template-columns: 2fr 1fr 1fr 1fr; /* Proporción: Nombre (doble ancho), otros (iguales) */
+    gap: 15px;
     align-items: center; /* Alinea todo verticalmente al centro */
     margin-bottom: 10px;
-    padding: 8px;
-    background: #fdfdfd; /* Un fondo muy suave ayuda a distinguir las filas */
-    border-bottom: 1px solid #eee;
 }
 
-/* Asegura que los campos llenen su columna */
+/* Forzar a que todos los inputs y selects ocupen el 100% del espacio de su celda */
 .row-item input, .row-item select {
     width: 100%;
-    padding: 6px;
-    box-sizing: border-box; /* Fundamental: incluye el borde en el ancho */
+    box-sizing: border-box; /* Crucial para que el padding no rompa el diseño */
 }
 
 /* Mejora: Si un checkbox está en la primera columna, dale espacio */
