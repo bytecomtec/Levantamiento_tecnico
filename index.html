@@ -259,7 +259,6 @@
             <button type="button" id="btnCalcularHDD" class="link-tools" style="background:none; border:none; cursor:pointer; padding:0;">🧮 Cálculo Almacenamiento</button>          
         </div>
 
-
             <div id="calculadoraPanel" class="no-print "style="display: none; background: #eef4fa; border: 1px solid #003366; padding: 12px; border-radius: 6px; margin: 8px 0;">
                         <span style="font-size: 0.85rem; font-weight: bold; color: #003366;">🧮 Calcular Días de Grabación Disponibles:</span>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 5px;">
@@ -280,31 +279,32 @@
         <div class="card">
             <h2>3. Conectividad, Red y Cableado</h2>
             <div class="site-data-grid grid-3" style="margin-bottom: 8px;">
-                <div class="data-field">
-                    <label>¿Cuentan con módem?</label>
-                    <select id="has_modem">
-                        <option value="">Seleccionar...</option>
-                        <option value="Si">Si</option>
-                        <option value="No">No</option>
-                        <option value="Fallando">Fallando</option>
-                    </select>
-                </div>
-                <div class="data-field">
-                    <label>Proveedor Internet:</label>
-                    <select id="compania">
-                        <option value="">Seleccionar...</option>
-                        <option value="Telmex">Telmex</option>
-                        <option value="TotalPlay">TotalPlay</option>
-                        <option value="Izzi">Izzi</option>
-                        <option value="Megacable">Megacable</option>
-                        <option value="Starlink">Starlink</option>
-                    </select>
-                </div>
-                <div class="data-field">
-                    <label>Velocidad de Navegación:</label>
-                    <input type="text" id="velocidad_internet" placeholder="Ej. 100 Mbps">
-                </div>
-            </div>
+<div class="data-field">
+    <label>¿Cuentan con módem?</label>
+    <select id="has_modem">
+        <option value="">Seleccionar...</option>
+        <option value="Si" selected>Si</option>
+        <option value="No">No</option>
+        <option value="Fallando">Fallando</option>
+    </select>
+</div>
+
+<div class="data-field">
+    <label>Proveedor Internet:</label>
+    <select id="compania">
+        <option value="">Seleccionar...</option>
+        <option value="Telmex" selected>Telmex</option>
+        <option value="TotalPlay">TotalPlay</option>
+        <option value="Izzi">Izzi</option>
+        <option value="Megacable">Megacable</option>
+        <option value="Starlink">Starlink</option>
+    </select>
+</div>
+
+<div class="data-field">
+    <label>Velocidad de Navegación:</label>
+    <input type="text" id="velocidad_internet" value="25 Mb" placeholder="Ej. 100 Mbps">
+</div>
             <div>
                 <div class="row-item" data-chk="net_switch">
                     <div class="chk"><input type="checkbox" id="net_switch"> Switch</div>
@@ -665,7 +665,7 @@
                 <div class="row-item" data-chk="ent_memoria"><input type="checkbox" id="ent_memoria" checked> Memoria Técnica</div>
         
                 <div class="row-item" data-chk="ent_cert"><input type="checkbox" id="ent_cert"> Certificación Fluke</div>
-                <div class="row-item" data-chk="wifi"><input type="checkbox" id="wifi"> Red WiFi Profesional (Aulas)</div>
+                <div class="row-item" data-chk="wifi"><input type="checkbox" id="wifi"> Red WiFi Profesional</div>
                 <div class="row-item" data-chk="audio"><input type="checkbox" id="audio"> Audio Escolar/Voceo</div>
                 <div class="row-item" data-chk="tv"><input type="checkbox" id="tv"> Pantallas TV</div>
             </div>
