@@ -8,7 +8,13 @@
     text-align: center;
     background: #ffffff;
 }
-
+.row-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr; /* 4 columnas */
+    gap: 10px;
+    align-items: center;
+    padding: 5px 0;
+}
 .main-title h1 {
     color: #002d5e; /* Azul corporativo */
     font-size: 2.5em;
