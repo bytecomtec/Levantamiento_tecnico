@@ -51,31 +51,6 @@
             </div>
         </section>
 
-        <div class="btn-group">
-            <button type="button" id="btnWhatsApp" class="btn">Enviar WhatsApp</button>
-            <button type="button" id="btnImprimir" class="btn">Imprimir Propuesta</button>
-        </div>
-
-    </form>
-</main>
-
-        <div class="card">
-            <h2>1. Tecnología y Grabación</h2>
-            <div class="row-item" data-chk="req_dispositivo">
-                <div class="chk"><input type="checkbox" id="req_dispositivo"> Dispositivo</div>
-                <div><input type="number" id="cant_dispositivo" placeholder="Cant."></div>
-                <div>
-                    <select id="spec_dispositivo">
-                        <option value="">Seleccionar...</option>
-                        <option value="NVR">NVR</option>
-                        <option value="DVR">DVR</option>
-                        <option value="NVS">NVS</option>
-                        <option value="XVR">XVR</option>
-                        <option value="XMR">XMR</option>
-                    </select>
-                </div>
-                <div><input type="text" id="notes_dispositivo" placeholder="Canales / Marca / Especificaciones"></div>
-            </div>
             <div class="row-item" data-chk="req_hdd">
                 <div class="chk">
                     <input type="checkbox" id="req_hdd"> Discos Duros (CCTV)
@@ -645,7 +620,6 @@
                 </div>
             </div>
         </div>
-
         <div class="card">
             <h2>8. Entregables y Sistemas Complementarios</h2>
             <div class="checkbox-group">
@@ -658,10 +632,8 @@
                 <div class="row-item" data-chk="tv"><input type="checkbox" id="tv"> Pantallas TV</div>
             </div>
         </div>
-
-<div class="btn-group">
+    <div class="btn-group">
                 <button type="button" id="btnWhatsApp" class="btn">Enviar WhatsApp</button>
-                <button type="button" id="btnExportar" class="btn">Guardar JSON</button>
                 <button type="button" id="btnImprimir" class="btn">Imprimir Propuesta</button>
             </div>
         </form>
@@ -669,7 +641,6 @@
 
     <script src="main.js"></script>
     <script>
-        // Carga la portada y conecta los datos al imprimir
         fetch('portada.html')
             .then(res => res.text())
             .then(data => {
