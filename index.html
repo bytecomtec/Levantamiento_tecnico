@@ -3,529 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bytecomtec | Propuesta Profesional</title>
-    <link rel="stylesheet" href="css/main.css">
+    <title>Levantamiento Integral - Bytecomtec</title>
+    <style>
+        :root { --blue: #003366; --orange: #ff8800; --light-gray: #f4f4f4; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--light-gray); padding: 10px; }
+        .header { background: var(--blue); color: white; padding: 15px; text-align: center; border-radius: 8px 8px 0 0; }
+        .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        h2 { color: var(--blue); font-size: 1.1rem; border-left: 4px solid var(--orange); padding-left: 10px; margin-top: 0; margin-bottom: 15px; }
+        label { display: block; margin: 12px 0 5px; font-weight: bold; font-size: 0.85rem; }
+        input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 0.9rem; }
+        .checkbox-group { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 10px; }
+        .checkbox-item { display: flex; align-items: center; font-weight: normal; font-size: 0.9rem; }
+        .checkbox-item input { width: auto; margin-right: 10px; }
+        .btn-wa { background: #25d366; color: white; width: 100%; padding: 18px; border: none; border-radius: 5px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .footer { text-align: center; font-size: 0.8rem; color: #666; padding: 15px; }
+    </style>
 </head>
 <body>
-    <div id="contenedor-portada"></div>
 
-<main class="container">
+<div class="header">
+    <strong>BYTECOMTEC</strong><br><small>Ingeniería y Seguridad Digital</small>
+</div>
+
+<div class="container">
     <form id="masterForm">
-        <section class="card">
-            <h2>Datos del Sitio y Alcance</h2>
-            <div class="site-data-grid grid-2">
-                <div class="data-field">
-                    <label>Nombre del Cliente / Escuela:</label>
-                    <input type="text" id="cliente" required placeholder="Ej. Escuela Primaria Tláhuac">
-                </div>
-                <div class="data-field">
-                    <label>Nombre del Proyecto:</label>
-                    <input type="text" id="proyecto" placeholder="Ej. Infraestructura CCTV LEEN">
-                </div>
-            </div>
-        </section>
-
-<section class="card">
-    <h2>1. Tecnología y Grabación</h2>
-    
-    <div class="row-item" data-item="dispositivo">
-        <div class="chk">
-            <input type="checkbox" id="req_dispositivo"> Dispositivo
-        </div>
-        <div><input type="number" id="cant_dispositivo" placeholder="Cant."></div>
-        <div>
-            <select id="spec_dispositivo">
-                <option value="">Seleccionar...</option>
-                <option value="NVR">NVR</option>
+        
+        <div class="card">
+            <h2>Datos del Plantel y Comité</h2>
+            <label>Nombre de la Escuela:</label>
+            <input type="text" id="escuela" placeholder="Nombre completo" required>
+            
+            <label>Atención a (Nombre del Comité):</label>
+            <input type="text" id="nombre_comite" placeholder="Nombre del integrante">
+            
+            <label>Cargo:</label>
+            <select id="cargo">
+                <option value="Presidente(a) CEAP">Presidente(a) CEAP</option>
+                <option value="Tesorero(a) CEAP">Tesorero(a) CEAP</option>
+                <option value="Vocal">Vocal</option>
+                <option value="Director(a)">Director(a)</option>
             </select>
         </div>
-        <div><input type="text" id="notes_dispositivo" placeholder="Notas"></div>
-    </div>
 
-    <div class="row-item" data-item="hdd">
-        <div class="chk">
-            <input type="checkbox" id="req_hdd"> Discos Duros (CCTV)
-        </div>
-        <div><input type="number" id="cant_hdd" value="1" min="1" placeholder="Cant."></div>
-        <div>
-            <select id="spec_hdd">
-                <option value="">Seleccionar...</option>
-                <option value="1 TB">1 TB</option>
-                <option value="2 TB">2 TB</option>
-                <option value="4 TB">4 TB</option>
-                <option value="8 TB">8 TB</option>
-            </select>
-        </div>
-        <div><input type="text" id="notes_hdd" placeholder="Días de grabación / Notas"></div>
-    </div>
-
-    <div class="row-item" data-item="monitor">
-        <div class="chk">
-            <input type="checkbox" id="req_monitor"> Monitor Local
-        </div>
-        <div><input type="number" id="cant_monitor" placeholder="Cant."></div>
-        <div>
-            <select id="spec_monitor">
-                <option value="">Seleccionar...</option>
-                <option value="21.5 pulgadas">21.5 pulgadas</option>
-                <option value="23.8 pulgadas">23.8 pulgadas</option>
-            </select>
-        </div>
-        <div>
-            <select id="notes_monitor">
-                <option value="">Marca...</option>
-                <option value="Samsung">Samsung</option>
-                <option value="Hikvision">Hikvision</option>
-            </select>
-        </div>
-    </div>
-</section>
-
-<section class="card">
-    <h2>2. Cámaras y Características</h2>
-    
-    <div class="row-item" data-item="cam_domo">
-        <div class="chk"><input type="checkbox" id="req_cam_domo"> Cámara Domo</div>
-        <div><input type="number" id="cant_cam_domo" placeholder="Cant."></div>
-        <div>
-            <select id="spec_cam_domo">
-                <option value="">Seleccionar...</option>
-                <option value="2MP">2MP</option>
-                <option value="4MP">4MP</option>
-                <option value="3K/5M">3K/5M</option>
-                <option value="8MP">8MP</option>
-            </select>
-        </div>
-        <div><input type="text" id="notes_cam_domo" placeholder="Ubicación / Modelo"></div>
-    </div>
-
-    <div class="row-item" data-item="cam_bullet">
-        <div class="chk"><input type="checkbox" id="req_cam_bullet"> Cámara Bullet</div>
-        <div><input type="number" id="cant_cam_bullet" placeholder="Cant."></div>
-        <div>
-            <select id="spec_cam_bullet">
-                <option value="">Seleccionar...</option>
-                <option value="2MP">2MP</option>
-                <option value="4MP">4MP</option>
-                <option value="8MP">8MP</option>
-            </select>
-        </div>
-        <div><input type="text" id="notes_cam_bullet" placeholder="Ubicación / Cobertura"></div>
-    </div>
-
-    <div class="row-item" data-item="cam_ptz">
-        <div class="chk"><input type="checkbox" id="req_cam_ptz"> Cámara PTZ</div>
-        <div><input type="number" id="cant_cam_ptz" placeholder="Cant."></div>
-        <div><input type="text" id="spec_cam_ptz" placeholder="Zoom / Soportes"></div>
-        <div><input type="text" id="notes_cam_ptz" placeholder="Notas"></div>
-    </div>
-
-    <div class="row-item" data-item="cam_lpr">
-        <div class="chk"><input type="checkbox" id="req_cam_lpr"> Cámara LPR (Placas)</div>
-        <div><input type="number" id="cant_cam_lpr" placeholder="Cant."></div>
-        <div><input type="text" id="spec_cam_lpr" placeholder="Acceso Vehicular"></div>
-        <div><input type="text" id="notes_cam_lpr" placeholder="Notas"></div>
-    </div>
-
-    <div class="row-item" data-item="cam_analitica">
-        <div class="chk"><input type="checkbox" id="req_cam_analitica"> Analíticas Avanzadas</div>
-        <div><input type="number" id="cant_cam_analitica" placeholder="Cant."></div>
-        <div><input type="text" id="spec_cam_analitica" placeholder="Cruce / Intrusión"></div>
-        <div><input type="text" id="notes_cam_analitica" placeholder="Notas"></div>
-    </div>
-
-    <div style="margin-top: 15px;">
-        <button type="button" id="btnCalcularHDD" class="link-tools" style="background:none; border:none; cursor:pointer; padding:0; color:#003366; text-decoration:underline;">
-            🧮 Cálculo Almacenamiento
-        </button>
-    </div>
-
-    <div id="calculadoraPanel" class="no-print" style="display: none; background: #eef4fa; border: 1px solid #003366; padding: 12px; border-radius: 6px; margin-top: 10px;">
-        <span style="font-size: 0.85rem; font-weight: bold; color: #003366;">🧮 Calcular Días de Grabación:</span>
-        <div style="display: flex; gap: 10px; margin-top: 5px; align-items: center;">
-            <select id="calc_compresion" style="padding:4px;">
-                <option value="H.265+">H.265+</option>
-                <option value="H.265">H.265</option>
-                <option value="H.264">H.264</option>
-            </select>
-            <button type="button" id="btnProcesarCalculo" style="background:#ff8800; color:white; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; cursor:pointer;">Estimar Días</button>
-        </div>
-    </div>
-</section>
-
-<section class="card">
-    <h2>3. Conectividad, Red y Cableado</h2>
-    
-    <div class="site-data-grid grid-3" style="margin-bottom: 15px;">
-        <div class="data-field">
+        <div class="card">
+            <h2>Diagnóstico de Conectividad</h2>
             <label>¿Cuentan con módem?</label>
             <select id="has_modem">
-                <option value="">Seleccionar...</option>
-                <option value="Si" selected>Si</option>
-                <option value="No">No</option>
-                <option value="Fallando">Fallando</option>
+                <option value="Si">Sí cuenta con módem</option>
+                <option value="No">No cuenta con módem</option>
             </select>
+
+            <label>Compañía / Proveedor:</label>
+            <input type="text" id="compania" placeholder="Telmex, Totalplay, Starlink, etc.">
         </div>
-        <div class="data-field">
-            <label>Proveedor Internet:</label>
-            <select id="compania">
-                <option value="">Seleccionar...</option>
-                <option value="Telmex" selected>Telmex</option>
-                <option value="TotalPlay">TotalPlay</option>
-                <option value="Izzi">Izzi</option>
-                <option value="Megacable">Megacable</option>
-                <option value="Starlink">Starlink</option>
+
+        <div class="card">
+            <h2>Requerimientos de Seguridad</h2>
+            <label>Tipo de Proyecto:</label>
+            <select id="tipo_proy">
+                <option value="Implementación desde Cero">Implementación desde Cero</option>
+                <option value="Mantenimiento / Ampliación">Mantenimiento / Ampliación</option>
             </select>
-        </div>
-        <div class="data-field">
-            <label>Velocidad de Navegación:</label>
-            <input type="text" id="velocidad_internet" value="25 Mb" placeholder="Ej. 100 Mbps">
-        </div>
-    </div>
 
-    <div class="row-item" data-item="net_switch">
-        <div class="chk"><input type="checkbox" id="req_net_switch"> Switch</div>
-        <div><input type="number" id="cant_net_switch" placeholder="Cant."></div>
-        <div>
-            <select id="spec_net_switch">
-                <option value="">Marca...</option>
-                <option value="Wi-Tek">Wi-Tek</option>
-                <option value="TP-Link">TP-Link</option>
-                <option value="Hikvision">Hikvision</option>
+            <label>Cantidad de Cámaras:</label>
+            <input type="number" id="cams" placeholder="Total de equipos proyectados">
+            
+            <label>Tecnología Sugerida:</label>
+            <select id="tech">
+                <option value="IP (Alta Definición / Grado Ingeniería)">IP (Máximo Rendimiento)</option>
+                <option value="Análoga (Turbo HD)">Análoga (Costo/Eficiencia)</option>
             </select>
+
+            <label>Áreas Prioritarias:</label>
+            <textarea id="areas" rows="2" placeholder="Accesos, patios, pasillos, etc."></textarea>
         </div>
-        <div>
-            <select id="notes_net_switch">
-                <option value="">Puertos...</option>
-                <option value="5">5</option>
-                <option value="8">8</option>
-                <option value="24">24</option>
+
+        <div class="card">
+            <h2>Infraestructura y Canalización</h2>
+            <label>Canalización Actual/Requerida:</label>
+            <select id="canalizacion">
+                <option value="Sin canalización">Sin canalización (Instalación total)</option>
+                <option value="Tubería Pared Gruesa">Tubería Pared Gruesa (Exterior)</option>
+                <option value="PVC Pesado">PVC Pesado</option>
+                <option value="Canaleta Plástica">Canaleta Plástica</option>
             </select>
+
+            <label>Servicios Adicionales Requeridos:</label>
+            <div class="checkbox-group">
+                <label class="checkbox-item"><input type="checkbox" id="wifi"> Red WiFi Profesional (Aulas)</label>
+                <label class="checkbox-item"><input type="checkbox" id="audio"> Audio Escolar (Voceo/Actos)</label>
+                <label class="checkbox-item"><input type="checkbox" id="tv"> Pantallas TV / Aulas Media</label>
+            </div>
         </div>
-    </div>
 
-    <div class="row-item" data-item="net_cable">
-        <div class="chk"><input type="checkbox" id="req_net_cable"> Cable</div>
-        <div><input type="number" id="cant_net_cable" placeholder="Cant."></div>
-        <div>
-            <select id="spec_net_cable">
-                <option value="">Marca...</option>
-                <option value="Precision">Precision</option>
-                <option value="LinkedPro">LinkedPro</option>
-            </select>
-        </div>
-        <div>
-            <select id="notes_net_cable">
-                <option value="">Especificación...</option>
-                <option value="100% Cobre">100% Cobre</option>
-                <option value="Alucobre">Alucobre</option>
-            </select>
-        </div>
-    </div>
+        <button type="button" class="btn-wa" onclick="enviarReporte()">Generar Reporte y Enviar a WhatsApp</button>
+    </form>
+</div>
 
-    <div class="row-item" data-item="net_transceptores">
-        <div class="chk"><input type="checkbox" id="req_net_transceptores"> Transceptor</div>
-        <div><input type="number" id="cant_net_transceptores" placeholder="Cant."></div>
-        <div><input type="text" id="spec_net_transceptores" placeholder="Modelo"></div>
-        <div><input type="text" id="notes_net_transceptores" placeholder="Notas"></div>
-    </div>
+<div class="footer">
+    Bytecomtec Tláhuac | Juan Mendoza No 158<br>
+    "Ingeniería que protege el futuro"
+</div>
 
-    <div class="row-item" data-item="net_jacks_dc">
-        <div class="chk"><input type="checkbox" id="req_net_jacks_dc"> Jacks-DC-Power</div>
-        <div><input type="number" id="cant_net_jacks_dc" placeholder="Cant."></div>
-        <div><input type="text" id="spec_net_jacks_dc" placeholder="Modelo"></div>
-        <div><input type="text" id="notes_net_jacks_dc" placeholder="Notas"></div>
-    </div>
+<script>
+    function enviarReporte() {
+        const d = {
+            escuela: document.getElementById('escuela').value,
+            comite: document.getElementById('nombre_comite').value,
+            cargo: document.getElementById('cargo').value,
+            modem: document.getElementById('has_modem').value,
+            compania: document.getElementById('compania').value,
+            tipo: document.getElementById('tipo_proy').value,
+            cams: document.getElementById('cams').value,
+            tech: document.getElementById('tech').value,
+            areas: document.getElementById('areas').value,
+            canal: document.getElementById('canalizacion').value
+        };
 
-    <div class="row-item" data-item="net_conectores">
-        <div class="chk"><input type="checkbox" id="req_net_conectores"> Plugs</div>
-        <div><input type="number" id="cant_net_conectores" placeholder="Cant."></div>
-        <div><input type="text" id="spec_net_conectores" placeholder="Modelo"></div>
-        <div><input type="text" id="notes_net_conectores" placeholder="Notas"></div>
-    </div>
-</section>
+        if(!d.escuela) { alert("Ingrese el nombre de la escuela"); return; }
 
-<section class="card">
-    <h2>4. Infraestructura de Fibra Óptica</h2>
-    
-    <div class="row-item" data-item="fo_liu">
-        <div class="chk"><input type="checkbox" id="req_fo_liu"> ODF/LIU</div>
-        <div><input type="number" id="cant_fo_liu" placeholder="Cant."></div>
-        <div><input type="text" id="spec_fo_liu" placeholder="Hilos / Acopladores"></div>
-        <div><input type="text" id="notes_fo_liu" placeholder="Notas"></div>
-    </div>
+        let extras = [];
+        if(document.getElementById('wifi').checked) extras.push("WiFi Prof.");
+        if(document.getElementById('audio').checked) extras.push("Audio Escolar");
+        if(document.getElementById('tv').checked) extras.push("Pantallas TV");
 
-    <div class="row-item" data-item="fo_cable">
-        <div class="chk"><input type="checkbox" id="req_fo_cable"> Cable FO</div>
-        <div><input type="number" id="cant_fo_cable" placeholder="Rollos"></div>
-        <div>
-            <select id="spec_fo_cable">
-                <option value="">Metros...</option>
-                <option value="50m">50m</option>
-                <option value="100m">100m</option>
-                <option value="200m">200m</option>
-            </select>
-        </div>
-        <div>
-            <select id="notes_fo_cable">
-                <option value="">Tipo...</option>
-                <option value="Armar en sitio">Armar en sitio</option>
-                <option value="Pre-fabricado">Pre-fabricado</option>
-            </select>
-        </div>
-    </div>
+        let msg = `*BYTECOMTEC - LEVANTAMIENTO INTEGRAL*%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `*Escuela:* ${d.escuela}%0A`;
+        msg += `*Atiende:* ${d.comite} (${d.cargo})%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `🌐 *CONECTIVIDAD:*%0A`;
+        msg += `Modem: ${d.modem} | Compañía: ${d.compania || "N/A"}%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `🏗️ *INFRAESTRUCTURA:*%0A`;
+        msg += `Proyecto: ${d.tipo}%0A`;
+        msg += `Canalización: ${d.canal}%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `📹 *CCTV:*%0A`;
+        msg += `Cant: ${d.cams} | Tech: ${d.tech}%0A`;
+        msg += `Áreas: ${d.areas || "Pendiente"}%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `➕ *EXTRAS:* ${extras.join(", ") || "N/A"}%0A`;
+        msg += `-----------------------------------%0A`;
+        msg += `_Este reporte inicia el Expediente de Transparencia 2026._`;
 
-    <div class="row-item" data-item="fo_cajas">
-        <div class="chk"><input type="checkbox" id="req_fo_cajas"> Cajas FO</div>
-        <div><input type="number" id="cant_fo_cajas" placeholder="Cant."></div>
-        <div>
-            <select id="spec_fo_cajas">
-                <option value="">Modelo...</option>
-                <option value="FTB-501">FTB-501</option>
-                <option value="LP-FOFB">LP-FOFB</option>
-            </select>
-        </div>
-        <div>
-            <select id="notes_fo_cajas">
-                <option value="">Marca...</option>
-                <option value="FiberHome">FiberHome</option>
-                <option value="LinkedPro">LinkedPro</option>
-            </select>
-        </div>
-    </div>
+        window.open(`https://wa.me/?text=${msg}`, '_blank');
+    }
+</script>
 
-    <div class="row-item" data-item="fo_conv">
-        <div class="chk"><input type="checkbox" id="req_fo_conv"> Conv. Medios</div>
-        <div><input type="number" id="cant_fo_conv" placeholder="Cant."></div>
-        <div>
-            <select id="spec_fo_conv">
-                <option value="">Modelo...</option>
-                <option value="MC220L">MC220L</option>
-                <option value="WI-MC-111GP">WI-MC-111GP</option>
-            </select>
-        </div>
-        <div>
-            <select id="notes_fo_conv">
-                <option value="">Marca...</option>
-                <option value="TP-Link">TP-Link</option>
-                <option value="Wi-Tek">Wi-Tek</option>
-            </select>
-        </div>
-    </div>
-</section>
-
-<section class="card">
-    <h2>5. Canalización, Fijación y Micro-Ferretería</h2>
-    
-    <div class="row-item" data-item="mat_gewiss">
-        <div class="chk"><input type="checkbox" id="req_mat_gewiss"> Tubería Gewiss</div>
-        <div><input type="number" id="cant_mat_gewiss" placeholder="Tramos"></div>
-        <div><input type="text" id="spec_mat_gewiss" placeholder="Medida"></div>
-        <div><input type="text" id="notes_mat_gewiss" placeholder="Notas"></div>
-    </div>
-
-    <div class="row-item" data-item="mat_pvc">
-        <div class="chk"><input type="checkbox" id="req_mat_pvc"> PVC Pesado</div>
-        <div><input type="number" id="cant_mat_pvc" placeholder="Tramos"></div>
-        <div><input type="text" id="spec_mat_pvc" placeholder="Medida"></div>
-        <div><input type="text" id="notes_mat_pvc" placeholder="Notas"></div>
-    </div>
-
-    <div class="row-item" data-item="mat_liq">
-        <div class="chk"><input type="checkbox" id="req_mat_liq"> Liquid-tight</div>
-        <div><input type="number" id="cant_mat_liq" placeholder="Metros"></div>
-        <div><input type="text" id="spec_mat_liq" placeholder="Medida/Conectores"></div>
-        <div><input type="text" id="notes_mat_liq" placeholder="Notas"></div>
-    </div>
-
-    <div class="row-item" data-item="mat_canaleta">
-        <div class="chk"><input type="checkbox" id="req_mat_canaleta"> Canaleta</div>
-        <div><input type="number" id="cant_mat_canaleta" placeholder="Tramos"></div>
-        <div><input type="text" id="spec_mat_canaleta" placeholder="Medida"></div>
-        <div><input type="text" id="notes_mat_canaleta" placeholder="Notas"></div>
-    </div>
-
-    <div class="row-item" data-item="mat_caja">
-        <div class="chk"><input type="checkbox" id="req_mat_caja"> Cajas Deriv.</div>
-        <div><input type="number" id="cant_mat_caja" placeholder="Cant."></div>
-        <div>
-            <select id="spec_mat_caja">
-                <option value="">Modelo...</option>
-                <option value="LP-WBX-100">LP-WBX-100</option>
-                <option value="Condulet FS">Condulet FS</option>
-            </select>
-        </div>
-        <div><input type="text" id="notes_mat_caja" placeholder="Ubicación"></div>
-    </div>
-</section>
-
-<section class="card">
-    <h2>6. Respaldo de Energía y Protección</h2>
-    
-    <div class="row-item" data-item="pwr_fuente">
-        <div class="chk"><input type="checkbox" id="req_pwr_fuente"> Fuente de Poder</div>
-        <div><input type="number" id="cant_pwr_fuente" placeholder="Cant."></div>
-        <div>
-            <select id="spec_pwr_fuente">
-                <option value="">Capacidad...</option>
-                <option value="4 Cámaras">4 Cámaras</option>
-                <option value="8 Cámaras">8 Cámaras</option>
-                <option value="16 Cámaras">16 Cámaras</option>
-            </select>
-        </div>
-        <div><input type="text" id="notes_pwr_fuente" placeholder="Amperaje / Modelo"></div>
-    </div>
-
-    <div class="row-item" data-item="pwr_ups_rack">
-        <div class="chk"><input type="checkbox" id="req_pwr_ups_rack"> UPS Rack Core</div>
-        <div><input type="number" id="cant_pwr_ups_rack" placeholder="Cant."></div>
-        <div>
-            <select id="spec_pwr_ups_rack">
-                <option value="">Voltaje...</option>
-                <option value="600VA">600VA</option>
-                <option value="1000VA">1000VA</option>
-                <option value="2000VA">2000VA</option>
-            </select>
-        </div>
-        <div>
-            <select id="notes_pwr_ups_rack">
-                <option value="">Modelo...</option>
-                <option value="DS-UPS600-X">DS-UPS600-X</option>
-                <option value="DS-UPS1000-X">DS-UPS1000-X</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row-item" data-item="pwr_ups_campo">
-        <div class="chk"><input type="checkbox" id="req_pwr_ups_campo"> UPS Gab. Campo</div>
-        <div><input type="number" id="cant_pwr_ups_campo" placeholder="Cant."></div>
-        <div><input type="text" id="spec_pwr_ups_campo" placeholder="Capacidad"></div>
-        <div><input type="text" id="notes_pwr_ups_campo" placeholder="Notas"></div>
-    </div>
-
-    <div class="row-item" data-item="pwr_pdu">
-        <div class="chk"><input type="checkbox" id="req_pwr_pdu"> Barra PDU</div>
-        <div><input type="number" id="cant_pwr_pdu" placeholder="Cant."></div>
-        <div><input type="text" id="spec_pwr_pdu" placeholder="1U / Supresor"></div>
-        <div><input type="text" id="notes_pwr_pdu" placeholder="Notas"></div>
-    </div>
-
-    <div class="row-item" data-item="pwr_tierra">
-        <div class="chk"><input type="checkbox" id="req_pwr_tierra"> Tierra Física</div>
-        <div>-</div>
-        <div style="grid-column: span 2;">
-            <input type="text" id="spec_pwr_tierra" placeholder="Estado de red / Requerimientos en sitio">
-        </div>
-    </div>
-</section>
-
-<section class="card">
-    <h2>7. Mano de Obra y Servicios Profesionales</h2>
-    
-    <div class="row-item" data-item="srv_inst">
-        <div class="chk"><input type="checkbox" id="req_srv_inst"> Instalación Física</div>
-        <div style="grid-column: span 3;">
-            <select id="spec_srv_inst">
-                <option value="">Tipo de instalación...</option>
-                <option value="Cable tendido">Cable tendido, sin canalizar</option>
-                <option value="Tubería Gewiss">Cableado con tubería Gewiss</option>
-                <option value="Canalización interna">Cableado con canalización interna</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row-item" data-item="srv_fusion">
-        <div class="chk"><input type="checkbox" id="req_srv_fusion"> Fusión FO</div>
-        <div>-</div>
-        <div style="grid-column: span 2;">
-            <input type="text" id="spec_srv_fusion" placeholder="Número de hilos a fusionar">
-        </div>
-    </div>
-
-    <div class="row-item" data-item="srv_vlan">
-        <div class="chk"><input type="checkbox" id="req_srv_vlan"> Red y VLANs</div>
-        <div style="grid-column: span 3;">
-            <select id="spec_srv_vlan">
-                <option value="">Configuración...</option>
-                <option value="Sin configuración">Sin configuración específica</option>
-                <option value="Configuración VLANs">Configuración de VLANs</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row-item" data-item="srv_nvr">
-        <div class="chk"><input type="checkbox" id="req_srv_nvr"> Config. NVR/DVR</div>
-        <div style="grid-column: span 3;">
-            <select id="spec_srv_nvr">
-                <option value="">Alcance...</option>
-                <option value="Basica">Configuración básica</option>
-                <option value="Avanzada">Horario, alertas y cruce de línea</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row-item" data-item="srv_remoto">
-        <div class="chk"><input type="checkbox" id="req_srv_remoto"> Acceso Remoto</div>
-        <div style="grid-column: span 3;">
-            <select id="spec_srv_remoto">
-                <option value="">Plataforma...</option>
-                <option value="Hik-Connect">Hik-Connect</option>
-                <option value="IVMS-4200">IVMS-4200 (PC)</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row-item" data-item="srv_alturas">
-        <div class="chk"><input type="checkbox" id="req_srv_alturas"> Trabajos Altura</div>
-        <div style="grid-column: span 3;">
-            <select id="spec_srv_alturas">
-                <option value="">Riesgo...</option>
-                <option value="Sin riesgo">Trabajo sin riesgo</option>
-                <option value="Mayor a 5m">Riesgo de trabajo por altura >5m</option>
-            </select>
-        </div>
-    </div>
-</section>
-
-<section class="card">
-    <h2>8. Entregables y Sistemas Complementarios</h2>
-    <div class="checkbox-group">
-        <div class="row-item" data-item="ent_planos">
-            <input type="checkbox" id="req_ent_planos" checked> Planos
-        </div>
-        <div class="row-item" data-item="ent_memoria">
-            <input type="checkbox" id="req_ent_memoria" checked> Memoria Técnica
-        </div>
-        <div class="row-item" data-item="ent_cert">
-            <input type="checkbox" id="req_ent_cert"> Certificación Fluke
-        </div>
-        <div class="row-item" data-item="wifi">
-            <input type="checkbox" id="req_wifi"> Red WiFi Profesional
-        </div>
-        <div class="row-item" data-item="audio">
-            <input type="checkbox" id="req_audio"> Audio Escolar / Voceo
-        </div>
-        <div class="row-item" data-item="tv">
-            <input type="checkbox" id="req_tv"> Pantallas TV
-        </div>
-    </div>
-</section>
-
-
-    <div class="btn-group">
-                <button type="button" id="btnWhatsApp" class="btn">Enviar WhatsApp</button>
-                <button type="button" id="btnImprimir" class="btn">Imprimir Propuesta</button>
-    </div>
-        </form>
-    </main>
-
-    <script src="main.js"></script>
-    <script>
-        fetch('portada.html')
-            .then(res => res.text())
-            .then(data => {
-                document.getElementById('contenedor-portada').innerHTML = data;
-            });
-    </script>
 </body>
 </html>
