@@ -233,86 +233,54 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones cargadas correctamente");
+    console.log("Automatizaciones iniciadas");
 
-    function ejecutarCalculoFibra() {
-    const inputRollos = document.getElementById('cant_fo_cable');
-    if (!inputRollos) return;
+    // 1. Función núcleo de cálculo (Sin disparar eventos propios)
+    const ejecutarCalculoFibra = () => {
+        const inputRollos = document.getElementById('cant_fo_cable');
+        if (!inputRollos) return;
 
-    const rollos = parseInt(inputRollos.value) || 0;
-    
-    // Nota de fibra
-    const notasFibra = document.getElementById('notes_fo_cable');
-    if (notasFibra && notasFibra.value !== 'Pre-fabricado') {
-        notasFibra.value = 'Pre-fabricado';
-        notasFibra.dispatchEvent(new Event('change', { bubbles: true }));
-    }
+        const rollos = parseInt(inputRollos.value) || 0;
+        const notasFibra = document.getElementById('notes_fo_cable');
+        if (notasFibra) notasFibra.value = 'Pre-fabricado';
 
-    const map = [
-        { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
-        { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
-        { idCant: 'cant_fo_pigtails', spec: 'LP-FO-LCU-SCA-01', notes: 'LinkedPro' },
-        { idCant: 'cant_fo_sfp', spec: 'TP-link', notes: 'TL-SM321A/ TL-SM321B' }
-    ];
+        const map = [
+            { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
+            { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
+            { idCant: 'cant_fo_pigtails', spec: 'LP-FO-LCU-SCA-01', notes: 'LinkedPro' },
+            { idCant: 'cant_fo_sfp', spec: 'TP-link', notes: 'TL-SM321A/ TL-SM321B' }
+        ];
 
-    map.forEach(item => {
-        const inputCant = document.getElementById(item.idCant);
-        if (inputCant) {
-            const nuevoValor = (rollos * 2).toString();
-            
-            // EL CANDADO: Solo disparamos el evento si el valor es DIFERENTE al actual
-            if (inputCant.value !== nuevoValor) {
-                inputCant.value = nuevoValor;
-                inputCant.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-
-            const cont = inputCant.closest('.row-item');
-            if (cont) {
-                const selSpec = cont.querySelector('select[id^="spec_"]');
-                const selNotes = cont.querySelector('select[id^="notes_"]');
-                
-                // Aplicar solo si cambia
-                if (selSpec && selSpec.value !== item.spec) {
-                    selSpec.value = item.spec;
-                    selSpec.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-                if (selNotes && selNotes.value !== item.notes) {
-                    selNotes.value = item.notes;
-                    selNotes.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-                
-                const chk = cont.querySelector('input[type="checkbox"]');
-                if (chk && !chk.checked) {
-                    chk.checked = true;
-                    chk.dispatchEvent(new Event('change', { bubbles: true }));
+        map.forEach(item => {
+            const input = document.getElementById(item.idCant);
+            if (input) {
+                input.value = rollos * 2;
+                const cont = input.closest('.row-item');
+                if (cont) {
+                    const selSpec = cont.querySelector('select[id^="spec_"]');
+                    const selNotes = cont.querySelector('select[id^="notes_"]');
+                    const chk = cont.querySelector('input[type="checkbox"]');
+                    if (selSpec) selSpec.value = item.spec;
+                    if (selNotes) selNotes.value = item.notes;
+                    if (chk) chk.checked = true;
                 }
             }
-        }
-    });
-    console.log("Cálculo seguro aplicado.");
-}
-
-    // DISPARADORES
-    document.addEventListener('input', (e) => {
-        if (e.target.id === 'cant_fo_cable') ejecutarCalculoFibra();
-    });
-
-    const btnAceptar = document.getElementById('btn_aceptar');
-    if (btnAceptar) {
-        btnAceptar.addEventListener('click', (e) => {
-            ejecutarCalculoFibra();
         });
-    }
+    };
 
-    // LÓGICA DE CHECKBOX/SELECT
+    // 2. Delegación de eventos (Un solo listener para todo)
     document.addEventListener('change', (e) => {
-        // Solo actuar si NO es el campo de fibra (para evitar conflictos)
+        // A) Lógica de Fibra Óptica
+        if (e.target.id === 'cant_fo_cable') {
+            ejecutarCalculoFibra();
+        }
+
+        // B) Lógica de Checkbox/Select (Prompt)
         if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
             const cont = e.target.closest('.row-item');
             if (!cont) return;
 
             const campoCant = cont.querySelector('input[type="number"]');
-            
             if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
                 let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
                 if (cantidad) {
@@ -321,11 +289,13 @@ function configurarAutomatizaciones() {
                     e.target.checked = false;
                 }
             }
-            
             const chk = cont.querySelector('input[type="checkbox"]');
             if (chk) chk.checked = true;
         }
     });
+
+    // 3. Listener para el botón Aceptar (Si existe)
+    document.getElementById('btn_aceptar')?.addEventListener('click', ejecutarCalculoFibra);
 }
 
 // ==========================================
