@@ -267,7 +267,8 @@ function configurarAutomatizaciones() {
             }
         });
     };
-
+    // Al final de ejecutarCalculoFibra():
+    calcularAlmacenamientoBytecomtec(); // Llama a tu función de totales explícitamente
     // 2. Delegación de eventos (Un solo listener para todo)
     document.addEventListener('change', (e) => {
         // A) Lógica de Fibra Óptica
