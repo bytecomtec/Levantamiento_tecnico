@@ -240,20 +240,17 @@ function configurarAutomatizaciones() {
     // ... resto de tu código
 });
     
-    function ejecutarCalculoFibra() {
-        // Corregido: Buscamos el ID real de tu HTML
-        const inputRollos = document.getElementById('cant_fo_cable'); 
-        
-        if (!inputRollos) {
-            console.error("ERROR: No existe un elemento con id='cant_fo_cable' en tu HTML");
-            return;
-        }
+function ejecutarCalculoFibra() {
+        const inputRollos = document.getElementById('cant_fo_cable');
+        if (!inputRollos) return;
+
+        // Bandera de protección: si ya estamos calculando, no hacer nada
+        if (inputRollos.dataset.calculando === "true") return;
+        inputRollos.dataset.calculando = "true";
 
         const rollos = parseInt(inputRollos.value) || 0;
         
-        const notasFibra = document.getElementById('notes_fo_cable');
-        if (notasFibra) notasFibra.value = 'Pre-fabricado';
-
+        // ... (resto de tu lógica de mapeo)
         const map = [
             { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
             { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
@@ -265,13 +262,13 @@ function configurarAutomatizaciones() {
             const inputCant = document.getElementById(item.idCant);
             if (inputCant) {
                 inputCant.value = rollos * 2;
+                // Disparamos el evento, pero el flag evitará que entre en bucle
                 inputCant.dispatchEvent(new Event('change', { bubbles: true }));
-
+                
                 const cont = inputCant.closest('.row-item');
                 if (cont) {
                     const selSpec = cont.querySelector('select[id^="spec_"]');
                     const selNotes = cont.querySelector('select[id^="notes_"]');
-                    
                     if (selSpec) {
                         selSpec.value = item.spec;
                         selSpec.dispatchEvent(new Event('change', { bubbles: true }));
@@ -280,32 +277,13 @@ function configurarAutomatizaciones() {
                         selNotes.value = item.notes;
                         selNotes.dispatchEvent(new Event('change', { bubbles: true }));
                     }
-                    const chk = cont.querySelector('input[type="checkbox"]');
-                    if (chk) {
-                        chk.checked = true;
-                        chk.dispatchEvent(new Event('change', { bubbles: true }));
-                    }
                 }
             }
         });
 
-        const planos = document.getElementById('check_planos');
-        const memoria = document.getElementById('check_memoria_tecnica');
-        if (planos) planos.checked = true;
-        if (memoria) memoria.checked = true;
-    }
-
-    // Eventos
-    document.addEventListener('input', (e) => {
-        if (e.target.id === 'cant_fo_cable') ejecutarCalculoFibra();
-    });
-
-    const btnAceptar = document.getElementById('btn_aceptar');
-    if (btnAceptar) {
-        btnAceptar.addEventListener('click', (e) => {
-            e.preventDefault();
-            ejecutarCalculoFibra();
-        });
+        // Limpiamos la bandera al finalizar
+        inputRollos.dataset.calculando = "false";
+        console.log("Cálculo finalizado sin recursión.");
     }
 
 // C) Lógica de Checkbox/Select
