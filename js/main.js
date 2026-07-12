@@ -74,6 +74,20 @@ const BytecomtecState = {
     }
 };
 
+function ejecutarImpresionProfesional() {
+    if (!validarFormularioSeguro()) return;
+
+    // 1. Actualizamos la portada con los datos actuales
+    actualizarPortada();
+
+    // 2. Ejecutamos la lógica de limpieza de filas (lo que ya tenías)
+    FormConfig.secciones.forEach(seccion => {
+        // ... (tu lógica existente para ocultar filas vacías)
+    });
+
+    // 3. Abrimos la impresión
+    window.print();
+}
 
 function actualizarPortada() {
     // Sincronizamos primero el estado global
