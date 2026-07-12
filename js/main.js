@@ -233,17 +233,14 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones iniciadas");
+    console.log("Automatizaciones cargadas (Modo Seguro)");
 
-    // 1. Función núcleo de cálculo (Sin disparar eventos propios)
+    // Función núcleo: SOLO hace cálculos, NO dispara eventos
     const ejecutarCalculoFibra = () => {
         const inputRollos = document.getElementById('cant_fo_cable');
-        if (!inputRollos) return;
+        if (!inputRollos || !inputRollos.value) return; 
 
         const rollos = parseInt(inputRollos.value) || 0;
-        const notasFibra = document.getElementById('notes_fo_cable');
-        if (notasFibra) notasFibra.value = 'Pre-fabricado';
-
         const map = [
             { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
             { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
@@ -253,49 +250,40 @@ function configurarAutomatizaciones() {
 
         map.forEach(item => {
             const input = document.getElementById(item.idCant);
-            if (input) {
+            if (input && input.value === "") { // Solo rellenar si está vacío
                 input.value = rollos * 2;
                 const cont = input.closest('.row-item');
                 if (cont) {
                     const selSpec = cont.querySelector('select[id^="spec_"]');
-                    const selNotes = cont.querySelector('select[id^="notes_"]');
-                    const chk = cont.querySelector('input[type="checkbox"]');
                     if (selSpec) selSpec.value = item.spec;
-                    if (selNotes) selNotes.value = item.notes;
+                    const chk = cont.querySelector('input[type="checkbox"]');
                     if (chk) chk.checked = true;
                 }
             }
         });
     };
-    // Al final de ejecutarCalculoFibra():
-    calcularAlmacenamientoBytecomtec(); // Llama a tu función de totales explícitamente
-    // 2. Delegación de eventos (Un solo listener para todo)
+
+    // Escuchar cambios de usuario (NO al iniciar)
     document.addEventListener('change', (e) => {
-        // A) Lógica de Fibra Óptica
-        if (e.target.id === 'cant_fo_cable') {
-            ejecutarCalculoFibra();
-        }
-
-        // B) Lógica de Checkbox/Select (Prompt)
-        if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
-            const cont = e.target.closest('.row-item');
-            if (!cont) return;
-
-            const campoCant = cont.querySelector('input[type="number"]');
-            if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
-                let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
-                if (cantidad) {
-                    campoCant.value = cantidad;
-                } else if (e.target.type === 'checkbox') {
-                    e.target.checked = false;
+        // Solo actuar si el cambio fue provocado por el usuario
+        if (e.isTrusted) { 
+            if (e.target.id === 'cant_fo_cable') {
+                ejecutarCalculoFibra();
+            }
+            
+            // Lógica de Prompt (solo si es un campo de cantidad vacío)
+            if (e.target.type === 'checkbox' && e.target.checked) {
+                const cont = e.target.closest('.row-item');
+                const campoCant = cont?.querySelector('input[type="number"]');
+                if (campoCant && campoCant.value === "") {
+                    let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
+                    if (cantidad) campoCant.value = cantidad;
+                    else e.target.checked = false;
                 }
             }
-            const chk = cont.querySelector('input[type="checkbox"]');
-            if (chk) chk.checked = true;
         }
     });
 
-    // 3. Listener para el botón Aceptar (Si existe)
     document.getElementById('btn_aceptar')?.addEventListener('click', ejecutarCalculoFibra);
 }
 
