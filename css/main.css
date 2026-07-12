@@ -11,22 +11,35 @@
 
 .row-item {
     display: grid;
-    /* Divide la fila en 4 columnas: 
-       La primera es más ancha para el nombre, las otras 3 son iguales */
     grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 15px; 
-    align-items: center; /* Centrado vertical */
-    margin-bottom: 5px;  /* Espacio entre filas */
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 5px; /* Pequeño respiro visual */
+    background: #f9f9f9; /* Opcional: una ligera sombra o color ayuda a separar filas */
+    border-radius: 4px;
 }
 
-/* Asegura que los inputs llenen su espacio */
-.row-item input, .row-item select {
+/* IMPORTANTE: Esto evita que los inputs sobresalgan del grid */
+.row-item input, 
+.row-item select {
     width: 100%;
+    padding: 5px; /* Un poco de aire dentro del campo */
+    box-sizing: border-box; /* Fundamental para que el width 100% respete bordes */
+    border: 1px solid #ccc;
+    border-radius: 3px;
 }
 
+/* Mejora: Si un checkbox está en la primera columna, dale espacio */
+.row-item .chk {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
 
 .main-title h1 {
-    color: #002d5e; /* Azul corporativo */
+    color: #002d5e;
     font-size: 2.5em;
     margin-bottom: 10px;
 }
@@ -37,9 +50,9 @@
     border-bottom: 2px solid #002d5e;
     padding: 20px;
 }
+
 @media print {
     #portada-pdf { display: block !important; page-break-after: always; }
     .page-break { page-break-after: always; }
-    /* Oculta los botones al imprimir */
     button, .no-print { display: none !important; }
 }
