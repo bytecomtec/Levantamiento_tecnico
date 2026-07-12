@@ -48,3 +48,43 @@ function aplicarAutomatizacionFibra(cantidad) {
     };
     // ... aquí aplicas la lógica de llenado sin generar bucles
 }
+// Este objeto centraliza todo. 
+// Sustituirá la dependencia directa de leer el DOM constantemente.
+const BytecomtecState = {
+    // Información del cliente y proyecto
+    datosGenerales: {
+        cliente: "",
+        proyecto: "",
+        fecha: "",
+        hora: "",
+        ingeniero: ""
+    },
+    // El inventario técnico (tus cámaras, fibra, etc.)
+    inventario: {
+        tecnologia: {},
+        conectividad: {},
+        fibraOptica: {}
+    },
+    // Información de branding para el PDF profesional
+    branding: {
+        fraseImpacto: "Ingeniería que protege el futuro y garantiza su tranquilidad.",
+        mision: "Incrementar las capacidades tecnológicas y de seguridad de nuestros clientes.",
+        marcasAliadas: ["Hikvision", "Ubiquiti", "LinkedPro", "Western Digital"],
+        notaLegal: "Propuesta técnica basada en análisis de requerimientos 2026."
+    }
+};
+
+
+function actualizarPortada() {
+    // Sincronizamos primero el estado global
+    sincronizarEstado();
+
+    // Inyectamos los datos del estado a la portada
+    const displayCliente = document.getElementById('display-cliente');
+    const displayProyecto = document.getElementById('display-proyecto');
+
+    if (displayCliente) displayCliente.innerText = AppState.datos.cliente || "Nombre del Cliente";
+    if (displayProyecto) displayProyecto.innerText = AppState.datos.proyecto || "Nombre del Proyecto";
+    
+    // Aquí puedes agregar más campos si lo deseas (Ej. Fecha)
+}
