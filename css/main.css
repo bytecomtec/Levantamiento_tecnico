@@ -9,12 +9,11 @@
     background: #ffffff;
 }
 
-/* Esto obliga a que los 4 elementos se alineen siempre en 4 columnas */
 .row-item {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr; /* Columna 1 ancha, resto iguales */
-    gap: 10px; /* Espacio entre ellos */
-    align-items: center; /* Alineación vertical */
+    grid-template-columns: 2fr 1fr 1fr 1fr; /* Esto alinea las 4 columnas */
+    gap: 15px; 
+    align-items: center; /* Alinea todo al centro verticalmente */
     margin-bottom: 5px;
 }
 
