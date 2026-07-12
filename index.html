@@ -2,41 +2,25 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha de Levantamiento y Definición de Alcance - Bytecomtec</title>
+    <title>Bytecomtec - Propuesta Profesional</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-<div id="portada-pdf" class="page-break" style="display:none;">
-    <div class="header-logo"><img src="logo.png" alt="Bytecomtec"></div>
-    <div class="main-title">
-        <h1>PROPUESTA DE INGENIERÍA Y SEGURIDAD DIGITAL</h1>
-        <p id="display-cliente"></p>
-        <p id="display-proyecto"></p>
+
+    <div id="portada-pdf" class="page-break">
+        <div class="header-logo"><img src="logo.png" alt="Bytecomtec"></div>
+        <div class="main-title">
+            <h1>PROPUESTA DE INGENIERÍA</h1>
+            <h2 id="display-cliente">Cliente: -</h2>
+            <p id="display-proyecto">Proyecto: -</p>
+        </div>
     </div>
-</div>
-    
-    <table style="width: 100%;">
-        <thead>
-            <tr>
-                <td>
-                    <div class="header">
-                        <img src="logo.png" alt="Logo">
-                        <div class="header-text">
-                            <h3>BYTECOMTEC</h3>
-                            <p>Ingeniería y Seguridad Digital — Ficha de Levantamiento Técnico</p>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </thead>
-        
-        <tbody>
-            <tr>
-                <td>
 
-<div class="container">
-
+class="container">
+        <form id="masterForm">
+            <input type="text" id="cliente" placeholder="Nombre de la Escuela">
+            <input type="text" id="proyecto" placeholder="Nombre del Proyecto">
+            
     <div class="import-box">
         <span style="font-size: 0.9rem; font-weight: bold; color: #003366;">¿Deseas editar un respaldo anterior?</span><br>
             <label for="importFile">Seleccionar archivo .json</label>
@@ -704,32 +688,13 @@
             </div>
         </div>
 
-        <div class="btn-group">
-            <button type="button" class="btn btn-wa" id="btnWhatsApp">WhatsApp</button>
-            <button type="button" class="btn btn-json" id="btnExportar">Guardar Respaldo (.json)</button>
-            <button type="button" class="btn btn-pdf" id="btnImprimir">Imprimir PDF</button>
-        </div>
-<div id="contenedor-portada"></div>
+div class="btn-group">
+                <button type="button" id="btnWhatsApp">Enviar WhatsApp</button>
+                <button type="button" id="btnImprimir">Imprimir Propuesta</button>
+            </div>
+        </form>
+    </main>
 
-<script>
-    // Carga la portada dinámicamente
-    fetch('portada.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('contenedor-portada').innerHTML = data;
-        });
-</script>
-    </form>
-</div> </td>
-        </tr>
-    </tbody>
-    </table>
-            <div style="height: 400px;"></div>
-                 <div class="footer">
-                    Bytecomtec CDMX | Ingeniería que protege el futuro<br>
-                    <small>Expediente de Transparencia de Infraestructura Tecnológica Escolar 2026</small>
-                </div>
-    <script src="js/config.js"></script>
-    <script src="js/main.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
