@@ -11,23 +11,21 @@
 
 .row-item {
     display: grid;
+    /* Divide la fila en 4 partes: 2 partes para el nombre, 1 para cada campo */
     grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 15px; 
-    align-items: center;
-    margin-bottom: 8px;
-    padding: 5px; /* Pequeño respiro visual */
-    background: #f9f9f9; /* Opcional: una ligera sombra o color ayuda a separar filas */
-    border-radius: 4px;
+    align-items: center; /* Alinea todo verticalmente al centro */
+    margin-bottom: 10px;
+    padding: 8px;
+    background: #fdfdfd; /* Un fondo muy suave ayuda a distinguir las filas */
+    border-bottom: 1px solid #eee;
 }
 
-/* IMPORTANTE: Esto evita que los inputs sobresalgan del grid */
-.row-item input, 
-.row-item select {
+/* Asegura que los campos llenen su columna */
+.row-item input, .row-item select {
     width: 100%;
-    padding: 5px; /* Un poco de aire dentro del campo */
-    box-sizing: border-box; /* Fundamental para que el width 100% respete bordes */
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    padding: 6px;
+    box-sizing: border-box; /* Fundamental: incluye el borde en el ancho */
 }
 
 /* Mejora: Si un checkbox está en la primera columna, dale espacio */
