@@ -11,10 +11,12 @@
 
 .row-item {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr; /* Esto alinea las 4 columnas */
-    gap: 15px; 
-    align-items: center; /* Alinea todo al centro verticalmente */
-    margin-bottom: 5px;
+    /* Esto define que la fila se divide en 4 partes */
+    /* La primera columna es el doble de ancha (2fr) para que el texto quepa bien */
+    grid-template-columns: 2fr 1fr 1fr 1fr; 
+    gap: 15px; /* Espacio entre columnas */
+    align-items: center; /* Alineación vertical perfecta */
+    margin-bottom: 8px; /* Espacio entre cada fila */
 }
 
 
