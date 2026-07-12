@@ -11,12 +11,17 @@
 
 .row-item {
     display: grid;
-    /* Esto define que la fila se divide en 4 partes */
-    /* La primera columna es el doble de ancha (2fr) para que el texto quepa bien */
-    grid-template-columns: 2fr 1fr 1fr 1fr; 
-    gap: 15px; /* Espacio entre columnas */
-    align-items: center; /* Alineación vertical perfecta */
-    margin-bottom: 8px; /* Espacio entre cada fila */
+    /* Divide la fila en 4 columnas: 
+       La primera es más ancha para el texto, las otras 3 son iguales */
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 10px; /* Espacio entre columnas */
+    align-items: center; /* Centrado vertical */
+    margin-bottom: 8px;
+}
+
+/* Fuerza a todos los campos a rellenar el ancho de su columna */
+.row-item input, .row-item select {
+    width: 100%;
 }
 
 
