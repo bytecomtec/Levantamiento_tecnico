@@ -709,7 +709,16 @@
             <button type="button" class="btn btn-json" id="btnExportar">Guardar Respaldo (.json)</button>
             <button type="button" class="btn btn-pdf" id="btnImprimir">Imprimir PDF</button>
         </div>
+<div id="contenedor-portada"></div>
 
+<script>
+    // Carga la portada dinámicamente
+    fetch('portada.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('contenedor-portada').innerHTML = data;
+        });
+</script>
     </form>
 </div> </td>
         </tr>
