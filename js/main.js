@@ -1,7 +1,27 @@
 /**
  * Bytecomtec System - Arquitectura de Estado Centralizado
  */
+// En tu main.js, simplemente unifica todo bajo un solo objeto
+const BytecomtecState = {
+    datos: {}, // Aquí guardaremos los valores de los inputs
+    branding: {
+        empresa: "BYTECOMTEC",
+        eslogan: "Ingeniería que protege el futuro",
+        mision: "Incrementar capacidades tecnológicas y de seguridad...",
+        marcasAliadas: ["Hikvision", "Ubiquiti", "LinkedPro", "Western Digital"],
+        notaLegal: "Propuesta técnica basada en análisis de requerimientos 2026."
+    }
+};
 
+// Modifica la función de sincronización para apuntar al objeto único
+function sincronizarEstado() {
+    const inputs = document.querySelectorAll('#masterForm input, #masterForm select');
+    inputs.forEach(el => {
+        if (el.id) {
+            BytecomtecState.datos[el.id] = (el.type === 'checkbox') ? el.checked : el.value;
+        }
+    });
+}
 const AppState = {
     datos: {},
     branding: {
