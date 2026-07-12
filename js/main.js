@@ -233,77 +233,75 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones cargadas y seguras");
+    console.log("Automatizaciones cargadas");
 
-    // 1. LÓGICA DE CÁLCULO (AISLADA)
-    // Esta función hace el trabajo pesado sin activar eventos adicionales
-    const aplicarCalculoFibra = () => {
-        const inputRollos = document.getElementById('cant_fo_cable');
-        if (!inputRollos) return;
+    document.addEventListener('change', (e) => {
+        // --- 1. LÓGICA DE FIBRA ÓPTICA (Sincronizada con tus IDs) ---
+        if (e.target.id === 'cant_fo_cable') {
+            const rollos = parseInt(e.target.value) || 0;
+            
+            // 1.1 Auto-seleccionar "Pre-fabricado" en la nota de Fibra
+            const notasFibra = document.getElementById('notes_fo_cable');
+            if (notasFibra) notasFibra.value = 'Pre-fabricado';
 
-        const rollos = parseInt(inputRollos.value) || 0;
-        
-        const map = [
-            { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
-            { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
-            { idCant: 'cant_fo_pigtails', spec: 'LP-FO-LCU-SCA-01', notes: 'LinkedPro' },
-            { idCant: 'cant_fo_sfp', spec: 'TP-link', notes: 'TL-SM321A/ TL-SM321B' }
-        ];
+            // 1.2 Definición de mapeo (ID del campo, valor del select de especificación, valor del select de notas)
+            const map = [
+                { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
+                { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
+                { idCant: 'cant_fo_pigtails', spec: 'LP-FO-LCU-SCA-01', notes: 'LinkedPro' },
+                { idCant: 'cant_fo_sfp', spec: 'TP-link', notes: 'TL-SM321A/ TL-SM321B' }
+            ];
 
-        map.forEach(item => {
-            const inputCant = document.getElementById(item.idCant);
-            if (inputCant) {
-                // Solo asignamos el valor, sin disparar 'change'
-                inputCant.value = rollos * 2;
-                
-                const cont = inputCant.closest('.row-item');
-                if (cont) {
-                    const selSpec = cont.querySelector('select[id^="spec_"]');
-                    const selNotes = cont.querySelector('select[id^="notes_"]');
-                    const chk = cont.querySelector('input[type="checkbox"]');
+            map.forEach(item => {
+                const inputCant = document.getElementById(item.idCant);
+                if (inputCant) {
+                    inputCant.value = rollos * 2;
                     
-                    if (selSpec) selSpec.value = item.spec;
-                    if (selNotes) selNotes.value = item.notes;
+                    // Buscar el contenedor padre para localizar los selects
+                    const cont = inputCant.closest('.row-item');
+                    if (cont) {
+                        const selSpec = cont.querySelector('select[id^="spec_"]');
+                        const selNotes = cont.querySelector('select[id^="notes_"]');
+                        
+                        if (selSpec) selSpec.value = item.spec;
+                        if (selNotes) selNotes.value = item.notes;
+                    }
+                    // Activar el checkbox de esa fila
+                    const chk = cont.querySelector('input[type="checkbox"]');
                     if (chk) chk.checked = true;
                 }
-            }
-        });
-        console.log("Cálculo aplicado correctamente.");
-    };
+            });
 
-    // 2. DISPARADOR POR BOTÓN (Tu solicitud principal)
-    // En lugar de que ocurra al cambiar el número, ocurre al pulsar un botón.
-    // Si no tienes un botón con id="btn_aceptar", usa el ID de tu botón de cálculo.
-    const btnAceptar = document.getElementById('btn_aceptar');
-    if (btnAceptar) {
-        btnAceptar.addEventListener('click', (e) => {
-            e.preventDefault(); // Evita recargar la página
-            aplicarCalculoFibra();
-        });
-    }
+            // 1.3 Activar Entregables (Asegúrate que estos IDs existan)
+            const planos = document.getElementById('check_planos');
+            const memoria = document.getElementById('check_memoria_tecnica');
+            if (planos) planos.checked = true;
+            if (memoria) memoria.checked = true;
+            return;
+        }
 
-    // 3. EVENTO DE SEGURIDAD PARA OTROS CAMPOS
-    // Esto maneja los prompts de cantidad para lo que NO es fibra
-    document.addEventListener('change', (e) => {
-        if (e.target.id === 'cant_fo_cable') return; // Ignora la fibra aquí
-
-        if (e.target.tagName === 'SELECT' || e.target.type === 'checkbox') {
+        // --- 2. LÓGICA DE CHECKBOX/SELECT PARA OTROS ELEMENTOS ---
+        if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
             const cont = e.target.closest('.row-item');
             if (!cont) return;
 
             const campoCant = cont.querySelector('input[type="number"]');
+            
+            // Pedir cantidad solo si está vacío
             if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
                 let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
                 if (cantidad) {
                     campoCant.value = cantidad;
                 } else if (e.target.type === 'checkbox') {
                     e.target.checked = false;
+                    return;
                 }
             }
+            
             const chk = cont.querySelector('input[type="checkbox"]');
             if (chk) chk.checked = true;
         }
-    });
+    }); 
 }
 
 // ==========================================
