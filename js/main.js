@@ -235,22 +235,15 @@ function enviarWhatsApp() {
 function configurarAutomatizaciones() {
     console.log("Automatizaciones cargadas correctamente");
 
-    document.addEventListener('change', (e) => {
-    console.log("Evento change detectado en:", e.target.id); // <--- AÑADE ESTO
-    // ... resto de tu código
-});
-    
-function ejecutarCalculoFibra() {
+    function ejecutarCalculoFibra() {
         const inputRollos = document.getElementById('cant_fo_cable');
         if (!inputRollos) return;
 
-        // Bandera de protección: si ya estamos calculando, no hacer nada
-        if (inputRollos.dataset.calculando === "true") return;
-        inputRollos.dataset.calculando = "true";
-
         const rollos = parseInt(inputRollos.value) || 0;
         
-        // ... (resto de tu lógica de mapeo)
+        const notasFibra = document.getElementById('notes_fo_cable');
+        if (notasFibra) notasFibra.value = 'Pre-fabricado';
+
         const map = [
             { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
             { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
@@ -262,62 +255,56 @@ function ejecutarCalculoFibra() {
             const inputCant = document.getElementById(item.idCant);
             if (inputCant) {
                 inputCant.value = rollos * 2;
-                // Disparamos el evento, pero el flag evitará que entre en bucle
-                inputCant.dispatchEvent(new Event('change', { bubbles: true }));
+                // ELIMINADO: inputCant.dispatchEvent(...) para evitar el bucle
                 
                 const cont = inputCant.closest('.row-item');
                 if (cont) {
                     const selSpec = cont.querySelector('select[id^="spec_"]');
                     const selNotes = cont.querySelector('select[id^="notes_"]');
-                    if (selSpec) {
-                        selSpec.value = item.spec;
-                        selSpec.dispatchEvent(new Event('change', { bubbles: true }));
-                    }
-                    if (selNotes) {
-                        selNotes.value = item.notes;
-                        selNotes.dispatchEvent(new Event('change', { bubbles: true }));
-                    }
+                    if (selSpec) selSpec.value = item.spec;
+                    if (selNotes) selNotes.value = item.notes;
+                    
+                    const chk = cont.querySelector('input[type="checkbox"]');
+                    if (chk) chk.checked = true;
                 }
             }
         });
-
-        // Limpiamos la bandera al finalizar
-        inputRollos.dataset.calculando = "false";
-        console.log("Cálculo finalizado sin recursión.");
     }
 
-// C) Lógica de Checkbox/Select
-document.addEventListener('change', (e) => {
-    // Evitamos que el prompt se dispare con el campo de fibra, ya que ese tiene su propia lógica
-    if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
-        const cont = e.target.closest('.row-item');
-        if (!cont) return;
+    // DISPARADORES
+    document.addEventListener('input', (e) => {
+        if (e.target.id === 'cant_fo_cable') ejecutarCalculoFibra();
+    });
 
-        const campoCant = cont.querySelector('input[type="number"]');
-        
-        // Si el campo está vacío, pedimos cantidad
-        if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
-            // Usamos un pequeño retraso para permitir que el prompt finalice correctamente
-            setTimeout(() => {
+    const btnAceptar = document.getElementById('btn_aceptar');
+    if (btnAceptar) {
+        btnAceptar.addEventListener('click', (e) => {
+            ejecutarCalculoFibra();
+        });
+    }
+
+    // LÓGICA DE CHECKBOX/SELECT
+    document.addEventListener('change', (e) => {
+        // Solo actuar si NO es el campo de fibra (para evitar conflictos)
+        if (e.target.id !== 'cant_fo_cable' && (e.target.tagName === 'SELECT' || e.target.type === 'checkbox')) {
+            const cont = e.target.closest('.row-item');
+            if (!cont) return;
+
+            const campoCant = cont.querySelector('input[type="number"]');
+            
+            if (campoCant && (campoCant.value === "" || campoCant.value === "0")) {
                 let cantidad = prompt("¿Qué cantidad de piezas se utilizará?", "1");
                 if (cantidad) {
                     campoCant.value = cantidad;
-                    // Forzamos el evento para que los totalizadores (si existen) lo detecten
-                    campoCant.dispatchEvent(new Event('change', { bubbles: true }));
-                    console.log("Cantidad aplicada:", cantidad);
                 } else if (e.target.type === 'checkbox') {
                     e.target.checked = false;
                 }
-            }, 50); 
+            }
+            
+            const chk = cont.querySelector('input[type="checkbox"]');
+            if (chk) chk.checked = true;
         }
-        
-        const chk = cont.querySelector('input[type="checkbox"]');
-        if (chk) {
-            chk.checked = true;
-            chk.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-    }
-});
+    });
 }
 
 // ==========================================
