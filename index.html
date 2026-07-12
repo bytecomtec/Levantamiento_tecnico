@@ -29,48 +29,39 @@
     <h2>1. Tecnología y Grabación</h2>
 
     <div class="row-item" data-item="dispositivo">
-        <div class="chk"><input type="checkbox" id="req_dispositivo"> Dispositivo</div>
+        <div class="chk">
+            <input type="checkbox" id="req_dispositivo"> Dispositivo
+        </div>
         <div><input type="number" id="cant_dispositivo" placeholder="Cant."></div>
         <div>
             <select id="spec_dispositivo">
                 <option value="">Seleccionar...</option>
                 <option value="NVR">NVR</option>
+                <option value="DVR">DVR</option>
             </select>
         </div>
         <div><input type="text" id="notes_dispositivo" placeholder="Notas"></div>
     </div>
 
     <div class="row-item" data-item="hdd">
-        <div class="chk"><input type="checkbox" id="req_hdd"> Discos Duros (CCTV)</div>
-        <div><input type="number" id="cant_hdd" value="1" min="1" placeholder="Cant."></div>
-        <div>
-            <select id="spec_hdd">
-                <option value="">Seleccionar...</option>
-                <option value="1 TB">1 TB</option>
-                <option value="4 TB">4 TB</option>
-            </select>
+        <div class="chk">
+            <input type="checkbox" id="req_hdd"> Discos Duros (CCTV)
         </div>
-        <div><input type="text" id="notes_hdd" placeholder="Días de grabación / Notas"></div>
-    </div>
-    </section>
-
-    <div class="row-item" data-item="hdd">
-        <div class="chk"><input type="checkbox" id="req_hdd"> Discos Duros (CCTV)</div>
         <div><input type="number" id="cant_hdd" value="1" min="1" placeholder="Cant."></div>
         <div>
             <select id="spec_hdd">
                 <option value="">Seleccionar...</option>
                 <option value="1 TB">1 TB</option>
                 <option value="2 TB">2 TB</option>
-                <option value="4 TB">4 TB</option>
-                <option value="8 TB">8 TB</option>
             </select>
         </div>
         <div><input type="text" id="notes_hdd" placeholder="Días de grabación / Notas"></div>
     </div>
 
     <div class="row-item" data-item="monitor">
-        <div class="chk"><input type="checkbox" id="req_monitor"> Monitor Local</div>
+        <div class="chk">
+            <input type="checkbox" id="req_monitor"> Monitor Local
+        </div>
         <div><input type="number" id="cant_monitor" placeholder="Cant."></div>
         <div>
             <select id="spec_monitor">
@@ -79,45 +70,7 @@
                 <option value="23.8 pulgadas">23.8 pulgadas</option>
             </select>
         </div>
-        <div>
-            <select id="notes_monitor">
-                <option value="">Marca...</option>
-                <option value="Samsung">Samsung</option>
-                <option value="Hikvision">Hikvision</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row-item" data-item="ext">
-        <div class="chk"><input type="checkbox" id="req_ext"> Extensor HDMI</div>
-        <div><input type="number" id="cant_ext" placeholder="Cant."></div>
-        <div>
-            <select id="spec_ext">
-                <option value="">Seleccionar...</option>
-                <option value="Epcom">Epcom</option>
-                <option value="Aten">Aten</option>
-            </select>
-        </div>
-        <div><input type="text" id="notes_ext" placeholder="Notas"></div>
-    </div>
-
-    <div class="row-item" data-item="gabinete">
-        <div class="chk"><input type="checkbox" id="req_gabinete"> Gabinete</div>
-        <div><input type="number" id="cant_gabinete" placeholder="Cant."></div>
-        <div>
-            <select id="spec_gabinete">
-                <option value="">Seleccionar...</option>
-                <option value="Pared 6U">Pared 6U</option>
-                <option value="Pared 9U">Pared 9U</option>
-            </select>
-        </div>
-        <div>
-            <select id="notes_gabinete">
-                <option value="">Ubicación...</option>
-                <option value="30cm piso">30cm piso</option>
-                <option value="1.20m piso">1.20m piso</option>
-            </select>
-        </div>
+        <div><input type="text" id="notes_monitor" placeholder="Marca/Notas"></div>
     </div>
 </section>
 
