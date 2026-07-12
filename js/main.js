@@ -236,40 +236,61 @@ function configurarAutomatizaciones() {
     console.log("Automatizaciones cargadas correctamente");
 
     function ejecutarCalculoFibra() {
-        const inputRollos = document.getElementById('cant_fo_cable');
-        if (!inputRollos) return;
+    const inputRollos = document.getElementById('cant_fo_cable');
+    if (!inputRollos) return;
 
-        const rollos = parseInt(inputRollos.value) || 0;
-        
-        const notasFibra = document.getElementById('notes_fo_cable');
-        if (notasFibra) notasFibra.value = 'Pre-fabricado';
+    const rollos = parseInt(inputRollos.value) || 0;
+    
+    // Nota de fibra
+    const notasFibra = document.getElementById('notes_fo_cable');
+    if (notasFibra && notasFibra.value !== 'Pre-fabricado') {
+        notasFibra.value = 'Pre-fabricado';
+        notasFibra.dispatchEvent(new Event('change', { bubbles: true }));
+    }
 
-        const map = [
-            { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
-            { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
-            { idCant: 'cant_fo_pigtails', spec: 'LP-FO-LCU-SCA-01', notes: 'LinkedPro' },
-            { idCant: 'cant_fo_sfp', spec: 'TP-link', notes: 'TL-SM321A/ TL-SM321B' }
-        ];
+    const map = [
+        { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
+        { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
+        { idCant: 'cant_fo_pigtails', spec: 'LP-FO-LCU-SCA-01', notes: 'LinkedPro' },
+        { idCant: 'cant_fo_sfp', spec: 'TP-link', notes: 'TL-SM321A/ TL-SM321B' }
+    ];
 
-        map.forEach(item => {
-            const inputCant = document.getElementById(item.idCant);
-            if (inputCant) {
-                inputCant.value = rollos * 2;
-                // ELIMINADO: inputCant.dispatchEvent(...) para evitar el bucle
+    map.forEach(item => {
+        const inputCant = document.getElementById(item.idCant);
+        if (inputCant) {
+            const nuevoValor = (rollos * 2).toString();
+            
+            // EL CANDADO: Solo disparamos el evento si el valor es DIFERENTE al actual
+            if (inputCant.value !== nuevoValor) {
+                inputCant.value = nuevoValor;
+                inputCant.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+
+            const cont = inputCant.closest('.row-item');
+            if (cont) {
+                const selSpec = cont.querySelector('select[id^="spec_"]');
+                const selNotes = cont.querySelector('select[id^="notes_"]');
                 
-                const cont = inputCant.closest('.row-item');
-                if (cont) {
-                    const selSpec = cont.querySelector('select[id^="spec_"]');
-                    const selNotes = cont.querySelector('select[id^="notes_"]');
-                    if (selSpec) selSpec.value = item.spec;
-                    if (selNotes) selNotes.value = item.notes;
-                    
-                    const chk = cont.querySelector('input[type="checkbox"]');
-                    if (chk) chk.checked = true;
+                // Aplicar solo si cambia
+                if (selSpec && selSpec.value !== item.spec) {
+                    selSpec.value = item.spec;
+                    selSpec.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+                if (selNotes && selNotes.value !== item.notes) {
+                    selNotes.value = item.notes;
+                    selNotes.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+                
+                const chk = cont.querySelector('input[type="checkbox"]');
+                if (chk && !chk.checked) {
+                    chk.checked = true;
+                    chk.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             }
-        });
-    }
+        }
+    });
+    console.log("Cálculo seguro aplicado.");
+}
 
     // DISPARADORES
     document.addEventListener('input', (e) => {
