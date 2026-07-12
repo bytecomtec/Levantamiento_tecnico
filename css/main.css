@@ -12,14 +12,14 @@
 .row-item {
     display: grid;
     /* Divide la fila en 4 columnas: 
-       La primera es más ancha para el texto, las otras 3 son iguales */
+       La primera es más ancha para el nombre, las otras 3 son iguales */
     grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 10px; /* Espacio entre columnas */
+    gap: 15px; 
     align-items: center; /* Centrado vertical */
-    margin-bottom: 8px;
+    margin-bottom: 5px;  /* Espacio entre filas */
 }
 
-/* Fuerza a todos los campos a rellenar el ancho de su columna */
+/* Asegura que los inputs llenen su espacio */
 .row-item input, .row-item select {
     width: 100%;
 }
