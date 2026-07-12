@@ -9,22 +9,16 @@
     background: #ffffff;
 }
 
-/* Esto fuerza a que los 4 elementos se distribuyan en 4 columnas */
+/* Esto obliga a que los 4 elementos se alineen siempre en 4 columnas */
 .row-item {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr; /* Proporción de ancho */
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 8px;
+    grid-template-columns: 2fr 1fr 1fr 1fr; /* Columna 1 ancha, resto iguales */
+    gap: 10px; /* Espacio entre ellos */
+    align-items: center; /* Alineación vertical */
+    margin-bottom: 5px;
 }
 
-/* Para asegurar que los inputs y selects ocupen todo el ancho de su columna */
-.row-item input[type="number"],
-.row-item input[type="text"],
-.row-item select {
-    width: 100%;
-    box-sizing: border-box;
-}
+
 .main-title h1 {
     color: #002d5e; /* Azul corporativo */
     font-size: 2.5em;
