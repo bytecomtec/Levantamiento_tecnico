@@ -10,10 +10,10 @@
 }
 .row-item {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr; /* 4 columnas */
+    grid-template-columns: 2fr 1fr 1fr 1fr; /* Columna 1 ancha, las otras 3 iguales */
     gap: 10px;
     align-items: center;
-    padding: 5px 0;
+    margin-bottom: 10px;
 }
 .main-title h1 {
     color: #002d5e; /* Azul corporativo */
