@@ -10,10 +10,16 @@
 }
 .row-item {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr; /* Columna 1 ancha, las otras 3 iguales */
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 10px;
+    /* Define 4 columnas: la primera más ancha, las otras 3 iguales */
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 15px; /* Espacio entre columnas */
+    align-items: center; /* Centrado vertical */
+    margin-bottom: 8px;
+}
+
+/* Asegura que los inputs llenen su espacio */
+.row-item input, .row-item select {
+    width: 100%;
 }
 .main-title h1 {
     color: #002d5e; /* Azul corporativo */
