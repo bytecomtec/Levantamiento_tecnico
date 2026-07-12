@@ -27,22 +27,32 @@
 
 <section class="card">
     <h2>1. Tecnología y Grabación</h2>
-    
-<div class="chk">
-        <input type="checkbox" id="req_dispositivo"> Dispositivo
+
+    <div class="row-item" data-item="dispositivo">
+        <div class="chk"><input type="checkbox" id="req_dispositivo"> Dispositivo</div>
+        <div><input type="number" id="cant_dispositivo" placeholder="Cant."></div>
+        <div>
+            <select id="spec_dispositivo">
+                <option value="">Seleccionar...</option>
+                <option value="NVR">NVR</option>
+            </select>
+        </div>
+        <div><input type="text" id="notes_dispositivo" placeholder="Notas"></div>
     </div>
-    
-    <div><input type="number" id="cant_dispositivo" placeholder="Cant."></div>
-    
-    <div>
-        <select id="spec_dispositivo">
-            <option value="">Seleccionar...</option>
-            <option value="NVR">NVR</option>
-        </select>
+
+    <div class="row-item" data-item="hdd">
+        <div class="chk"><input type="checkbox" id="req_hdd"> Discos Duros (CCTV)</div>
+        <div><input type="number" id="cant_hdd" value="1" min="1" placeholder="Cant."></div>
+        <div>
+            <select id="spec_hdd">
+                <option value="">Seleccionar...</option>
+                <option value="1 TB">1 TB</option>
+                <option value="4 TB">4 TB</option>
+            </select>
+        </div>
+        <div><input type="text" id="notes_hdd" placeholder="Días de grabación / Notas"></div>
     </div>
-    
-    <div><input type="text" id="notes_dispositivo" placeholder="Notas"></div>
-</div
+    </section>
 
     <div class="row-item" data-item="hdd">
         <div class="chk"><input type="checkbox" id="req_hdd"> Discos Duros (CCTV)</div>
