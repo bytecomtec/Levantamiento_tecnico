@@ -233,17 +233,16 @@ function enviarWhatsApp() {
 }
 
 function configurarAutomatizaciones() {
-    console.log("Automatizaciones configuradas: Clic para calcular");
+    console.log("Automatizaciones cargadas y seguras");
 
-    // 1. Función que realiza el cálculo de fibra
-    const realizarCalculoFibra = () => {
+    // 1. LÓGICA DE CÁLCULO (AISLADA)
+    // Esta función hace el trabajo pesado sin activar eventos adicionales
+    const aplicarCalculoFibra = () => {
         const inputRollos = document.getElementById('cant_fo_cable');
-        if (!inputRollos || !inputRollos.value) return;
+        if (!inputRollos) return;
 
         const rollos = parseInt(inputRollos.value) || 0;
-        const notasFibra = document.getElementById('notes_fo_cable');
-        if (notasFibra) notasFibra.value = 'Pre-fabricado';
-
+        
         const map = [
             { idCant: 'cant_fo_conv', spec: 'MC220L', notes: 'TP-Link' },
             { idCant: 'cant_fo_cajas', spec: 'FTB-501', notes: 'FiberHome' },
@@ -254,38 +253,41 @@ function configurarAutomatizaciones() {
         map.forEach(item => {
             const inputCant = document.getElementById(item.idCant);
             if (inputCant) {
+                // Solo asignamos el valor, sin disparar 'change'
                 inputCant.value = rollos * 2;
+                
                 const cont = inputCant.closest('.row-item');
                 if (cont) {
                     const selSpec = cont.querySelector('select[id^="spec_"]');
                     const selNotes = cont.querySelector('select[id^="notes_"]');
+                    const chk = cont.querySelector('input[type="checkbox"]');
+                    
                     if (selSpec) selSpec.value = item.spec;
                     if (selNotes) selNotes.value = item.notes;
-                    const chk = cont.querySelector('input[type="checkbox"]');
                     if (chk) chk.checked = true;
                 }
             }
         });
-        
-        // Activar entregables
-        const planos = document.getElementById('check_planos');
-        const memoria = document.getElementById('check_memoria_tecnica');
-        if (planos) planos.checked = true;
-        if (memoria) memoria.checked = true;
+        console.log("Cálculo aplicado correctamente.");
     };
 
-    // 2. Asociar el cálculo al botón Aceptar (si existe el botón con ese ID)
-    const btnAceptar = document.getElementById('btn_aceptar'); 
+    // 2. DISPARADOR POR BOTÓN (Tu solicitud principal)
+    // En lugar de que ocurra al cambiar el número, ocurre al pulsar un botón.
+    // Si no tienes un botón con id="btn_aceptar", usa el ID de tu botón de cálculo.
+    const btnAceptar = document.getElementById('btn_aceptar');
     if (btnAceptar) {
-        btnAceptar.addEventListener('click', realizarCalculoFibra);
+        btnAceptar.addEventListener('click', (e) => {
+            e.preventDefault(); // Evita recargar la página
+            aplicarCalculoFibra();
+        });
     }
 
-    // 3. Lógica separada para el prompt de cantidad (solo reacciona a cambios de usuario)
+    // 3. EVENTO DE SEGURIDAD PARA OTROS CAMPOS
+    // Esto maneja los prompts de cantidad para lo que NO es fibra
     document.addEventListener('change', (e) => {
-        if (e.target.tagName === 'SELECT' || e.target.type === 'checkbox') {
-            // Ignoramos el campo de fibra para no interferir con el botón Aceptar
-            if (e.target.id === 'cant_fo_cable') return;
+        if (e.target.id === 'cant_fo_cable') return; // Ignora la fibra aquí
 
+        if (e.target.tagName === 'SELECT' || e.target.type === 'checkbox') {
             const cont = e.target.closest('.row-item');
             if (!cont) return;
 
@@ -296,7 +298,6 @@ function configurarAutomatizaciones() {
                     campoCant.value = cantidad;
                 } else if (e.target.type === 'checkbox') {
                     e.target.checked = false;
-                    return;
                 }
             }
             const chk = cont.querySelector('input[type="checkbox"]');
